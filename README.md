@@ -275,6 +275,7 @@ npm run dev
    - **Build command**: `pnpm build`
    - **Publish directory**: `.next`
    - **Node version**: `18`
+   - **Functions directory**: `.next/server`
 
 3. **האתר יהיה זמין תוך דקות!** 🎉
 

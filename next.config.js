@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // For Netlify deployment
+  // For deployment
   assetPrefix: '',
   basePath: '',
   // Disable some features for faster build
