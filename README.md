@@ -261,8 +261,9 @@ npm run dev
 
 האפליקציה תהיה זמינה בכתובת: `http://localhost:2252`
 
-## 🚀 דפלוי מהיר ל-Netlify
+## 🚀 דפלוי מהיר
 
+### 🌐 Netlify
 הפרויקט מוכן לדפלוי מיידי ל-Netlify:
 
 1. **חיבור ל-Netlify**
@@ -272,10 +273,43 @@ npm run dev
 
 2. **הגדרות דפלוי**
    - **Build command**: `pnpm build`
-   - **Publish directory**: `out`
+   - **Publish directory**: `.next`
    - **Node version**: `18`
 
 3. **האתר יהיה זמין תוך דקות!** 🎉
+
+### 🚀 Render
+הפרויקט מוכן גם לדפלוי ב-Render:
+
+1. **חיבור ל-Render**
+   - לך ל-[render.com](https://render.com)
+   - התחבר עם GitHub
+   - בחר "New Web Service"
+
+2. **הגדרות דפלוי**
+   - **Build Command**: `pnpm install && pnpm build`
+   - **Start Command**: `pnpm start`
+   - **Environment**: Node
+   - **Node Version**: 18
+
+3. **Environment Variables**
+   ```
+   NODE_ENV=production
+   NEXTAUTH_SECRET=your-secret-key
+   NEXTAUTH_URL=https://your-app.onrender.com
+   MONGODB_URI=your-mongodb-connection-string
+   ```
+
+4. **האתר יהיה זמין תוך דקות!** 🎉
+
+### 🐳 Docker
+```bash
+# Build the image
+docker build -t riahn-app .
+
+# Run the container
+docker run -p 3000:3000 riahn-app
+```
 
 ## 🔧 הגדרת Firebase
 

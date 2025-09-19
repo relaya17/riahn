@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: riahn-app
+    env: node
+    plan: free
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_APP_URL
+        value: https://riahn-app.onrender.com
+      - key: MONGODB_URI
+        fromDatabase:
+          name: riahn-db
+          property: connectionString
+      - key: NEXTAUTH_SECRET
+        generateValue: true
+      - key: NEXTAUTH_URL
+        value: https://riahn-app.onrender.com
+
+databases:
+  - name: riahn-db
+    plan: free
+    databaseName: riahn
+    user: riahn_user
