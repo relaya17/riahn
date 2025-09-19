@@ -101,4 +101,7 @@ ForumPostSchema.pre('save', function (next) {
     next()
 })
 
-export default mongoose.models.ForumPost || mongoose.model<IForumPost>('ForumPost', ForumPostSchema)
+const ForumPostModel = mongoose.models.ForumPost || mongoose.model<IForumPost>('ForumPost', ForumPostSchema)
+
+export { ForumPostModel }
+export default ForumPostModel

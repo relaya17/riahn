@@ -171,3 +171,40 @@ export async function createUser(userData: {
         return null
     }
 }
+
+export async function resetPassword(email: string, newPassword: string): Promise<boolean> {
+    try {
+        await connectDB()
+        const user = await User.findOne({ email })
+        
+        if (!user) {
+            return false
+        }
+
+        user.password = newPassword
+        await user.save()
+        return true
+    } catch (error) {
+        console.error('Error resetting password:', error)
+        return false
+    }
+}
+
+// NextAuth configuration
+export const authOptions = {
+    providers: [],
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id
+            }
+            return token
+        },
+        async session({ session, token }) {
+            if (token) {
+                session.user.id = token.id
+            }
+            return session
+        }
+    }
+}

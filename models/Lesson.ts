@@ -124,4 +124,7 @@ const LessonSchema = new Schema<ILesson>({
     timestamps: true
 })
 
-export default mongoose.models.Lesson || mongoose.model<ILesson>('Lesson', LessonSchema)
+const LessonModel = mongoose.models.Lesson || mongoose.model<ILesson>('Lesson', LessonSchema)
+
+export { LessonModel }
+export default LessonModel
