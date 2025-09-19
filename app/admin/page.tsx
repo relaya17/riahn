@@ -354,7 +354,7 @@ export default function AdminDashboard() {
                   </div>
                   <Select
                     value={filterRole}
-                    onValueChange={setFilterRole}
+                    onChange={(e) => setFilterRole(e.target.value)}
                     options={[
                       { value: 'all', label: 'כל התפקידים' },
                       { value: 'user', label: 'משתמש' },
@@ -364,7 +364,7 @@ export default function AdminDashboard() {
                   />
                   <Select
                     value={filterStatus}
-                    onValueChange={setFilterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
                     options={[
                       { value: 'all', label: 'כל הסטטוסים' },
                       { value: 'active', label: 'פעיל' },

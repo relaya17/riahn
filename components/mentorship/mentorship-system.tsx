@@ -410,9 +410,12 @@ export function MentorshipSystem() {
                   <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
                     בחר מנטור
                   </button>
-                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                    <MessageCircle className="w-4 h-4" />
-                  </button>
+                    <button 
+                      className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                      aria-label="שלח הודעה"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                    </button>
                 </div>
               </div>
             ))}
@@ -478,7 +481,10 @@ export function MentorshipSystem() {
                       <Video className="w-4 h-4" />
                       <span>התחל מפגש</span>
                     </button>
-                    <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    <button 
+                      className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                      aria-label="קבע פגישה"
+                    >
                       <Calendar className="w-4 h-4" />
                     </button>
                   </div>

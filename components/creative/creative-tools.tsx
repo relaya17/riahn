@@ -472,10 +472,16 @@ export function CreativeTools() {
                     <button className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors">
                       ערוך
                     </button>
-                    <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    <button 
+                      className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                      aria-label="שתף פרויקט"
+                    >
                       <Share2 className="w-4 h-4" />
                     </button>
-                    <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                    <button 
+                      className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                      aria-label="הורד פרויקט"
+                    >
                       <Download className="w-4 h-4" />
                     </button>
                   </div>
@@ -575,7 +581,10 @@ export function CreativeTools() {
                   <button className="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors text-sm">
                     השתמש
                   </button>
-                  <button className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                  <button 
+                    className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    aria-label="הורד קובץ"
+                  >
                     <Download className="w-4 h-4" />
                   </button>
                 </div>
