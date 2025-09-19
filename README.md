@@ -287,6 +287,8 @@ npm run dev
    - בחר "New Web Service"
 
 2. **הגדרות דפלוי**
+   - **Repository**: `https://github.com/relaya17/riahn`
+   - **Root Directory**: `.` (leave empty)
    - **Build Command**: `pnpm install && pnpm build`
    - **Start Command**: `pnpm start`
    - **Environment**: Node

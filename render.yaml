@@ -3,6 +3,7 @@ services:
     name: riahn-app
     env: node
     plan: free
+    rootDir: .
     buildCommand: pnpm install && pnpm build
     startCommand: pnpm start
     envVars:
