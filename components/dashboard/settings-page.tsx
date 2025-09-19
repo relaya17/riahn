@@ -109,7 +109,7 @@ export function SettingsPage() {
     { id: 'account', label: 'חשבון', icon: User },
   ]
 
-  const handleSettingChange = (key: string, value: any) => {
+  const handleSettingChange = (key: string, value: unknown) => {
     setSettings({ ...settings, [key]: value })
     
     // Apply changes immediately for certain settings

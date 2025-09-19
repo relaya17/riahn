@@ -59,7 +59,7 @@ export function RegisterForm({ onModeChange }: RegisterFormProps) {
       }
       await signUp(formData)
       toast.success(t('auth.registerSuccess'))
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error.message || t('auth.registerError'))
     } finally {
       setIsLoading(false)
@@ -71,7 +71,7 @@ export function RegisterForm({ onModeChange }: RegisterFormProps) {
     try {
       await signInWithGoogle()
       toast.success(t('auth.loginSuccess'))
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error.message || t('auth.loginError'))
     } finally {
       setIsLoading(false)
@@ -83,7 +83,7 @@ export function RegisterForm({ onModeChange }: RegisterFormProps) {
     try {
       await signInWithFacebook()
       toast.success(t('auth.loginSuccess'))
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error.message || t('auth.loginError'))
     } finally {
       setIsLoading(false)

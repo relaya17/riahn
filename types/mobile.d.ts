@@ -2,7 +2,7 @@
 
 // React Native types
 export interface MobileComponentProps {
-    style?: any;
+    style?: Record<string, unknown>;
     onPress?: () => void;
     onLongPress?: () => void;
     testID?: string;
@@ -10,9 +10,9 @@ export interface MobileComponentProps {
 
 // React Native navigation types
 export interface MobileNavigation {
-    navigate: (screen: string, params?: any) => void;
+    navigate: (screen: string, params?: Record<string, unknown>) => void;
     goBack: () => void;
-    reset: (state: any) => void;
+    reset: (state: Record<string, unknown>) => void;
 }
 
 // Mobile-specific API types
@@ -20,7 +20,7 @@ export interface MobileApiRequest {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE';
     url: string;
     headers?: Record<string, string>;
-    body?: any;
+    body?: unknown;
     timeout?: number;
 }
 

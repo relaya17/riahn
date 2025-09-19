@@ -9,11 +9,11 @@ interface ApiState<T> {
 }
 
 interface UseApiReturn<T> extends ApiState<T> {
-    execute: (config?: any) => Promise<T | null>;
+    execute: (config?: Record<string, unknown>) => Promise<T | null>;
     reset: () => void;
 }
 
-export const useApi = <T = any>(
+export const useApi = <T = unknown>(
     endpoint: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET'
 ): UseApiReturn<T> => {
@@ -24,7 +24,7 @@ export const useApi = <T = any>(
     });
 
     const execute = useCallback(
-        async (config: any = {}): Promise<T | null> => {
+        async (config: Record<string, unknown> = {}): Promise<T | null> => {
             setState(prev => ({ ...prev, loading: true, error: null }));
 
             try {

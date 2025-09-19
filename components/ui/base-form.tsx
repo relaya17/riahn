@@ -17,7 +17,7 @@ export interface BaseFormField {
     minLength?: { value: number; message: string }
     maxLength?: { value: number; message: string }
     pattern?: { value: RegExp; message: string }
-    validate?: (value: any) => boolean | string
+    validate?: (value: unknown) => boolean | string
   }
   options?: { value: string; label: string }[]
   leftIcon?: ReactNode
@@ -57,7 +57,7 @@ export function BaseForm<T extends FieldValues>({
   showCard = true
 }: BaseFormProps<T>) {
   const form = useForm<T>({
-    defaultValues: defaultValues as any
+    defaultValues: defaultValues as Record<string, unknown>
   })
 
   const {
@@ -78,7 +78,7 @@ export function BaseForm<T extends FieldValues>({
   }
 
   const renderField = (field: BaseFormField) => {
-    const validation: any = {}
+    const validation: Record<string, unknown> = {}
     
     if (field.validation?.required) {
       validation.required = field.validation.required
@@ -97,7 +97,7 @@ export function BaseForm<T extends FieldValues>({
     }
 
     const commonProps = {
-      ...register(field.name as any, validation),
+      ...register(field.name as keyof typeof defaultValues, validation),
       placeholder: field.placeholder,
       disabled: field.disabled || isLoading,
       className: field.className
@@ -290,6 +290,6 @@ export function BaseForm<T extends FieldValues>({
 // Hook for easier form management
 export function useBaseForm<T extends FieldValues>(defaultValues?: Partial<T>) {
   return useForm<T>({
-    defaultValues: defaultValues as any
+    defaultValues: defaultValues as Record<string, unknown>
   })
 }

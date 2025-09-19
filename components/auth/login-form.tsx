@@ -33,7 +33,7 @@ export function LoginForm({ onModeChange }: LoginFormProps) {
     try {
       await signIn(data.email, data.password)
       toast.success(t('auth.loginSuccess'))
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error.message || t('auth.loginError'))
     } finally {
       setIsLoading(false)
@@ -45,7 +45,7 @@ export function LoginForm({ onModeChange }: LoginFormProps) {
     try {
       await signInWithGoogle()
       toast.success(t('auth.loginSuccess'))
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error.message || t('auth.loginError'))
     } finally {
       setIsLoading(false)
@@ -57,7 +57,7 @@ export function LoginForm({ onModeChange }: LoginFormProps) {
     try {
       await signInWithFacebook()
       toast.success(t('auth.loginSuccess'))
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error.message || t('auth.loginError'))
     } finally {
       setIsLoading(false)

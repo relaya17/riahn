@@ -1,108 +1,385 @@
-// Performance monitoring utilities
+// Performance optimization utilities for RIAHN
+import React from 'react'
 
-export class PerformanceMonitor {
-    private static instance: PerformanceMonitor
-    private metrics: Map<string, number> = new Map()
+export class PerformanceOptimizer {
+    private static instance: PerformanceOptimizer
+    private cache = new Map<string, any>()
+    private debounceTimers = new Map<string, NodeJS.Timeout>()
 
-    static getInstance(): PerformanceMonitor {
-        if (!PerformanceMonitor.instance) {
-            PerformanceMonitor.instance = new PerformanceMonitor()
+    static getInstance(): PerformanceOptimizer {
+        if (!PerformanceOptimizer.instance) {
+            PerformanceOptimizer.instance = new PerformanceOptimizer()
         }
-        return PerformanceMonitor.instance
+        return PerformanceOptimizer.instance
     }
 
-    startTiming(name: string): void {
-        this.metrics.set(name, performance.now())
+    // Image optimization
+    static optimizeImage(src: string, width?: number, height?: number, quality = 80): string {
+        if (src.startsWith('data:') || src.startsWith('blob:')) return src
+
+        const params = new URLSearchParams()
+        if (width) params.set('w', width.toString())
+        if (height) params.set('h', height.toString())
+        params.set('q', quality.toString())
+        params.set('f', 'webp')
+
+        return `${src}?${params.toString()}`
     }
 
-    endTiming(name: string): number {
-        const startTime = this.metrics.get(name)
-        if (!startTime) {
-            console.warn(`No start time found for metric: ${name}`)
-            return 0
-        }
-
-        const duration = performance.now() - startTime
-        this.metrics.delete(name)
-
-        // Log performance metrics in development
-        if (process.env.NODE_ENV === 'development') {
-            console.log(`Performance: ${name} took ${duration.toFixed(2)}ms`)
-        }
-
-        return duration
+    // Lazy loading for images
+    static createLazyImageObserver(): IntersectionObserver {
+        return new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target as HTMLImageElement
+                        const src = img.dataset.src
+                        if (src) {
+                            img.src = src
+                            img.removeAttribute('data-src')
+                            img.classList.remove('lazy')
+                        }
+                    }
+                })
+            },
+            { rootMargin: '50px' }
+        )
     }
 
-    measureAsync<T>(name: string, fn: () => Promise<T>): Promise<T> {
-        this.startTiming(name)
-        return fn().finally(() => {
-            this.endTiming(name)
+    // Debounce function calls
+    debounce<T extends (...args: any[]) => any>(
+        key: string,
+        func: T,
+        delay: number
+    ): (...args: Parameters<T>) => void {
+        return (...args: Parameters<T>) => {
+            const existingTimer = this.debounceTimers.get(key)
+            if (existingTimer) {
+                clearTimeout(existingTimer)
+            }
+
+            const timer = setTimeout(() => {
+                func(...args)
+                this.debounceTimers.delete(key)
+            }, delay)
+
+            this.debounceTimers.set(key, timer)
+        }
+    }
+
+    // Throttle function calls
+    throttle<T extends (...args: any[]) => any>(
+        key: string,
+        func: T,
+        limit: number
+    ): (...args: Parameters<T>) => void {
+        let inThrottle: boolean
+        return (...args: Parameters<T>) => {
+            if (!inThrottle) {
+                func(...args)
+                inThrottle = true
+                setTimeout(() => (inThrottle = false), limit)
+            }
+        }
+    }
+
+    // Memory cache
+    cacheResult<T>(key: string, factory: () => T, ttl = 300000): T { // 5 minutes default
+        const cached = this.cache.get(key)
+        if (cached && Date.now() - cached.timestamp < ttl) {
+            return cached.data
+        }
+
+        const result = factory()
+        this.cache.set(key, {
+            data: result,
+            timestamp: Date.now()
         })
-    }
 
-    measureSync<T>(name: string, fn: () => T): T {
-        this.startTiming(name)
-        const result = fn()
-        this.endTiming(name)
         return result
     }
-}
 
-// Web Vitals monitoring
-export function reportWebVitals(metric: { name: string; value: number; delta: number; id: string }) {
-    if (process.env.NODE_ENV === 'development') {
-        console.log('Web Vitals:', metric)
-    }
-
-    // Send to analytics service in production
-    if (process.env.NODE_ENV === 'production') {
-        // Example: Send to Google Analytics, Mixpanel, etc.
-        // gtag('event', metric.name, {
-        //   value: Math.round(metric.value),
-        //   event_category: 'Web Vitals'
-        // })
-    }
-}
-
-// Memory usage monitoring
-export function getMemoryUsage() {
-    if ('memory' in performance) {
-        const memory = (performance as Performance & { memory?: { usedJSHeapSize: number; totalJSHeapSize: number; jsHeapSizeLimit: number } }).memory
-        return {
-            used: Math.round(memory.usedJSHeapSize / 1048576), // MB
-            total: Math.round(memory.totalJSHeapSize / 1048576), // MB
-            limit: Math.round(memory.jsHeapSizeLimit / 1048576) // MB
-        }
-    }
-    return null
-}
-
-// Network monitoring
-export function getNetworkInfo() {
-    if ('connection' in navigator) {
-        const connection = (navigator as Navigator & { connection?: { effectiveType: string; downlink: number; rtt: number } }).connection
-        return {
-            effectiveType: connection.effectiveType,
-            downlink: connection.downlink,
-            rtt: connection.rtt,
-            saveData: connection.saveData
-        }
-    }
-    return null
-}
-
-// Bundle size monitoring
-export function logBundleSize() {
-    if (process.env.NODE_ENV === 'development') {
-        const scripts = document.querySelectorAll('script[src]')
-        let totalSize = 0
-
-        scripts.forEach(script => {
-            const src = script.getAttribute('src')
-            if (src && src.includes('_next/static')) {
-                // This is a simplified example - in reality you'd need to fetch and measure
-                console.log('Script loaded:', src)
+    // Clear cache
+    clearCache(pattern?: string): void {
+        if (pattern) {
+            const regex = new RegExp(pattern)
+            for (const key of this.cache.keys()) {
+                if (regex.test(key)) {
+                    this.cache.delete(key)
+                }
             }
+        } else {
+            this.cache.clear()
+        }
+    }
+
+    // Bundle splitting for code
+    static async loadComponent(componentPath: string): Promise<any> {
+        try {
+            const module = await import(/* webpackChunkName: "[request]" */ `@/components/${componentPath}`)
+            return module.default
+        } catch (error) {
+            console.error(`Failed to load component: ${componentPath}`, error)
+            return null
+        }
+    }
+
+    // Service Worker registration
+    static async registerServiceWorker(): Promise<void> {
+        if ('serviceWorker' in navigator) {
+            try {
+                const registration = await navigator.serviceWorker.register('/sw.js')
+                console.log('Service Worker registered:', registration)
+            } catch (error) {
+                console.error('Service Worker registration failed:', error)
+            }
+        }
+    }
+
+    // Preload critical resources
+    static preloadResource(href: string, as: string, type?: string): void {
+        const link = document.createElement('link')
+        link.rel = 'preload'
+        link.href = href
+        link.as = as
+        if (type) link.type = type
+        document.head.appendChild(link)
+    }
+
+    // Critical CSS inlining
+    static inlineCriticalCSS(css: string): void {
+        const style = document.createElement('style')
+        style.textContent = css
+        document.head.appendChild(style)
+    }
+
+    // Resource hints
+    static addResourceHints(): void {
+        // DNS prefetch for external domains
+        const domains = [
+            'fonts.googleapis.com',
+            'fonts.gstatic.com',
+            'api.riahn.com'
+        ]
+
+        domains.forEach(domain => {
+            const link = document.createElement('link')
+            link.rel = 'dns-prefetch'
+            link.href = `//${domain}`
+            document.head.appendChild(link)
+        })
+
+        // Preconnect to critical origins
+        const origins = [
+            'https://fonts.googleapis.com',
+            'https://api.riahn.com'
+        ]
+
+        origins.forEach(origin => {
+            const link = document.createElement('link')
+            link.rel = 'preconnect'
+            link.href = origin
+            document.head.appendChild(link)
+        })
+    }
+
+    // Performance monitoring
+    static measurePerformance(name: string, fn: () => void): void {
+        const start = performance.now()
+        fn()
+        const end = performance.now()
+        console.log(`${name} took ${end - start} milliseconds`)
+    }
+
+    // Memory usage monitoring
+    static getMemoryUsage(): any {
+        if ('memory' in performance) {
+            return (performance as any).memory
+        }
+        return null
+    }
+
+    // Web Vitals monitoring
+    static measureWebVitals(): void {
+        // Largest Contentful Paint
+        new PerformanceObserver((list) => {
+            const entries = list.getEntries()
+            const lastEntry = entries[entries.length - 1]
+            console.log('LCP:', lastEntry.startTime)
+        }).observe({ entryTypes: ['largest-contentful-paint'] })
+
+        // First Input Delay
+        new PerformanceObserver((list) => {
+            const entries = list.getEntries()
+            entries.forEach((entry) => {
+                const fidEntry = entry as any
+                console.log('FID:', fidEntry.processingStart - fidEntry.startTime)
+            })
+        }).observe({ entryTypes: ['first-input'] })
+
+        // Cumulative Layout Shift
+        let clsValue = 0
+        new PerformanceObserver((list) => {
+            const entries = list.getEntries()
+            entries.forEach((entry) => {
+                if (!(entry as any).hadRecentInput) {
+                    clsValue += (entry as any).value
+                }
+            })
+            console.log('CLS:', clsValue)
+        }).observe({ entryTypes: ['layout-shift'] })
+    }
+}
+
+// React-specific optimizations
+export const ReactOptimizations = {
+    // Memo wrapper for expensive components
+    memo: <T extends React.ComponentType<any>>(Component: T) => {
+        return React.memo(Component)
+    },
+
+    // Virtual scrolling for large lists
+    createVirtualList: (items: any[], itemHeight: number, containerHeight: number) => {
+        const visibleCount = Math.ceil(containerHeight / itemHeight)
+        const totalHeight = items.length * itemHeight
+
+        return {
+            visibleCount,
+            totalHeight,
+            getVisibleItems: (scrollTop: number) => {
+                const startIndex = Math.floor(scrollTop / itemHeight)
+                const endIndex = Math.min(startIndex + visibleCount, items.length)
+                return items.slice(startIndex, endIndex).map((item, index) => ({
+                    item,
+                    index: startIndex + index,
+                    top: (startIndex + index) * itemHeight
+                }))
+            }
+        }
+    },
+
+    // Intersection Observer hook
+    useIntersectionObserver: (ref: React.RefObject<Element>, options?: IntersectionObserverInit) => {
+        const [isIntersecting, setIsIntersecting] = React.useState(false)
+
+        React.useEffect(() => {
+            const observer = new IntersectionObserver(
+                ([entry]) => setIsIntersecting(entry.isIntersecting),
+                options
+            )
+
+            if (ref.current) {
+                observer.observe(ref.current)
+            }
+
+            return () => observer.disconnect()
+        }, [ref, options])
+
+        return isIntersecting
+    }
+}
+
+// SEO optimizations
+export const SEOOptimizer = {
+    // Generate structured data
+    generateStructuredData: (data: any) => {
+        return {
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            name: 'RIAHN',
+            description: 'פלטפורמת לימוד שפות מהפכנית עם AI מתקדם',
+            url: 'https://riahn.com',
+            applicationCategory: 'EducationalApplication',
+            operatingSystem: 'Web Browser',
+            offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD'
+            },
+            ...data
+        }
+    },
+
+    // Generate meta tags
+    generateMetaTags: (pageData: {
+        title: string
+        description: string
+        keywords?: string[]
+        image?: string
+        url?: string
+    }) => {
+        const tags = [
+            { name: 'title', content: pageData.title },
+            { name: 'description', content: pageData.description },
+            { name: 'keywords', content: pageData.keywords?.join(', ') },
+            { property: 'og:title', content: pageData.title },
+            { property: 'og:description', content: pageData.description },
+            { property: 'og:type', content: 'website' },
+            { property: 'og:url', content: pageData.url },
+            { property: 'og:image', content: pageData.image },
+            { name: 'twitter:card', content: 'summary_large_image' },
+            { name: 'twitter:title', content: pageData.title },
+            { name: 'twitter:description', content: pageData.description },
+            { name: 'twitter:image', content: pageData.image }
+        ]
+
+        return tags.filter(tag => tag.content)
+    },
+
+    // Generate sitemap
+    generateSitemap: (routes: string[]) => {
+        const baseUrl = 'https://riahn.com'
+        const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routes.map(route => `
+  <url>
+    <loc>${baseUrl}${route}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`).join('')}
+</urlset>`
+
+        return sitemap
+    }
+}
+
+// Analytics and A/B Testing
+export const AnalyticsManager = {
+    // Track events
+    track: (event: string, properties?: Record<string, any>) => {
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', event, properties)
+        }
+    },
+
+    // A/B test variant selection
+    getVariant: (testName: string, variants: string[]): string => {
+        if (variants.length === 0) return ''
+        const hash = AnalyticsManager.hashString(testName + (typeof window !== 'undefined' ? window.location?.href || '' : ''))
+        const index = hash % variants.length
+        return variants[index] || variants[0]
+    },
+
+    // Hash function for consistent variant selection
+    hashString: (str: string): number => {
+        let hash = 0
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i)
+            hash = ((hash << 5) - hash) + char
+            hash = hash & hash // Convert to 32-bit integer
+        }
+        return Math.abs(hash)
+    },
+
+    // Performance metrics tracking
+    trackPerformance: (metric: string, value: number) => {
+        AnalyticsManager.track('performance_metric', {
+            metric_name: metric,
+            metric_value: value,
+            page_url: typeof window !== 'undefined' ? window.location?.href || '' : ''
         })
     }
 }
+
+export default PerformanceOptimizer

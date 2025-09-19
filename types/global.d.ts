@@ -36,7 +36,7 @@ export type Language = 'he' | 'ar' | 'en' | 'si' | 'ta' | 'fr' | 'es' | 'de' | '
 export type LanguageLevel = 'beginner' | 'intermediate' | 'advanced';
 
 // API types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
     success: boolean;
     data?: T;
     error?: string;
@@ -66,7 +66,7 @@ export interface ForumPost {
     language: string;
     tags: string[];
     likes: number;
-    replies: any[];
+    replies: unknown[];
     views: number;
     isPinned: boolean;
     isLocked: boolean;

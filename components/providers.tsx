@@ -39,7 +39,7 @@ interface LanguageContextType {
   currentLanguage: string
   setLanguage: (language: string) => void
   isRTL: boolean
-  t: (key: string, params?: Record<string, any>) => string
+  t: (key: string, params?: Record<string, unknown>) => string
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)

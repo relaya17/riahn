@@ -48,7 +48,7 @@ export function AccessibilityButton() {
     document.documentElement.style.fontSize = `${newSize}%`
   }
 
-  const applySetting = (key: string, value: any) => {
+  const applySetting = (key: string, value: unknown) => {
     const root = document.documentElement
 
     switch (key) {
