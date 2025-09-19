@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createUser } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
     try {
         const { email, password, name, nativeLanguage, learningLanguages } = await request.json()

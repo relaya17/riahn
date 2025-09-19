@@ -176,7 +176,7 @@ export async function resetPassword(email: string, newPassword: string): Promise
     try {
         await connectDB()
         const user = await User.findOne({ email })
-        
+
         if (!user) {
             return false
         }

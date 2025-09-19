@@ -3,6 +3,8 @@ import connectDB from '@/lib/mongodb'
 import { ForumPostModel } from '@/models/ForumPost'
 import { ApiResponse } from '@/types'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(request: NextRequest) {
     try {
         await connectDB()
