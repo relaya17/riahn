@@ -288,10 +288,10 @@ npm run dev
 
 2. **הגדרות דפלוי**
    - **Repository**: `https://github.com/relaya17/riahn`
-   - **Root Directory**: `.` (leave empty)
+   - **Root Directory**: השאר ריק (או `.`)
+   - **Runtime**: Node
    - **Build Command**: `pnpm install && pnpm build`
    - **Start Command**: `pnpm start`
-   - **Environment**: Node
    - **Node Version**: 18
 
 3. **Environment Variables**
