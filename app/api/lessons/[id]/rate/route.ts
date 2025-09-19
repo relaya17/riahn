@@ -3,6 +3,8 @@ import connectDB from '@/lib/mongodb'
 import { LessonModel } from '@/models/Lesson'
 import { ApiResponse } from '@/types'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(
     request: NextRequest,
     { params }: { params: { id: string } }
