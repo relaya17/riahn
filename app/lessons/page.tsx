@@ -3,6 +3,8 @@
 import { useSearchParams } from 'next/navigation'
 import { LessonsOverview } from '@/components/lessons/lessons-overview'
 
+export const dynamic = 'force-dynamic'
+
 export default function LessonsPage() {
   const searchParams = useSearchParams()
   const groupId = searchParams.get('group')

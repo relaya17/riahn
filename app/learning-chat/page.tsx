@@ -16,6 +16,8 @@ import {
   Award
 } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 interface LearningPartner {
   id: string
   name: string
