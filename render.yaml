@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: riahn-app
+    runtime: node
+    plan: free
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXTAUTH_SECRET
+        generateValue: true
+      - key: NEXTAUTH_URL
+        value: https://riahn-app.onrender.com

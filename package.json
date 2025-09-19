@@ -16,7 +16,8 @@
         "build:prod": "chmod +x scripts/build.sh && ./scripts/build.sh",
         "deploy": "chmod +x scripts/deploy.sh && ./scripts/deploy.sh",
         "render:build": "pnpm install && pnpm build",
-        "render:start": "pnpm start"
+        "render:start": "pnpm start",
+        "postinstall": "pnpm build"
     },
     "dependencies": {
         "@types/mongoose": "^5.11.97",
