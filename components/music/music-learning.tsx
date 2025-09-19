@@ -260,6 +260,7 @@ export function MusicLearning() {
                 value={selectedGenre}
                 onChange={(e) => setSelectedGenre(e.target.value)}
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                aria-label="בחר ז'אנר מוזיקה"
               >
                 <option value="all">כל הז'אנרים</option>
                 <option value="מסורתי">מסורתי</option>
@@ -273,6 +274,7 @@ export function MusicLearning() {
                 value={selectedLanguage}
                 onChange={(e) => setSelectedLanguage(e.target.value)}
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                aria-label="בחר שפה"
               >
                 <option value="all">כל השפות</option>
                 <option value="עברית">עברית</option>
@@ -299,6 +301,7 @@ export function MusicLearning() {
                       className={`p-2 rounded-full transition-colors ${
                         song.isFavorite ? 'bg-red-500 text-white' : 'bg-white/20 text-white hover:bg-white/30'
                       }`}
+                      aria-label={song.isFavorite ? "הסר ממועדפים" : "הוסף למועדפים"}
                     >
                       <Heart className={`w-5 h-5 ${song.isFavorite ? 'fill-current' : ''}`} />
                     </button>
@@ -339,6 +342,7 @@ export function MusicLearning() {
                     <button
                       onClick={() => startKaraoke(song)}
                       className="px-4 py-2 border border-pink-600 text-pink-600 rounded-lg hover:bg-pink-50 transition-colors"
+                      aria-label="התחל קריוקי"
                     >
                       <Mic className="w-4 h-4" />
                     </button>
@@ -480,7 +484,10 @@ export function MusicLearning() {
               </div>
               
               <div className="flex items-center space-x-4">
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <button 
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="שיר קודם"
+                >
                   <SkipBack className="w-5 h-5 text-gray-600" />
                 </button>
                 
@@ -491,22 +498,26 @@ export function MusicLearning() {
                   {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
                 </button>
                 
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <button 
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  aria-label="שיר הבא"
+                >
                   <SkipForward className="w-5 h-5 text-gray-600" />
                 </button>
               </div>
               
               <div className="flex items-center space-x-2">
                 <Volume2 className="w-4 h-4 text-gray-600" />
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.1"
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  className="w-20"
-                />
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={volume}
+                onChange={handleVolumeChange}
+                className="w-20"
+                aria-label="עוצמת קול"
+              />
               </div>
             </div>
             
@@ -518,6 +529,7 @@ export function MusicLearning() {
                 value={currentTime}
                 onChange={handleTimeChange}
                 className="w-full"
+                aria-label="התקדמות השיר"
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>{formatTime(currentTime)}</span>

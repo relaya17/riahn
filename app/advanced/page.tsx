@@ -6,6 +6,8 @@ import { AILearningPath } from '@/components/ai/ai-learning-path'
 import { MemoryTechniques } from '@/components/learning/memory-techniques'
 import { CulturalImmersion } from '@/components/cultural/cultural-immersion'
 import { MusicLearning } from '@/components/music/music-learning'
+import { AdvancedRPGSystem } from '@/components/gamification/advanced-rpg-system'
+import { MobileFirstFeatures } from '@/components/mobile/mobile-first-features'
 
 interface AdvancedFeature {
   id: string
@@ -66,6 +68,28 @@ export default function AdvancedPage() {
       gradient: 'from-pink-600 to-purple-600',
       isNew: true,
       rating: 4.7
+    },
+    {
+      id: 'rpg-system',
+      title: 'RPG System',
+      description: 'מערכת RPG מתקדמת עם דמויות ומשימות',
+      icon: Award,
+      component: AdvancedRPGSystem,
+      color: 'yellow',
+      gradient: 'from-yellow-600 to-orange-600',
+      isNew: true,
+      rating: 4.9
+    },
+    {
+      id: 'mobile-features',
+      title: 'Mobile Features',
+      description: 'תכונות מתקדמות למובייל',
+      icon: Users,
+      component: MobileFirstFeatures,
+      color: 'blue',
+      gradient: 'from-blue-600 to-cyan-600',
+      isNew: true,
+      rating: 4.8
     }
   ]
 
@@ -187,7 +211,10 @@ export default function AdvancedPage() {
 
       {/* Floating Action Button */}
       <div className="fixed bottom-6 right-6 z-50">
-        <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+        <button 
+          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+          aria-label="פתח צ'אט קהילה"
+        >
           <Users className="w-6 h-6" />
         </button>
       </div>
