@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
   images: {
+    unoptimized: true,
     domains: ['firebasestorage.googleapis.com', 'lh3.googleusercontent.com'],
   },
   env: {
@@ -11,6 +14,9 @@ const nextConfig = {
     defaultLocale: 'he',
     localeDetection: false,
   },
+  // For Netlify deployment
+  assetPrefix: process.env.NODE_ENV === 'production' ? '' : '',
+  basePath: '',
 };
 
 module.exports = nextConfig;
