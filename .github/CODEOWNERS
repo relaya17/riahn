@@ -1,0 +1,34 @@
+# Global owners
+* @your-username
+
+# Frontend components
+/components/ @your-username
+/app/ @your-username
+
+# Backend and API
+/lib/ @your-username
+/models/ @your-username
+/api/ @your-username
+
+# Configuration files
+package.json @your-username
+tsconfig.json @your-username
+tailwind.config.js @your-username
+next.config.js @your-username
+
+# Documentation
+README.md @your-username
+CONTRIBUTING.md @your-username
+CHANGELOG.md @your-username
+SECURITY.md @your-username
+
+# GitHub workflows
+.github/ @your-username
+
+# Docker files
+Dockerfile @your-username
+docker-compose.yml @your-username
+docker-compose.dev.yml @your-username
+
+
+

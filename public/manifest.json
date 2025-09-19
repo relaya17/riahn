@@ -1,0 +1,29 @@
+{
+    "name": "LanguageConnect",
+    "short_name": "LangConnect",
+    "description": "אפליקציה ללימוד שפות וחיבור בין משתמשים",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3b82f6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/sary.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg"
+        },
+        {
+            "src": "/sary.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg"
+        }
+    ],
+    "categories": [
+        "education",
+        "social",
+        "productivity"
+    ],
+    "lang": "he",
+    "dir": "rtl"
+}
