@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react'
 import { Brain, Target, TrendingUp, Clock, Star, Zap, BookOpen, Users, Award, ChevronRight } from 'lucide-react'
 
+// Helper function for progress bar width
+const getProgressWidth = (percentage: number) => ({ width: `${percentage}%` })
+
 interface LearningGoal {
   id: string
   title: string
@@ -239,7 +242,7 @@ export function AILearningPath() {
             <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
               <div 
                 className="bg-gradient-to-r from-blue-600 to-purple-600 h-3 rounded-full transition-all duration-500"
-                style={{ width: `${learningPath.progress}%` }}
+                style={getProgressWidth(learningPath.progress)}
               ></div>
             </div>
             

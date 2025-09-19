@@ -3,6 +3,11 @@
 import React, { useState, useEffect } from 'react'
 import { Smartphone, Wifi, WifiOff, Battery, BatteryLow, Volume2, VolumeX, Sun, Moon, RotateCcw, Download, Upload, Share2, Camera, Mic, MicOff, MapPin, Bell, BellOff } from 'lucide-react'
 
+// CSS classes for dynamic progress bars
+const progressBarStyle = (percentage: number) => ({
+  width: `${percentage}%`
+})
+
 interface MobileSettings {
   offlineMode: boolean
   batterySaver: boolean
@@ -288,6 +293,7 @@ export function MobileFirstFeatures() {
                 </div>
                 <button
                   onClick={() => toggleSetting('offlineMode')}
+                  aria-label="מצב לא מקוון"
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                     settings.offlineMode ? 'bg-blue-600' : 'bg-gray-200'
                   }`}
@@ -311,6 +317,7 @@ export function MobileFirstFeatures() {
                 </div>
                 <button
                   onClick={() => toggleSetting('batterySaver')}
+                  aria-label="חיסכון בסוללה"
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                     settings.batterySaver ? 'bg-blue-600' : 'bg-gray-200'
                   }`}
@@ -338,6 +345,7 @@ export function MobileFirstFeatures() {
                 </div>
                 <button
                   onClick={() => toggleSetting('darkMode')}
+                  aria-label="מצב לילה"
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                     settings.darkMode ? 'bg-blue-600' : 'bg-gray-200'
                   }`}
@@ -361,6 +369,7 @@ export function MobileFirstFeatures() {
                 </div>
                 <button
                   onClick={() => toggleSetting('autoDownload')}
+                  aria-label="הורדה אוטומטית"
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                     settings.autoDownload ? 'bg-blue-600' : 'bg-gray-200'
                   }`}
@@ -388,6 +397,7 @@ export function MobileFirstFeatures() {
                 </div>
                 <button
                   onClick={() => toggleSetting('pushNotifications')}
+                  aria-label="התראות דחיפה"
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                     settings.pushNotifications ? 'bg-blue-600' : 'bg-gray-200'
                   }`}
@@ -414,6 +424,7 @@ export function MobileFirstFeatures() {
                     ...prev,
                     dataUsage: { ...prev.dataUsage, wifi: !prev.dataUsage.wifi }
                   }))}
+                  aria-label="חיבור WiFi"
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                     settings.dataUsage.wifi ? 'bg-blue-600' : 'bg-gray-200'
                   }`}
@@ -433,6 +444,7 @@ export function MobileFirstFeatures() {
                     ...prev,
                     dataUsage: { ...prev.dataUsage, cellular: !prev.dataUsage.cellular }
                   }))}
+                  aria-label="חיבור סלולרי"
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                     settings.dataUsage.cellular ? 'bg-blue-600' : 'bg-gray-200'
                   }`}
@@ -453,7 +465,7 @@ export function MobileFirstFeatures() {
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
                     className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(settings.dataUsage.used / settings.dataUsage.limit) * 100}%` }}
+                    style={progressBarStyle((settings.dataUsage.used / settings.dataUsage.limit) * 100)}
                   ></div>
                 </div>
               </div>
@@ -486,6 +498,7 @@ export function MobileFirstFeatures() {
                       <button
                         onClick={() => deleteContent(content.id)}
                         className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                        aria-label="מחק תוכן"
                       >
                         מחק
                       </button>
@@ -493,6 +506,7 @@ export function MobileFirstFeatures() {
                       <button
                         onClick={() => downloadContent(content.id)}
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        aria-label="הורד תוכן"
                       >
                         הורד
                       </button>
@@ -559,7 +573,7 @@ export function MobileFirstFeatures() {
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
                       className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${(deviceInfo.memory.used / deviceInfo.memory.total) * 100}%` }}
+                      style={progressBarStyle((deviceInfo.memory.used / deviceInfo.memory.total) * 100)}
                     ></div>
                   </div>
                 </div>
@@ -575,7 +589,7 @@ export function MobileFirstFeatures() {
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
                       className="bg-green-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${(deviceInfo.storage.used / deviceInfo.storage.total) * 100}%` }}
+                      style={progressBarStyle((deviceInfo.storage.used / deviceInfo.storage.total) * 100)}
                     ></div>
                   </div>
                 </div>
@@ -585,13 +599,22 @@ export function MobileFirstFeatures() {
             <div className="mt-6 space-y-4">
               <h4 className="font-semibold text-gray-700">פעולות מהירות</h4>
               <div className="flex flex-wrap gap-3">
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <button 
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  aria-label="ניקוי זיכרון"
+                >
                   ניקוי זיכרון
                 </button>
-                <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                <button 
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  aria-label="אופטימיזציה"
+                >
                   אופטימיזציה
                 </button>
-                <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                <button 
+                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  aria-label="עדכון אפליקציה"
+                >
                   עדכון אפליקציה
                 </button>
               </div>

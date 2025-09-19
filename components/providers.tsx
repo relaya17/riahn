@@ -1646,9 +1646,17 @@ function AuthProvider({ children }: { children: ReactNode }) {
 function LanguageProvider({ children }: { children: ReactNode }) {
   const [currentLanguage, setCurrentLanguage] = useState('he')
 
+  useEffect(() => {
+    // Load saved language from localStorage only on client side
+    if (typeof window !== 'undefined') {
+      const savedLanguage = localStorage.getItem('language') || 'he'
+      setCurrentLanguage(savedLanguage)
+    }
+  }, [])
+
   const isRTL = currentLanguage === 'he' || currentLanguage === 'ar'
 
-  const t = (key: string, params?: Record<string, string | number>) => {
+  const t = (key: string, params?: Record<string, unknown>) => {
     const translation = (translations[currentLanguage as keyof typeof translations] as Record<string, string>)?.[key] || key
     
     if (params) {

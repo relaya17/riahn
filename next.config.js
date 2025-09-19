@@ -1,37 +1,30 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  trailingSlash: true,
   images: {
     unoptimized: true,
   },
-  // For deployment
-  assetPrefix: '',
-  basePath: '',
-  // Disable some features for faster build
-  swcMinify: true,
-  compress: false,
-  // Disable API routes for static export
+  // Enable API routes
   experimental: {
     outputFileTracingRoot: undefined,
   },
-  // Skip API routes for static export
-  skipTrailingSlashRedirect: true,
-  skipMiddlewareUrlNormalize: true,
-  // Disable API routes for static export
+  // Enable proper routing
+  skipTrailingSlashRedirect: false,
+  skipMiddlewareUrlNormalize: false,
+  // Enable linting and type checking
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
-  // Disable API routes for static export
+  // Webpack configuration
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.externals = [...config.externals, 'mongoose'];
     }
     return config;
   },
-  // Disable API routes for static export
+  // Page extensions
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
 };
 

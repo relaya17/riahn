@@ -25,7 +25,6 @@ interface Mentor {
   isVerified: boolean
   badges: string[]
   responseTime: string
-  languages: string[]
 }
 
 interface Mentee {
@@ -116,8 +115,7 @@ export function MentorshipSystem() {
       isOnline: true,
       isVerified: true,
       badges: ['מומחה', 'מורה מוביל', 'מנטור השנה'],
-      responseTime: 'תוך שעה',
-      languages: ['עברית', 'אנגלית', 'ערבית']
+      responseTime: 'תוך שעה'
     },
     {
       id: '2',
@@ -143,8 +141,7 @@ export function MentorshipSystem() {
       isOnline: false,
       isVerified: true,
       badges: ['מומחה', 'מורה מוביל'],
-      responseTime: 'תוך 2 שעות',
-      languages: ['אנגלית', 'ספרדית']
+      responseTime: 'תוך 2 שעות'
     }
   ]
 

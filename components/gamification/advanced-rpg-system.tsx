@@ -1,7 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Sword, Shield, Star, Crown, Zap, Heart, Trophy, Award, Target, Users, Map, BookOpen, Gem, Flame, Lightning, Ice, Wind, Earth } from 'lucide-react'
+import { Sword, Shield, Star, Crown, Zap, Heart, Trophy, Award, Target, Users, Map, BookOpen, Gem, Flame, Wind } from 'lucide-react'
+
+// Helper function for progress bar width
+const getProgressWidth = (percentage: number) => ({ width: `${percentage}%` })
 
 interface Player {
   id: string
@@ -430,7 +433,7 @@ export function AdvancedRPGSystem() {
             <div className="w-32 bg-gray-200 rounded-full h-2 mt-1">
               <div 
                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(player.experience / player.experienceToNext) * 100}%` }}
+                style={getProgressWidth((player.experience / player.experienceToNext) * 100)}
               ></div>
             </div>
           </div>
@@ -554,7 +557,7 @@ export function AdvancedRPGSystem() {
                 <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
                   <div 
                     className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(quest.progress / quest.maxProgress) * 100}%` }}
+                    style={getProgressWidth((quest.progress / quest.maxProgress) * 100)}
                   ></div>
                 </div>
                 
@@ -604,7 +607,7 @@ export function AdvancedRPGSystem() {
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
                       className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${(skill.experience / (skill.level * 100)) * 100}%` }}
+                      style={getProgressWidth((skill.experience / (skill.level * 100)) * 100)}
                     ></div>
                   </div>
                 </div>

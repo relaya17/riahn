@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+
+// Helper function for progress bar width
+const getProgressWidth = (percentage: number) => ({ width: `${percentage}%` })
 import { 
   BarChart3, 
   TrendingUp, 
@@ -317,7 +320,7 @@ export default function AdvancedAnalytics() {
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <div 
                         className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${variant.traffic}%` }}
+                        style={getProgressWidth(variant.traffic)}
                         data-progress={variant.traffic}
                       ></div>
                     </div>
