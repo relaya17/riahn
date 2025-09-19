@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Brain, Globe, Music, Target, Zap, Star, Users, Award, BookOpen, Mic, Eye, Hand } from 'lucide-react'
+import { Brain, Globe, Music, Target, Zap, Star, Users, Award, BookOpen, Mic, Eye, Hand, PenTool } from 'lucide-react'
 import { AILearningPath } from '@/components/ai/ai-learning-path'
 import { MemoryTechniques } from '@/components/learning/memory-techniques'
 import { CulturalImmersion } from '@/components/cultural/cultural-immersion'
@@ -10,6 +10,8 @@ import { AdvancedRPGSystem } from '@/components/gamification/advanced-rpg-system
 import { MobileFirstFeatures } from '@/components/mobile/mobile-first-features'
 import { BrainLearningOptimizer } from '@/components/neuroscience/brain-learning-optimizer'
 import { GlobalMarketplace } from '@/components/marketplace/global-marketplace'
+import { MentorshipSystem } from '@/components/mentorship/mentorship-system'
+import { CreativeTools } from '@/components/creative/creative-tools'
 
 interface AdvancedFeature {
   id: string
@@ -114,6 +116,28 @@ export default function AdvancedPage() {
       gradient: 'from-green-600 to-emerald-600',
       isNew: true,
       rating: 4.7
+    },
+    {
+      id: 'mentorship',
+      title: 'Mentorship System',
+      description: 'מערכת חונכות ומנטורינג מתקדמת',
+      icon: Users,
+      component: MentorshipSystem,
+      color: 'blue',
+      gradient: 'from-blue-600 to-indigo-600',
+      isNew: true,
+      rating: 4.8
+    },
+    {
+      id: 'creative-tools',
+      title: 'Creative Tools',
+      description: 'כלי יצירה ותוכן למשתמשים',
+      icon: PenTool,
+      component: CreativeTools,
+      color: 'purple',
+      gradient: 'from-purple-600 to-pink-600',
+      isNew: true,
+      rating: 4.6
     }
   ]
 
