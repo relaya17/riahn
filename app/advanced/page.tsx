@@ -8,6 +8,8 @@ import { CulturalImmersion } from '@/components/cultural/cultural-immersion'
 import { MusicLearning } from '@/components/music/music-learning'
 import { AdvancedRPGSystem } from '@/components/gamification/advanced-rpg-system'
 import { MobileFirstFeatures } from '@/components/mobile/mobile-first-features'
+import { BrainLearningOptimizer } from '@/components/neuroscience/brain-learning-optimizer'
+import { GlobalMarketplace } from '@/components/marketplace/global-marketplace'
 
 interface AdvancedFeature {
   id: string
@@ -90,6 +92,28 @@ export default function AdvancedPage() {
       gradient: 'from-blue-600 to-cyan-600',
       isNew: true,
       rating: 4.8
+    },
+    {
+      id: 'neuroscience',
+      title: 'Neuroscience',
+      description: 'אופטימיזציה של למידה באמצעות מדעי המוח',
+      icon: Brain,
+      component: BrainLearningOptimizer,
+      color: 'purple',
+      gradient: 'from-purple-600 to-pink-600',
+      isNew: true,
+      rating: 4.9
+    },
+    {
+      id: 'marketplace',
+      title: 'Global Marketplace',
+      description: 'שוק גלובלי לקורסי שפות',
+      icon: Globe,
+      component: GlobalMarketplace,
+      color: 'green',
+      gradient: 'from-green-600 to-emerald-600',
+      isNew: true,
+      rating: 4.7
     }
   ]
 
