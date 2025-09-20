@@ -17,8 +17,12 @@ function safeGetEnv(key) {
       },
       // Legacy approach: global
       () => {
-        const g = eval('global');
-        return g?.process?.env?.[key];
+        try {
+          const g = eval('global');
+          return g?.process?.env?.[key];
+        } catch {
+          return undefined;
+        }
       },
       // Browser approach: window
       () => {
@@ -102,7 +106,10 @@ const nextConfig = {
   },
 
   // Webpack optimizations
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  webpack: async (
+    config,
+    { buildId, dev, isServer, defaultLoaders, webpack }
+  ) => {
     // Performance optimizations
     if (!dev) {
       config.optimization.splitChunks.cacheGroups = {
@@ -125,7 +132,7 @@ const nextConfig = {
     // Bundle analyzer
     if (safeGetEnv('ANALYZE')) {
       try {
-        const { BundleAnalyzerPlugin } = eval('require')(
+        const { BundleAnalyzerPlugin } = await import(
           'webpack-bundle-analyzer'
         );
         config.plugins.push(
