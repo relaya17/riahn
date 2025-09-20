@@ -11,7 +11,9 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: 'http://localhost:3111',
+    origin: process.env.NODE_ENV === 'production' 
+      ? process.env.NEXT_PUBLIC_SOCKET_URL || 'https://languageconnect.onrender.com'
+      : 'http://localhost:3000',
     methods: ['GET', 'POST'],
   },
 });
