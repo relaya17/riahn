@@ -26,10 +26,10 @@ export async function GET(
             data: group,
             message: 'Group retrieved successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to get group',
+            error: (error as Error).message || 'Failed to get group',
         }, { status: 500 })
     }
 }
@@ -69,10 +69,10 @@ export async function PUT(
             data: group,
             message: 'Group updated successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to update group',
+            error: (error as Error).message || 'Failed to update group',
         }, { status: 500 })
     }
 }
@@ -97,10 +97,10 @@ export async function DELETE(
             data: group,
             message: 'Group deleted successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to delete group',
+            error: (error as Error).message || 'Failed to delete group',
         }, { status: 500 })
     }
 }

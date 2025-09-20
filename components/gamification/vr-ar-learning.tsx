@@ -4,30 +4,16 @@ import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Eye, 
-  EyeOff, 
-  Volume2, 
-  VolumeX, 
   Camera, 
-  CameraOff,
-  Zap,
   Trophy,
-  Star,
   Target,
-  Award,
-  Gamepad2,
-  Headphones,
   Mic,
-  MicOff,
-  Play,
-  Pause,
-  RotateCcw,
-  Settings,
-  X,
   CheckCircle,
   AlertCircle,
-  Brain,
-  Heart,
-  Sparkles
+  Pause,
+  Play,
+  MicOff,
+  X
 } from 'lucide-react'
 
 interface VRScene {
@@ -86,7 +72,6 @@ export default function VRARLearning() {
   const [showAchievements, setShowAchievements] = useState(false)
 
   const videoRef = useRef<HTMLVideoElement>(null)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   // סימולציה של סצנות VR/AR
   const vrScenes: VRScene[] = [

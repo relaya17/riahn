@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
         const limit = parseInt(searchParams.get('limit') || '20')
         const page = parseInt(searchParams.get('page') || '1')
 
-        let query: Record<string, unknown> = { isPublished: true }
+        const query: Record<string, unknown> = { isPublished: true }
 
         if (category) {
             query.category = category

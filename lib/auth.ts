@@ -194,15 +194,15 @@ export async function resetPassword(email: string, newPassword: string): Promise
 export const authOptions = {
     providers: [],
     callbacks: {
-        async jwt({ token, user }: { token: any; user: any }) {
+        async jwt({ token, user }: { token: Record<string, unknown>; user: Record<string, unknown> }) {
             if (user) {
                 token.id = user.id
             }
             return token
         },
-        async session({ session, token }: { session: any; token: any }) {
-            if (token) {
-                session.user.id = token.id
+        async session({ session, token }: { session: Record<string, unknown>; token: Record<string, unknown> }) {
+            if (token && session.user) {
+                (session.user as Record<string, unknown>).id = token.id
             }
             return session
         }

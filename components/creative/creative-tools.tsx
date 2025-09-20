@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { PenTool, Image, Video, Mic, Upload, Download, Share2, Heart, Star, Edit3, Trash2, Play, Pause, Volume2, VolumeX, Camera, Palette, Type, Layers, Save, Eye, EyeOff } from 'lucide-react'
+import React, { useState, useRef } from 'react'
+import { PenTool, Video, Mic, Upload, Download, Share2, Heart, Edit3, Palette, Type, Layers, Eye, EyeOff, FileImage, Image } from 'lucide-react'
 
 interface CreativeProject {
   id: string
@@ -49,18 +49,9 @@ interface MediaAsset {
 
 export function CreativeTools() {
   const [activeTab, setActiveTab] = useState<'create' | 'projects' | 'templates' | 'media'>('create')
-  const [selectedProject, setSelectedProject] = useState<CreativeProject | null>(null)
-  const [isEditing, setIsEditing] = useState(false)
-  const [currentContent, setCurrentContent] = useState('')
   const [isRecording, setIsRecording] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [volume, setVolume] = useState(1)
-  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null)
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const audioRef = useRef<HTMLAudioElement>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
 
   const sampleProjects: CreativeProject[] = [
@@ -183,17 +174,6 @@ export function CreativeTools() {
     }
   }
 
-  const startVideoRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream
-        videoRef.current.play()
-      }
-    } catch (error) {
-      console.error('Error starting video recording:', error)
-    }
-  }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || [])
@@ -212,16 +192,6 @@ export function CreativeTools() {
     return `${minutes}:${secs.toString().padStart(2, '0')}`
   }
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'text': return <Type className="w-5 h-5" />
-      case 'image': return <Image className="w-5 h-5" />
-      case 'video': return <Video className="w-5 h-5" />
-      case 'audio': return <Mic className="w-5 h-5" />
-      case 'presentation': return <Layers className="w-5 h-5" />
-      default: return <PenTool className="w-5 h-5" />
-    }
-  }
 
   const getTypeColor = (type: string) => {
     switch (type) {
@@ -259,7 +229,7 @@ export function CreativeTools() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'create' | 'projects' | 'templates' | 'media')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 ${
               activeTab === tab.id
                 ? 'bg-purple-600 text-white shadow-lg'
@@ -297,7 +267,7 @@ export function CreativeTools() {
               <div className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow cursor-pointer">
                 <div className="text-center space-y-4">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                    <Image className="w-8 h-8 text-green-600" />
+                    <FileImage className="w-8 h-8 text-green-600" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-800">עורך תמונות</h3>
                   <p className="text-gray-600 text-sm">ערוך תמונות ויצור גרפיקה</p>

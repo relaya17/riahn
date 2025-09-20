@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
   Phone, 
@@ -12,11 +11,9 @@ import {
   Volume2, 
   VolumeX,
   Settings,
-  Users,
   MessageCircle,
   Maximize,
-  Minimize,
-  X
+  Minimize
 } from 'lucide-react'
 import { User } from '@/types'
 

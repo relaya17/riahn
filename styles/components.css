@@ -171,3 +171,16 @@
 .lesson-content {
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
+
+/* RPG System Progress Bars */
+.rpg-experience-progress {
+  width: var(--progress-width, 0%);
+}
+
+.rpg-quest-progress {
+  width: var(--quest-progress, 0%);
+}
+
+.rpg-skill-progress {
+  width: var(--skill-progress, 0%);
+}

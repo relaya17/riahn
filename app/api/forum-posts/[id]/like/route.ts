@@ -50,10 +50,10 @@ export async function POST(
             },
             message: `Post ${hasLiked ? 'unliked' : 'liked'} successfully`,
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to like/unlike post',
+            error: error instanceof Error ? error.message : 'Failed to like/unlike post',
         }, { status: 500 })
     }
 }

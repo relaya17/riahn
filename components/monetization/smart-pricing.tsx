@@ -5,26 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Crown, 
   Star, 
-  Zap, 
   Users, 
   Brain, 
   Eye, 
-  Trophy,
   Check,
   X,
   ArrowRight,
   Sparkles,
   Gift,
-  Clock,
-  Shield,
   Globe,
   Heart,
   Target,
   Award,
-  TrendingUp,
-  DollarSign,
-  Percent,
-  Calendar,
   Building
 } from 'lucide-react'
 
@@ -39,7 +31,7 @@ interface PricingPlan {
   limitations: string[]
   popular?: boolean
   color: string
-  icon: React.ComponentType<any>
+  icon: React.ComponentType<{ className?: string }>
   targetAudience: string
   conversionGoal: string
 }
@@ -172,7 +164,7 @@ export default function SmartPricing() {
 
   const goals = [
     { id: 'travel', label: 'נסיעות', icon: Globe },
-    { id: 'career', label: 'קריירה', icon: TrendingUp },
+    { id: 'career', label: 'קריירה', icon: Award },
     { id: 'education', label: 'השכלה', icon: Brain },
     { id: 'social', label: 'חברתי', icon: Users },
     { id: 'hobby', label: 'תחביב', icon: Heart }
@@ -309,7 +301,7 @@ export default function SmartPricing() {
                     {['beginner', 'intermediate', 'advanced'].map((level) => (
                       <button
                         key={level}
-                        onClick={() => setUserProfile(prev => ({ ...prev, level: level as any }))}
+                        onClick={() => setUserProfile(prev => ({ ...prev, level: level as 'beginner' | 'intermediate' | 'advanced' }))}
                         className={`w-full text-left p-3 rounded-lg transition-colors ${
                           userProfile.level === level
                             ? 'bg-blue-500 text-white'
@@ -330,7 +322,7 @@ export default function SmartPricing() {
                     {['light', 'moderate', 'heavy'].map((usage) => (
                       <button
                         key={usage}
-                        onClick={() => setUserProfile(prev => ({ ...prev, usage: usage as any }))}
+                        onClick={() => setUserProfile(prev => ({ ...prev, usage: usage as 'light' | 'moderate' | 'heavy' }))}
                         className={`w-full text-left p-3 rounded-lg transition-colors ${
                           userProfile.usage === usage
                             ? 'bg-blue-500 text-white'
@@ -351,7 +343,7 @@ export default function SmartPricing() {
                     {['low', 'medium', 'high'].map((budget) => (
                       <button
                         key={budget}
-                        onClick={() => setUserProfile(prev => ({ ...prev, budget: budget as any }))}
+                        onClick={() => setUserProfile(prev => ({ ...prev, budget: budget as 'low' | 'medium' | 'high' }))}
                         className={`w-full text-left p-3 rounded-lg transition-colors ${
                           userProfile.budget === budget
                             ? 'bg-blue-500 text-white'

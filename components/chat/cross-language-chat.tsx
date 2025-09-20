@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -30,7 +30,7 @@ interface User {
 }
 
 export function CrossLanguageChat() {
-  const { t, currentLanguage } = useLanguage()
+  const { t } = useLanguage()
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [newMessage, setNewMessage] = useState('')
   const [isTranslating, setIsTranslating] = useState(false)
@@ -38,10 +38,10 @@ export function CrossLanguageChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Demo users with different languages
-  const [users] = useState<User[]>([
+  const users: User[] = [
     { id: 'user1', name: 'אחמד', language: 'ar', avatar: '👨‍💼' },
     { id: 'user2', name: 'Sarah', language: 'en', avatar: '👩‍💻' }
-  ])
+  ]
 
   const [currentUser, setCurrentUser] = useState<User>(users[0])
   const [targetUser, setTargetUser] = useState<User>(users[1])

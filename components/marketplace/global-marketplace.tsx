@@ -360,7 +360,7 @@ export function GlobalMarketplace() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'courses' | 'instructors' | 'categories')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 ${
               activeTab === tab.id
                 ? 'bg-green-600 text-white shadow-lg'

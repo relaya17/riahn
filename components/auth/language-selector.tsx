@@ -3,9 +3,7 @@
 import { useState } from 'react'
 import { useLanguage } from '@/components/providers'
 import { Button } from '@/components/ui/button'
-import { Select } from '@/components/ui/select'
-import { Globe, ChevronDown } from 'lucide-react'
-import { getLanguageInfo } from '@/lib/utils'
+import { ChevronDown } from 'lucide-react'
 
 const languages = [
   { code: 'he', name: 'עברית', flag: '🇮🇱' },

@@ -97,10 +97,10 @@ export async function POST(
             },
             message: 'Lesson completed successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to complete lesson',
+            error: (error as Error).message || 'Failed to complete lesson',
         }, { status: 500 })
     }
 }

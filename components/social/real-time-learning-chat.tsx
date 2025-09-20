@@ -4,19 +4,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Users, 
-  MessageCircle, 
   Video, 
   Mic, 
   MicOff, 
   Camera, 
   CameraOff,
   Globe,
-  Star,
-  Heart,
-  Zap,
   Trophy,
   Send,
-  Smile,
   Languages
 } from 'lucide-react'
 

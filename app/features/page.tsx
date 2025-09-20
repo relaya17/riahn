@@ -11,14 +11,10 @@ import {
   Users, 
   BarChart3, 
   Star,
-  Award,
-  TrendingUp,
   MessageCircle,
   BookOpen,
   Globe,
-  Zap,
-  Heart,
-  Target
+  Zap
 } from 'lucide-react'
 
 type FeatureTab = 'achievements' | 'social' | 'analytics'

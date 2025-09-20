@@ -14,9 +14,22 @@ const LANGUAGE_MAP: Record<Language, string> = {
     he: 'he',
     ar: 'ar',
     en: 'en',
+    fr: 'fr',
+    es: 'es',
+    de: 'de',
+    it: 'it',
+    pt: 'pt',
+    ru: 'ru',
+    ja: 'ja',
+    ko: 'ko',
+    zh: 'zh',
+    hi: 'hi', // Hindi
     si: 'si', // Sinhala
     ta: 'ta', // Tamil
 }
+
+// Note: Language levels are handled separately from translation languages
+// They are mapped to actual translation languages (e.g., all levels -> 'en')
 
 /**
  * Translate text using Google Translate API
@@ -43,8 +56,10 @@ export async function translateWithGoogle(
 
         return {
             translatedText: translation.translatedText,
+            sourceLanguage: request.sourceLanguage,
+            targetLanguage: request.targetLanguage,
             confidence: 1.0, // Google doesn't provide confidence scores
-            detectedLanguage: translation.detectedSourceLanguage as Language,
+            detectedLanguage: (translation.detectedSourceLanguage as Language) || 'en',
         }
     } catch (error) {
         console.error('Google Translate API error:', error)
@@ -78,8 +93,10 @@ export async function translateWithMicrosoft(
 
         return {
             translatedText: translation.translations[0].text,
+            sourceLanguage: request.sourceLanguage,
+            targetLanguage: request.targetLanguage,
             confidence: translation.translations[0].confidence || 0.8,
-            detectedLanguage: translation.detectedLanguage?.language as Language,
+            detectedLanguage: (translation.detectedLanguage?.language as Language) || 'en',
         }
     } catch (error) {
         console.error('Microsoft Translator API error:', error)
@@ -97,8 +114,10 @@ export async function translateText(
     if (request.sourceLanguage === request.targetLanguage) {
         return {
             translatedText: request.text,
+            sourceLanguage: request.sourceLanguage,
+            targetLanguage: request.targetLanguage,
             confidence: 1.0,
-            detectedLanguage: request.sourceLanguage,
+            detectedLanguage: request.sourceLanguage || 'en',
         }
     }
 

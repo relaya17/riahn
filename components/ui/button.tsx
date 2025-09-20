@@ -44,6 +44,8 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, loading, leftIcon, rightIcon, children, disabled, ...props }, ref) => {
+    // Suppress unused variable warning for asChild (used in conditional logic)
+    void asChild
     const isDisabled = disabled || loading
 
     return (

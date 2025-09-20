@@ -107,19 +107,19 @@ export class PasswordSecurity {
 // JWT Security
 export class JWTSecurity {
     static generateToken(payload: Record<string, unknown>): string {
-        return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
+        return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN } as jwt.SignOptions)
     }
 
     static verifyToken(token: string): Record<string, unknown> | null {
         try {
-            return jwt.verify(token, JWT_SECRET)
+            return jwt.verify(token, JWT_SECRET) as Record<string, unknown>
         } catch (error) {
             throw new Error('Invalid token')
         }
     }
 
     static decodeToken(token: string): Record<string, unknown> | null {
-        return jwt.decode(token)
+        return jwt.decode(token) as Record<string, unknown> | null
     }
 }
 
@@ -135,7 +135,7 @@ export class DataEncryption {
 
     static decrypt(encryptedText: string): string {
         const textParts = encryptedText.split(':')
-        const iv = Buffer.from(textParts.shift()!, 'hex')
+        textParts.shift() // Remove IV part (not used in this implementation)
         const encryptedData = textParts.join(':')
         const decipher = crypto.createDecipher('aes-256-cbc', ENCRYPTION_KEY)
         let decrypted = decipher.update(encryptedData, 'hex', 'utf8')
@@ -224,8 +224,8 @@ export class InputSanitizer {
     }
 
     static validatePhoneNumber(phone: string): boolean {
-        const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/
-        return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''))
+        const phoneRegex = /^[+]?[1-9][\d]{0,15}$/
+        return phoneRegex.test(phone.replace(/[\s\-()]/g, ''))
     }
 }
 
@@ -283,7 +283,7 @@ export class SessionSecurity {
 
     static validateSession(sessionId: string, userId: string): boolean {
         // In production, validate against database
-        return sessionId && userId
+        return Boolean(sessionId && userId)
     }
 
     static invalidateSession(sessionId: string): void {

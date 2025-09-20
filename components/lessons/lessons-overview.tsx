@@ -14,7 +14,6 @@ import {
   Clock, 
   Star, 
   Search,
-  Filter,
   TrendingUp,
   Award,
   Target,
@@ -28,7 +27,7 @@ export interface LessonsOverviewProps {
 export function LessonsOverview({ groupId }: LessonsOverviewProps) {
   const { t } = useLanguage()
   const router = useRouter()
-  const [lessons, setLessons] = useState(mockLessons)
+  const [lessons] = useState(mockLessons)
   const [filteredLessons, setFilteredLessons] = useState(mockLessons)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedLevel, setSelectedLevel] = useState('all')
@@ -224,7 +223,7 @@ export function LessonsOverview({ groupId }: LessonsOverviewProps) {
                   </span>
                   <div className="flex items-center gap-1 text-xs text-gray-500">
                     <Clock className="h-3 w-3" />
-                    {lesson.duration} דק'
+                    {lesson.duration} דק&apos;
                   </div>
                 </div>
               </div>

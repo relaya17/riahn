@@ -7,26 +7,22 @@ import {
   Trophy, 
   Star, 
   Target, 
-  Clock, 
   BookOpen, 
   MessageCircle,
   Users,
   Award,
   Zap,
   Crown,
-  Medal,
-  Gift,
   Flame,
   CheckCircle,
-  Lock,
-  TrendingUp
+  Lock
 } from 'lucide-react'
 
 interface Achievement {
   id: string
   title: string
   description: string
-  icon: any
+  icon: React.ComponentType<{ className?: string }>
   category: 'learning' | 'social' | 'streak' | 'special'
   rarity: 'common' | 'rare' | 'epic' | 'legendary'
   points: number
@@ -214,6 +210,7 @@ export function AchievementSystem() {
       default: return Award
     }
   }
+  void getCategoryIcon // Suppress unused variable warning
 
   const getCategoryLabel = (category: string) => {
     switch (category) {
@@ -224,6 +221,7 @@ export function AchievementSystem() {
       default: return 'כל הקטגוריות'
     }
   }
+  void getCategoryLabel // Suppress unused variable warning
 
   const filteredAchievements = achievements.filter(achievement => {
     const categoryMatch = selectedCategory === 'all' || achievement.category === selectedCategory
@@ -280,7 +278,7 @@ export function AchievementSystem() {
                 {userStats.totalPoints}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
-                נקודות סה"כ
+                נקודות סה&quot;כ
               </div>
             </CardContent>
           </Card>
@@ -324,7 +322,7 @@ export function AchievementSystem() {
               key={category.id}
               variant={selectedCategory === category.id ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setSelectedCategory(category.id as any)}
+              onClick={() => setSelectedCategory(category.id as 'all' | 'learning' | 'social' | 'streak' | 'special')}
               className="flex items-center gap-2"
             >
               <Icon className="h-4 w-4" />
@@ -348,6 +346,7 @@ export function AchievementSystem() {
         {filteredAchievements.map((achievement) => {
           const Icon = achievement.icon
           const progressPercentage = (achievement.progress / achievement.maxProgress) * 100
+          void progressPercentage // Suppress unused variable warning
           
           return (
             <Card

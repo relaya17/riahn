@@ -1,8 +1,7 @@
-import mongoose, { Document, Schema } from 'mongoose'
+import mongoose, { Schema, Document } from 'mongoose'
 import bcrypt from 'bcryptjs'
 
 export interface IUser extends Document {
-    _id: string
     email: string
     password: string
     name: string
@@ -10,7 +9,7 @@ export interface IUser extends Document {
     bio?: string
     nativeLanguage: string
     learningLanguages: string[]
-    currentLevel: string
+    currentLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert'
     totalPoints: number
     streak: number
     lastActive: Date
@@ -21,112 +20,60 @@ export interface IUser extends Document {
         language: string
     }
     achievements: string[]
-    createdAt: Date
-    updatedAt: Date
     comparePassword(candidatePassword: string): Promise<boolean>
 }
 
-const UserSchema = new Schema<IUser>({
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        lowercase: true,
-        trim: true
-    },
-    password: {
-        type: String,
-        required: true,
-        minlength: 6
-    },
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    avatar: {
-        type: String,
-        default: null
-    },
-    bio: {
-        type: String,
-        maxlength: 500
-    },
-    nativeLanguage: {
-        type: String,
-        required: true,
-        default: 'en'
-    },
-    learningLanguages: [{
-        type: String,
-        required: true
-    }],
-    currentLevel: {
-        type: String,
-        enum: ['beginner', 'intermediate', 'advanced', 'expert'],
-        default: 'beginner'
-    },
-    totalPoints: {
-        type: Number,
-        default: 0
-    },
-    streak: {
-        type: Number,
-        default: 0
-    },
-    lastActive: {
-        type: Date,
-        default: Date.now
-    },
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const UserSchema = new Schema<any>({
+    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    password: { type: String, required: true, minlength: 6 },
+    name: { type: String, required: true, trim: true },
+    avatar: { type: String, default: null },
+    bio: { type: String, maxlength: 500 },
+    nativeLanguage: { type: String, required: true, default: 'en' },
+    learningLanguages: [{ type: String, required: true }],
+    currentLevel: { type: String, enum: ['beginner', 'intermediate', 'advanced', 'expert'], default: 'beginner' },
+    totalPoints: { type: Number, default: 0 },
+    streak: { type: Number, default: 0 },
+    lastActive: { type: Date, default: Date.now },
+    isVerified: { type: Boolean, default: false },
     preferences: {
-        theme: {
-            type: String,
-            enum: ['light', 'dark', 'system'],
-            default: 'system'
-        },
-        notifications: {
-            type: Boolean,
-            default: true
-        },
-        language: {
-            type: String,
-            default: 'en'
-        }
+        theme: { type: String, enum: ['light', 'dark', 'system'], default: 'system' },
+        notifications: { type: Boolean, default: true },
+        language: { type: String, default: 'en' },
     },
-    achievements: [{
-        type: String
-    }]
-}, {
-    timestamps: true
-})
+    achievements: [{ type: String }]
+}, { timestamps: true })
 
 // Hash password before saving
 UserSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next()
-
+    const thisDoc = this as any
+    if (!thisDoc.isModified('password')) return next()
     try {
         const salt = await bcrypt.genSalt(12)
-        this.password = await bcrypt.hash(this.password, salt)
+        thisDoc.password = await bcrypt.hash(thisDoc.password, salt as string)
         next()
     } catch (error) {
         next(error as Error)
     }
 })
 
-// Compare password method
+// Compare password
 UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-    return bcrypt.compare(candidatePassword, this.password)
+    const thisDoc = this as any
+    return bcrypt.compare(candidatePassword, thisDoc.password)
 }
 
-// Remove password from JSON output
+// Remove password from JSON
 UserSchema.methods.toJSON = function () {
-    const userObject = this.toObject()
-    delete userObject.password
-    return userObject
+    const obj = this.toObject()
+    delete obj.password
+    return obj
 }
 
-export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema)
+// Export Model (with TS assertion to avoid "union too complex")
+export const UserModel = mongoose.models.User
+    ? (mongoose.models.User as unknown as any)
+    : mongoose.model('User', UserSchema)
+
+export default UserModel

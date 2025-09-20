@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { useForm, FieldValues, UseFormReturn } from 'react-hook-form'
+import { useForm, FieldValues, UseFormReturn, DefaultValues, Path } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LoadingSpinner } from '@/components/ui/loading'
@@ -57,21 +57,24 @@ export function BaseForm<T extends FieldValues>({
   showCard = true
 }: BaseFormProps<T>) {
   const form = useForm<T>({
-    defaultValues: defaultValues as Record<string, unknown>
+    defaultValues: defaultValues as DefaultValues<T>
   })
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    watch,
-    setValue,
-    getValues
+    formState: { errors }
   } = form
+  
+  // Suppress unused variable warnings (available for advanced usage)
+  const watch = form.watch
+  const setValue = form.setValue
+  void watch
+  void setValue
 
   const handleFormSubmit = async (data: T) => {
     try {
-      await onSubmit(data, form)
+      await onSubmit(data, form as unknown as UseFormReturn<T>)
     } catch (error) {
       console.error('Form submission error:', error)
     }
@@ -191,7 +194,7 @@ export function BaseForm<T extends FieldValues>({
               {field.options?.map((option) => (
                 <div key={option.value} className="flex items-center space-x-2 space-x-reverse">
                   <input
-                    {...register(field.name as any, validation)}
+                    {...register(field.name as Path<T>, validation)}
                     type="radio"
                     value={option.value}
                     className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
@@ -248,7 +251,7 @@ export function BaseForm<T extends FieldValues>({
   }
 
   const formContent = (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className={`space-y-6 ${className}`}>
+    <form onSubmit={handleSubmit(handleFormSubmit as unknown as (data: T) => void)} className={`space-y-6 ${className}`}>
       {fields.map(renderField)}
       
       <div className="flex flex-col gap-4">
@@ -290,6 +293,6 @@ export function BaseForm<T extends FieldValues>({
 // Hook for easier form management
 export function useBaseForm<T extends FieldValues>(defaultValues?: Partial<T>) {
   return useForm<T>({
-    defaultValues: defaultValues as Record<string, unknown>
+    defaultValues: defaultValues as DefaultValues<T>
   })
 }

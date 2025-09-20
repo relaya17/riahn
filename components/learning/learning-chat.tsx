@@ -1,11 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { 
-  MessageCircle, 
   Send, 
   Volume2, 
   VolumeX,
@@ -43,8 +42,7 @@ interface LearningChatProps {
 export function LearningChat({ 
   targetLanguage, 
   userLanguage, 
-  partnerName,
-  partnerAvatar 
+  partnerName
 }: LearningChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [newMessage, setNewMessage] = useState('')
@@ -52,10 +50,10 @@ export function LearningChat({
   const [isListening, setIsListening] = useState(false)
   const [showTranslation, setShowTranslation] = useState(true)
   const [showPronunciation, setShowPronunciation] = useState(true)
-  const [showCulturalNotes, setShowCulturalNotes] = useState(true)
+  const [showCulturalNotes] = useState(true)
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const { success, error } = useToast()
+  const { error } = useToast()
 
   // Auto scroll to bottom
   useEffect(() => {
@@ -237,8 +235,8 @@ export function LearningChat({
       return
     }
 
-    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition
-    const recognition = new SpeechRecognition()
+    const SpeechRecognition = (window as unknown as { webkitSpeechRecognition?: unknown; SpeechRecognition?: unknown }).webkitSpeechRecognition || (window as unknown as { webkitSpeechRecognition?: unknown; SpeechRecognition?: unknown }).SpeechRecognition
+    const recognition = new (SpeechRecognition as new () => { lang: string; continuous: boolean; interimResults: boolean; onstart: () => void; onresult: (event: { results: { [key: number]: { [key: number]: { transcript: string } } } }) => void; onerror: () => void; onend: () => void; start: () => void })()
     
     recognition.lang = userLanguage === 'he' ? 'he-IL' : userLanguage === 'en' ? 'en-US' : userLanguage
     recognition.continuous = false
@@ -248,7 +246,7 @@ export function LearningChat({
       setIsListening(true)
     }
 
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: { results: { [key: number]: { [key: number]: { transcript: string } } } }) => {
       const transcript = event.results[0][0].transcript
       setNewMessage(transcript)
       setIsListening(false)

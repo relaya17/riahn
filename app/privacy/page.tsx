@@ -76,7 +76,7 @@ export default function PrivacyPolicyPage() {
                 </h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
                   <li>שיעורים שנלמדו והתקדמות</li>
-                  <li>הודעות וצ'אטים</li>
+                  <li>הודעות וצ&apos;אטים</li>
                   <li>פוסטים בפורומים</li>
                   <li>העדפות משתמש</li>
                   <li>נתוני אנליטיקה</li>

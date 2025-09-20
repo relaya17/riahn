@@ -1,12 +1,10 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { 
   MessageCircle, 
   Users, 
   TrendingUp,
-  Clock,
   BookOpen,
   Award,
   HelpCircle
@@ -18,11 +16,6 @@ interface ForumCategoriesProps {
   selectedCategory?: ForumCategory
 }
 
-interface CategoryStats {
-  posts: number
-  replies: number
-  lastActivity: Date
-}
 
 export function ForumCategories({ onCategorySelect, selectedCategory }: ForumCategoriesProps) {
   const categories = [
@@ -158,7 +151,7 @@ export function ForumCategories({ onCategorySelect, selectedCategory }: ForumCat
                 זקוק לעזרה?
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                אם אתה לא בטוח איפה לפרסם את השאלה שלך, התחל בקטגוריה "כללי" או צור קשר עם המנהלים.
+                אם אתה לא בטוח איפה לפרסם את השאלה שלך, התחל בקטגוריה &quot;כללי&quot; או צור קשר עם המנהלים.
               </p>
             </div>
           </div>

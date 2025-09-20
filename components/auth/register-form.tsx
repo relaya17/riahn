@@ -7,10 +7,8 @@ import { useAuth, useLanguage } from '@/components/providers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
-import { LoadingSpinner } from '@/components/ui/loading'
-import { Mail, Lock, User, Globe } from 'lucide-react'
+import { Mail, Lock, User } from 'lucide-react'
 import { RegisterForm as RegisterFormType, Language } from '@/types'
-import { getLanguageInfo } from '@/lib/utils'
 import { usePasswordToggle } from '@/hooks/usePasswordToggle'
 
 interface RegisterFormProps {

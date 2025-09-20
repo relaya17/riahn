@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: languageconnect
+    runtime: node
+    plan: free
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_SOCKET_URL
+        value: https://languageconnect.onrender.com
+      - key: PORT
+        value: 10000
+    autoDeploy: true
+    branch: main

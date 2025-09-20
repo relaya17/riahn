@@ -1,5 +1,6 @@
 import { format, formatDistanceToNow } from 'date-fns';
 import { he, ar, enUS } from 'date-fns/locale';
+import { Platform } from 'react-native';
 
 // Date formatting
 export const formatDate = (date: Date | string, locale: string = 'he'): string => {
@@ -122,11 +123,11 @@ export const animations = {
 
 // Device utilities
 export const isIOS = () => {
-    return require('react-native').Platform.OS === 'ios';
+    return Platform.OS === 'ios';
 };
 
 export const isAndroid = () => {
-    return require('react-native').Platform.OS === 'android';
+    return Platform.OS === 'android';
 };
 
 // Text utilities

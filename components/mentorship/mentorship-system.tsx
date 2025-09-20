@@ -275,7 +275,7 @@ export function MentorshipSystem() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'find' | 'sessions' | 'chat' | 'profile')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 ${
               activeTab === tab.id
                 ? 'bg-blue-600 text-white shadow-lg'

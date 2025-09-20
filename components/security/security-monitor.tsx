@@ -22,7 +22,7 @@ interface SecurityEvent {
   severity: 'low' | 'medium' | 'high'
   ip: string
   userAgent: string
-  details: any
+  details: Record<string, unknown>
 }
 
 interface SecurityMonitorProps {
@@ -164,7 +164,7 @@ export function SecurityMonitor({ userId }: SecurityMonitorProps) {
               <Globe className="h-6 w-6 text-blue-600" />
             </div>
             <div className="text-2xl font-bold text-blue-600">{events.length}</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">סה"כ אירועים</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">סה&quot;כ אירועים</div>
           </CardContent>
         </Card>
       </div>

@@ -1,200 +1,122 @@
-import mongoose, { Schema, Document } from 'mongoose'
-import { UserProgress, Achievement, Language, LanguageLevel } from '@/types'
+import mongoose, { Schema, Document, Model } from 'mongoose'
 
-export interface IUserProgress extends Omit<UserProgress, '_id'>, Document { }
+// Achievement type
+export interface Achievement {
+    id: string
+    name: string
+    description: string
+    icon: string
+    unlockedAt?: Date
+}
 
+// IUserProgress interface
+export interface IUserProgress {
+    userId: string
+    language: 'he' | 'ar' | 'en' | 'si' | 'ta'
+    level: 'beginner' | 'intermediate' | 'advanced' | 'native'
+    totalLessons: number
+    completedLessons: number
+    totalTimeSpent: number
+    streak: number
+    achievements: Achievement[]
+    lastActivity: Date
+    createdAt?: Date
+    updatedAt?: Date
+
+    // Virtuals
+    progressPercentage?: number
+    timeSpentHours?: number
+    averageTimePerLesson?: number
+    completionRate?: number
+}
+
+// Document + Methods
+export interface IUserProgressDocument extends IUserProgress, Document {
+    completeLesson(timeSpent?: number): Promise<IUserProgressDocument>
+    addAchievement(achievement: Achievement): Promise<IUserProgressDocument>
+}
+
+// Model + Statics
+export interface IUserProgressModel extends Model<IUserProgressDocument> {
+    findByUser(userId: string): Promise<IUserProgressDocument[]>
+    findByLanguage(language: string): Promise<IUserProgressDocument[]>
+    findByLevel(level: string): Promise<IUserProgressDocument[]>
+    findTopStreaks(limit?: number): Promise<IUserProgressDocument[]>
+}
+
+// Achievement Schema
 const AchievementSchema = new Schema<Achievement>({
-    id: {
-        type: String,
-        required: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        required: true,
-    },
-    icon: {
-        type: String,
-        required: true,
-    },
-    unlockedAt: {
-        type: Date,
-        default: Date.now,
-    },
+    id: { type: String, required: true },
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    icon: { type: String, required: true },
+    unlockedAt: { type: Date, default: Date.now }
 }, { _id: false })
 
-const UserProgressSchema = new Schema<IUserProgress>({
-    userId: {
-        type: String,
-        required: true,
-        ref: 'User',
-    },
-    language: {
-        type: String,
-        enum: ['he', 'ar', 'en', 'si', 'ta'],
-        required: true,
-    },
-    level: {
-        type: String,
-        enum: ['beginner', 'intermediate', 'advanced', 'native'],
-        required: true,
-    },
-    totalLessons: {
-        type: Number,
-        default: 0,
-        min: 0,
-    },
-    completedLessons: {
-        type: Number,
-        default: 0,
-        min: 0,
-    },
-    totalTimeSpent: {
-        type: Number,
-        default: 0,
-        min: 0,
-    },
-    streak: {
-        type: Number,
-        default: 0,
-        min: 0,
-    },
+// UserProgress Schema
+const UserProgressSchema = new Schema<IUserProgressDocument>({
+    userId: { type: String, required: true, ref: 'User' },
+    language: { type: String, enum: ['he', 'ar', 'en', 'si', 'ta'], required: true },
+    level: { type: String, enum: ['beginner', 'intermediate', 'advanced', 'native'], required: true },
+    totalLessons: { type: Number, default: 0, min: 0 },
+    completedLessons: { type: Number, default: 0, min: 0 },
+    totalTimeSpent: { type: Number, default: 0, min: 0 },
+    streak: { type: Number, default: 0, min: 0 },
     achievements: [AchievementSchema],
-    lastActivity: {
-        type: Date,
-        default: Date.now,
-    },
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    lastActivity: { type: Date, default: Date.now },
+}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
+
+// Virtuals
+UserProgressSchema.virtual('progressPercentage').get(function (this: IUserProgressDocument) {
+    return this.totalLessons ? Math.round((this.completedLessons / this.totalLessons) * 100) : 0
 })
-
-// Indexes for better performance
-UserProgressSchema.index({ userId: 1, language: 1 }, { unique: true })
-UserProgressSchema.index({ userId: 1 })
-UserProgressSchema.index({ language: 1 })
-UserProgressSchema.index({ level: 1 })
-UserProgressSchema.index({ streak: -1 })
-UserProgressSchema.index({ lastActivity: -1 })
-
-// Virtual for progress percentage
-UserProgressSchema.virtual('progressPercentage').get(function () {
-    if (this.totalLessons === 0) return 0
-    return Math.round((this.completedLessons / this.totalLessons) * 100)
-})
-
-// Virtual for time spent in hours
-UserProgressSchema.virtual('timeSpentHours').get(function () {
+UserProgressSchema.virtual('timeSpentHours').get(function (this: IUserProgressDocument) {
     return Math.round(this.totalTimeSpent / 60 * 100) / 100
 })
-
-// Virtual for average time per lesson
-UserProgressSchema.virtual('averageTimePerLesson').get(function () {
-    if (this.completedLessons === 0) return 0
-    return Math.round(this.totalTimeSpent / this.completedLessons)
+UserProgressSchema.virtual('averageTimePerLesson').get(function (this: IUserProgressDocument) {
+    return this.completedLessons ? Math.round(this.totalTimeSpent / this.completedLessons) : 0
+})
+UserProgressSchema.virtual('completionRate').get(function (this: IUserProgressDocument) {
+    return this.totalLessons ? Math.round((this.completedLessons / this.totalLessons) * 100) : 0
 })
 
-// Virtual for completion rate
-UserProgressSchema.virtual('completionRate').get(function () {
-    if (this.totalLessons === 0) return 0
-    return Math.round((this.completedLessons / this.totalLessons) * 100)
-})
-
-// Pre-save middleware
-UserProgressSchema.pre('save', function (next) {
-    // Ensure completed lessons don't exceed total lessons
-    if (this.completedLessons > this.totalLessons) {
-        this.completedLessons = this.totalLessons
-    }
-
-    // Update last activity
+// Pre-save hook
+UserProgressSchema.pre('save', function (this: IUserProgressDocument, next) {
+    if (this.completedLessons > this.totalLessons) this.completedLessons = this.totalLessons
     this.lastActivity = new Date()
-
     next()
 })
 
-// Static methods
+// Statics
 UserProgressSchema.statics.findByUser = function (userId: string) {
-    return this.find({ userId }).sort({ language: 1 })
+    return this.find({ userId })
 }
-
-UserProgressSchema.statics.findByLanguage = function (language: Language) {
-    return this.find({ language }).sort({ progressPercentage: -1 })
+UserProgressSchema.statics.findByLanguage = function (language: string) {
+    return this.find({ language })
 }
-
-UserProgressSchema.statics.findByLevel = function (level: LanguageLevel) {
-    return this.find({ level }).sort({ progressPercentage: -1 })
+UserProgressSchema.statics.findByLevel = function (level: string) {
+    return this.find({ level })
 }
-
-UserProgressSchema.statics.findTopPerformers = function (limit: number = 10) {
-    return this.find().sort({ progressPercentage: -1 }).limit(limit)
-}
-
-UserProgressSchema.statics.findLongestStreaks = function (limit: number = 10) {
+UserProgressSchema.statics.findTopStreaks = function (limit: number = 10) {
     return this.find().sort({ streak: -1 }).limit(limit)
 }
 
-UserProgressSchema.statics.findMostTimeSpent = function (limit: number = 10) {
-    return this.find().sort({ totalTimeSpent: -1 }).limit(limit)
-}
-
-// Instance methods
-UserProgressSchema.methods.addLesson = function () {
-    this.totalLessons += 1
-    return this.save()
-}
-
-UserProgressSchema.methods.completeLesson = function () {
+// Methods
+UserProgressSchema.methods.completeLesson = function (this: IUserProgressDocument, timeSpent: number = 0) {
     this.completedLessons += 1
+    this.totalTimeSpent += timeSpent
+    this.lastActivity = new Date()
     return this.save()
 }
 
-UserProgressSchema.methods.addTimeSpent = function (minutes: number) {
-    this.totalTimeSpent += minutes
+UserProgressSchema.methods.addAchievement = function (this: IUserProgressDocument, achievement: Achievement) {
+    this.achievements.push(achievement)
     return this.save()
 }
 
-UserProgressSchema.methods.incrementStreak = function () {
-    this.streak += 1
-    return this.save()
-}
+// Export Model (with TS assertion to avoid "union too complex")
+export const UserProgressModel: IUserProgressModel = mongoose.models.UserProgress
+    ? (mongoose.models.UserProgress as unknown as IUserProgressModel)
+    : mongoose.model<IUserProgressDocument, IUserProgressModel>('UserProgress', UserProgressSchema)
 
-UserProgressSchema.methods.resetStreak = function () {
-    this.streak = 0
-    return this.save()
-}
-
-UserProgressSchema.methods.addAchievement = function (achievement: Achievement) {
-    const existingAchievement = this.achievements.find(a => a.id === achievement.id)
-    if (!existingAchievement) {
-        this.achievements.push(achievement)
-    }
-    return this.save()
-}
-
-UserProgressSchema.methods.removeAchievement = function (achievementId: string) {
-    this.achievements = this.achievements.filter(a => a.id !== achievementId)
-    return this.save()
-}
-
-UserProgressSchema.methods.updateLevel = function (newLevel: LanguageLevel) {
-    this.level = newLevel
-    return this.save()
-}
-
-UserProgressSchema.methods.getAchievement = function (achievementId: string) {
-    return this.achievements.find(a => a.id === achievementId)
-}
-
-UserProgressSchema.methods.hasAchievement = function (achievementId: string) {
-    return this.achievements.some(a => a.id === achievementId)
-}
-
-// Export the model
-export const UserProgressModel = mongoose.models.UserProgress || mongoose.model<IUserProgress>('UserProgress', UserProgressSchema)
-
-
+export default UserProgressModel

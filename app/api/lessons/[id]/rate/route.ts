@@ -74,10 +74,10 @@ export async function POST(
             },
             message: 'Rating added successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to add rating',
+            error: (error as Error).message || 'Failed to add rating',
         }, { status: 500 })
     }
 }

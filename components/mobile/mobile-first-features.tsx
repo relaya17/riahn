@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Smartphone, Wifi, WifiOff, Battery, BatteryLow, Volume2, VolumeX, Sun, Moon, RotateCcw, Download, Upload, Share2, Camera, Mic, MicOff, MapPin, Bell, BellOff } from 'lucide-react'
+import { Smartphone, Wifi, WifiOff, Battery, BatteryLow, Sun, Moon, RotateCcw, Download, Bell, BellOff } from 'lucide-react'
 
 // CSS classes for dynamic progress bars
 const progressBarStyle = (percentage: number) => ({
@@ -66,7 +66,7 @@ export function MobileFirstFeatures() {
   const [offlineContent, setOfflineContent] = useState<OfflineContent[]>([])
   const [notifications, setNotifications] = useState<PushNotification[]>([])
   const [activeTab, setActiveTab] = useState<'settings' | 'offline' | 'notifications' | 'performance'>('settings')
-  const [deviceInfo, setDeviceInfo] = useState({
+  const [deviceInfo] = useState({
     battery: 85,
     connection: 'wifi',
     storage: { used: 2.5, total: 8.0 }, // GB
@@ -262,7 +262,7 @@ export function MobileFirstFeatures() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'settings' | 'offline' | 'notifications' | 'performance')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 ${
               activeTab === tab.id
                 ? 'bg-blue-600 text-white shadow-lg'

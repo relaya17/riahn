@@ -3,46 +3,18 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Rocket, 
   Target, 
-  Users, 
-  TrendingUp, 
   Globe, 
   Star,
   Award,
-  Zap,
-  Heart,
-  Share2,
-  MessageCircle,
-  Video,
-  Camera,
-  Mic,
-  Play,
-  Pause,
-  Download,
-  ExternalLink,
-  CheckCircle,
-  Clock,
-  DollarSign,
   BarChart3,
-  PieChart,
   Activity,
   Eye,
-  MousePointer,
-  ThumbsUp,
-  MessageSquare,
-  Send,
-  Bell,
-  Calendar,
-  MapPin,
-  Phone,
-  Mail,
-  Instagram,
-  Twitter,
-  Facebook,
-  Linkedin,
-  Youtube,
-  Plus
+  Plus,
+  Share2,
+  DollarSign,
+  Zap,
+  TrendingUp
 } from 'lucide-react'
 
 interface Campaign {
@@ -277,7 +249,7 @@ export default function LaunchStrategy() {
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm">סה"כ השקעה</p>
+                      <p className="text-gray-400 text-sm">סה&quot;כ השקעה</p>
                       <p className="text-2xl font-bold text-white">$75K</p>
                     </div>
                     <DollarSign className="w-8 h-8 text-green-400" />
@@ -464,7 +436,7 @@ export default function LaunchStrategy() {
                         <span className="text-white">{formatNumber(influencer.followers)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">אנגייג'מנט:</span>
+                        <span className="text-gray-400">אנגייג&apos;מנט:</span>
                         <span className="text-white">{influencer.engagement}%</span>
                       </div>
                       <div className="flex justify-between">

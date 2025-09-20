@@ -21,8 +21,6 @@ import {
   Save,
   Key,
   Mail,
-  Smartphone,
-  Lock,
   Trash2,
   Download,
   Upload,
@@ -214,7 +212,7 @@ export function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="font-medium text-gray-900 dark:text-white">התראות אימייל</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">קבל התראות בדוא"ל</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">קבל התראות בדוא&quot;ל</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer" htmlFor="email-notifications" aria-label="Toggle email notifications">
                   <input

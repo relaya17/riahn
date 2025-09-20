@@ -152,7 +152,7 @@ export default function LessonDetailPage() {
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Lesson not found</h2>
-          <p className="text-gray-600 mb-4">The lesson you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-4">The lesson you&apos;re looking for doesn&apos;t exist.</p>
           <Button onClick={() => router.back()}>Go Back</Button>
         </div>
       </div>

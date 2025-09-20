@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo } from 'react'
 
 interface VirtualListProps<T> {
   items: T[]
@@ -35,6 +35,10 @@ export function VirtualList<T>({
 
   const totalHeight = items.length * itemHeight
   const offsetY = Math.floor(scrollTop / itemHeight) * itemHeight
+  
+  // Suppress unused variable warnings (used in JSX)
+  void totalHeight
+  void offsetY
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setScrollTop(e.currentTarget.scrollTop)

@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
         // 5. Invalidate all existing sessions
 
         // Simulate password change
-        const hashedNewPassword = await PasswordSecurity.hashPassword(newPassword)
+        await PasswordSecurity.hashPassword(newPassword)
 
         SecurityAudit.logSecurityEvent('PASSWORD_CHANGED', {
             ip: clientIP,

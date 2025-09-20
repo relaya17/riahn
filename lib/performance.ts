@@ -3,7 +3,7 @@ import React from 'react'
 
 export class PerformanceOptimizer {
     private static instance: PerformanceOptimizer
-    private cache = new Map<string, any>()
+    private cache = new Map<string, { data: unknown; timestamp: number }>()
     private debounceTimers = new Map<string, NodeJS.Timeout>()
 
     static getInstance(): PerformanceOptimizer {
@@ -47,7 +47,7 @@ export class PerformanceOptimizer {
     }
 
     // Debounce function calls
-    debounce<T extends (...args: any[]) => any>(
+    debounce<T extends (...args: unknown[]) => unknown>(
         key: string,
         func: T,
         delay: number
@@ -68,7 +68,7 @@ export class PerformanceOptimizer {
     }
 
     // Throttle function calls
-    throttle<T extends (...args: any[]) => any>(
+    throttle<T extends (...args: unknown[]) => unknown>(
         key: string,
         func: T,
         limit: number
@@ -87,7 +87,7 @@ export class PerformanceOptimizer {
     cacheResult<T>(key: string, factory: () => T, ttl = 300000): T { // 5 minutes default
         const cached = this.cache.get(key)
         if (cached && Date.now() - cached.timestamp < ttl) {
-            return cached.data
+            return cached.data as T
         }
 
         const result = factory()
@@ -114,7 +114,7 @@ export class PerformanceOptimizer {
     }
 
     // Bundle splitting for code
-    static async loadComponent(componentPath: string): Promise<any> {
+    static async loadComponent(componentPath: string): Promise<React.ComponentType<unknown> | null> {
         try {
             const module = await import(/* webpackChunkName: "[request]" */ `@/components/${componentPath}`)
             return module.default
@@ -192,9 +192,9 @@ export class PerformanceOptimizer {
     }
 
     // Memory usage monitoring
-    static getMemoryUsage(): any {
+    static getMemoryUsage(): { usedJSHeapSize: number; totalJSHeapSize: number; jsHeapSizeLimit: number } | null {
         if ('memory' in performance) {
-            return (performance as any).memory
+            return (performance as { memory: { usedJSHeapSize: number; totalJSHeapSize: number; jsHeapSizeLimit: number } }).memory
         }
         return null
     }
@@ -212,7 +212,7 @@ export class PerformanceOptimizer {
         new PerformanceObserver((list) => {
             const entries = list.getEntries()
             entries.forEach((entry) => {
-                const fidEntry = entry as any
+                const fidEntry = entry as PerformanceEventTiming
                 console.log('FID:', fidEntry.processingStart - fidEntry.startTime)
             })
         }).observe({ entryTypes: ['first-input'] })
@@ -222,8 +222,9 @@ export class PerformanceOptimizer {
         new PerformanceObserver((list) => {
             const entries = list.getEntries()
             entries.forEach((entry) => {
-                if (!(entry as any).hadRecentInput) {
-                    clsValue += (entry as any).value
+                const layoutShiftEntry = entry as unknown as { hadRecentInput?: boolean; value: number }
+                if (!layoutShiftEntry.hadRecentInput) {
+                    clsValue += layoutShiftEntry.value
                 }
             })
             console.log('CLS:', clsValue)
@@ -234,12 +235,12 @@ export class PerformanceOptimizer {
 // React-specific optimizations
 export const ReactOptimizations = {
     // Memo wrapper for expensive components
-    memo: <T extends React.ComponentType<any>>(Component: T) => {
+    memo: <T extends React.ComponentType<unknown>>(Component: T) => {
         return React.memo(Component)
     },
 
     // Virtual scrolling for large lists
-    createVirtualList: (items: any[], itemHeight: number, containerHeight: number) => {
+    createVirtualList: (items: unknown[], itemHeight: number, containerHeight: number) => {
         const visibleCount = Math.ceil(containerHeight / itemHeight)
         const totalHeight = items.length * itemHeight
 
@@ -282,7 +283,7 @@ export const ReactOptimizations = {
 // SEO optimizations
 export const SEOOptimizer = {
     // Generate structured data
-    generateStructuredData: (data: any) => {
+    generateStructuredData: (data: Record<string, unknown>) => {
         return {
             '@context': 'https://schema.org',
             '@type': 'WebApplication',
@@ -347,9 +348,9 @@ ${routes.map(route => `
 // Analytics and A/B Testing
 export const AnalyticsManager = {
     // Track events
-    track: (event: string, properties?: Record<string, any>) => {
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-            (window as any).gtag('event', event, properties)
+    track: (event: string, properties?: Record<string, unknown>) => {
+        if (typeof window !== 'undefined' && (window as unknown as { gtag?: (command: string, event: string, properties?: Record<string, unknown>) => void }).gtag) {
+            (window as unknown as { gtag: (command: string, event: string, properties?: Record<string, unknown>) => void }).gtag('event', event, properties)
         }
     },
 

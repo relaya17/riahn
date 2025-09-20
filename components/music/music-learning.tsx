@@ -237,7 +237,7 @@ export function MusicLearning() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'karaoke' | 'rhythm')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 ${
               activeTab === tab.id
                 ? 'bg-pink-600 text-white shadow-lg'
@@ -262,12 +262,12 @@ export function MusicLearning() {
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                 aria-label="בחר ז'אנר מוזיקה"
               >
-                <option value="all">כל הז'אנרים</option>
+                <option value="all">כל הז&apos;אנרים</option>
                 <option value="מסורתי">מסורתי</option>
                 <option value="שאנסון">שאנסון</option>
                 <option value="פופ">פופ</option>
                 <option value="רוק">רוק</option>
-                <option value="ג'אז">ג'אז</option>
+                <option value="ג&apos;אז">ג&apos;אז</option>
               </select>
               
               <select
@@ -429,7 +429,7 @@ export function MusicLearning() {
               <div className="text-center py-12">
                 <Music className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-600 mb-2">בחר שיר לקריוקי</h3>
-                <p className="text-gray-500">עבור לטאב "שירים" ובחר שיר להתחיל קריוקי</p>
+                <p className="text-gray-500">עבור לטאב &quot;שירים&quot; ובחר שיר להתחיל קריוקי</p>
               </div>
             )}
           </div>

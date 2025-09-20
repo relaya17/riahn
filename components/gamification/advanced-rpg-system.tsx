@@ -1,10 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Sword, Shield, Star, Crown, Zap, Heart, Trophy, Award, Target, Users, Map, BookOpen, Gem, Flame, Wind } from 'lucide-react'
+import { Sword, Shield, Star, Crown, Zap, Heart, Trophy, Target, Users, Map, BookOpen, Gem, Flame } from 'lucide-react'
 
-// Helper function for progress bar width
-const getProgressWidth = (percentage: number) => ({ width: `${percentage}%` })
+// Helper function for progress bar width - inline styles are used directly
 
 interface Player {
   id: string
@@ -34,7 +33,7 @@ interface PlayerClass {
   id: string
   name: string
   description: string
-  icon: React.ComponentType<any>
+  icon: React.ComponentType<{ className?: string }>
   color: string
   bonuses: {
     strength: number
@@ -53,7 +52,7 @@ interface Skill {
   experience: number
   category: 'combat' | 'magic' | 'social' | 'crafting'
   description: string
-  icon: React.ComponentType<any>
+  icon: React.ComponentType<{ className?: string }>
 }
 
 interface Item {
@@ -70,7 +69,7 @@ interface Item {
     mana?: number
   }
   description: string
-  icon: React.ComponentType<any>
+  icon: React.ComponentType<{ className?: string }>
   value: number
 }
 
@@ -78,7 +77,7 @@ interface Achievement {
   id: string
   name: string
   description: string
-  icon: React.ComponentType<any>
+  icon: React.ComponentType<{ className?: string }>
   rarity: 'bronze' | 'silver' | 'gold' | 'platinum'
   points: number
   unlockedAt: Date
@@ -113,7 +112,6 @@ interface QuestObjective {
 export function AdvancedRPGSystem() {
   const [player, setPlayer] = useState<Player | null>(null)
   const [activeTab, setActiveTab] = useState<'character' | 'quests' | 'skills' | 'inventory' | 'achievements'>('character')
-  const [selectedQuest, setSelectedQuest] = useState<Quest | null>(null)
   const [showClassSelection, setShowClassSelection] = useState(false)
 
   const playerClasses: PlayerClass[] = [
@@ -432,8 +430,8 @@ export function AdvancedRPGSystem() {
             <div className="text-lg font-bold text-blue-600">{player.experience}/{player.experienceToNext}</div>
             <div className="w-32 bg-gray-200 rounded-full h-2 mt-1">
               <div 
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                style={getProgressWidth((player.experience / player.experienceToNext) * 100)}
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300 rpg-experience-progress"
+                style={{'--progress-width': `${(player.experience / player.experienceToNext) * 100}%`} as React.CSSProperties & { '--progress-width': string }}
               ></div>
             </div>
           </div>
@@ -474,7 +472,7 @@ export function AdvancedRPGSystem() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'character' | 'quests' | 'skills' | 'inventory' | 'achievements')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 ${
               activeTab === tab.id
                 ? 'bg-yellow-600 text-white shadow-lg'
@@ -534,7 +532,7 @@ export function AdvancedRPGSystem() {
               <div
                 key={quest.id}
                 className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer"
-                onClick={() => setSelectedQuest(quest)}
+                onClick={() => console.log('Quest selected:', quest)}
               >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-bold text-gray-800">{quest.title}</h3>
@@ -556,8 +554,8 @@ export function AdvancedRPGSystem() {
                 
                 <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
                   <div 
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={getProgressWidth((quest.progress / quest.maxProgress) * 100)}
+                    className="bg-blue-600 h-2 rounded-full transition-all duration-300 rpg-quest-progress"
+                    style={{'--quest-progress': `${(quest.progress / quest.maxProgress) * 100}%`} as React.CSSProperties & { '--quest-progress': string }}
                   ></div>
                 </div>
                 
@@ -606,8 +604,8 @@ export function AdvancedRPGSystem() {
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                      style={getProgressWidth((skill.experience / (skill.level * 100)) * 100)}
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300 rpg-skill-progress"
+                      style={{'--skill-progress': `${(skill.experience / (skill.level * 100)) * 100}%`} as React.CSSProperties & { '--skill-progress': string }}
                     ></div>
                   </div>
                 </div>

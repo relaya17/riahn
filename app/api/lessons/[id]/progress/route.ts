@@ -83,10 +83,10 @@ export async function PUT(
             },
             message: 'Progress updated successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to update progress',
+            error: (error as Error).message || 'Failed to update progress',
         }, { status: 500 })
     }
 }

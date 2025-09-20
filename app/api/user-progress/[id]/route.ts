@@ -23,10 +23,10 @@ export async function GET(
             data: userProgress,
             message: 'User progress retrieved successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to get user progress',
+            error: (error as Error).message || 'Failed to get user progress',
         }, { status: 500 })
     }
 }
@@ -64,10 +64,10 @@ export async function PUT(
             data: userProgress,
             message: 'User progress updated successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to update user progress',
+            error: (error as Error).message || 'Failed to update user progress',
         }, { status: 500 })
     }
 }
@@ -92,10 +92,10 @@ export async function DELETE(
             data: userProgress,
             message: 'User progress deleted successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to delete user progress',
+            error: (error as Error).message || 'Failed to delete user progress',
         }, { status: 500 })
     }
 }

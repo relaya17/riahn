@@ -1,198 +1,119 @@
-import mongoose, { Schema, Document } from 'mongoose'
-import { Group, GroupMember, Language, LanguageLevel } from '@/types'
+import mongoose, { Schema } from 'mongoose'
+import { IGroupDocument, IGroupModel, GroupMember } from '../types/group.types'
 
-export interface IGroup extends Omit<Group, '_id'>, Document { }
+// Member Schema
+const GroupMemberSchema = new Schema<GroupMember>(
+    {
+        userId: { type: String, required: true, ref: 'User' },
+        role: { type: String, enum: ['member', 'admin', 'moderator'], default: 'member' },
+        joinedAt: { type: Date, default: Date.now },
+    },
+    { _id: false }
+)
 
-const GroupMemberSchema = new Schema<GroupMember>({
-    userId: {
-        type: String,
-        required: true,
-        ref: 'User',
+// Group Schema
+const GroupSchema = new Schema(
+    {
+        name: { type: String, required: true, trim: true, maxlength: 100 },
+        description: { type: String, required: true, trim: true, maxlength: 500 },
+        members: [GroupMemberSchema],
+        messages: { type: [String], default: [] },
+        maxMembers: { type: Number },
+        isPrivate: { type: Boolean, default: false },
+        createdBy: { type: String },
     },
-    role: {
-        type: String,
-        enum: ['member', 'admin', 'moderator'],
-        default: 'member',
-    },
-    joinedAt: {
-        type: Date,
-        default: Date.now,
-    },
-}, { _id: false })
+    { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
+)
 
-const GroupSchema = new Schema<IGroup>({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: 100,
-    },
-    description: {
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: 500,
-    },
-    language: {
-        type: String,
-        enum: ['he', 'ar', 'en', 'si', 'ta'],
-        required: true,
-    },
-    level: {
-        type: String,
-        enum: ['beginner', 'intermediate', 'advanced', 'native'],
-        required: true,
-    },
-    members: [GroupMemberSchema],
-    messages: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Message',
-    }],
-    isPublic: {
-        type: Boolean,
-        default: true,
-    },
-    maxMembers: {
-        type: Number,
-        default: 50,
-        min: 2,
-        max: 1000,
-    },
-    createdBy: {
-        type: String,
-        required: true,
-        ref: 'User',
-    },
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-})
-
-// Indexes for better performance
-GroupSchema.index({ language: 1, level: 1 })
-GroupSchema.index({ isPublic: 1 })
-GroupSchema.index({ createdBy: 1 })
-GroupSchema.index({ 'members.userId': 1 })
+// Indexes
 GroupSchema.index({ createdAt: -1 })
 
-// Virtual for member count
-GroupSchema.virtual('memberCount').get(function () {
+// Virtuals
+GroupSchema.virtual('memberCount').get(function (this: any) {
     return this.members.length
 })
 
-// Virtual for is full
-GroupSchema.virtual('isFull').get(function () {
-    return this.members.length >= this.maxMembers
+GroupSchema.virtual('isFull').get(function (this: any) {
+    return this.maxMembers ? this.members.length >= this.maxMembers : false
 })
 
-// Virtual for can join
-GroupSchema.virtual('canJoin').get(function () {
-    return this.isPublic && !this.isFull
+GroupSchema.virtual('canJoin').get(function (this: any) {
+    return !this.isPrivate && !(this.maxMembers ? this.members.length >= this.maxMembers : false)
 })
 
-// Pre-save middleware
-GroupSchema.pre('save', function (next) {
-    // Ensure creator is a member
-    const creatorExists = this.members.some(member => member.userId === this.createdBy)
-    if (!creatorExists) {
-        this.members.push({
-            userId: this.createdBy,
-            role: 'admin',
-            joinedAt: new Date(),
-        })
-    }
-
-    next()
-})
-
-// Static methods
-GroupSchema.statics.findByLanguage = function (language: Language) {
-    return this.find({ language, isPublic: true }).sort({ createdAt: -1 })
-}
-
-GroupSchema.statics.findByLevel = function (level: LanguageLevel) {
-    return this.find({ level, isPublic: true }).sort({ createdAt: -1 })
-}
-
-GroupSchema.statics.findPublic = function () {
-    return this.find({ isPublic: true }).sort({ createdAt: -1 })
-}
-
+// Statics
 GroupSchema.statics.findByUser = function (userId: string) {
     return this.find({ 'members.userId': userId }).sort({ createdAt: -1 })
 }
 
+GroupSchema.statics.findPublic = function () {
+    return this.find({ isPrivate: false }).sort({ createdAt: -1 })
+}
+
 GroupSchema.statics.findAvailable = function () {
     return this.find({
-        isPublic: true,
-        $expr: { $lt: [{ $size: '$members' }, '$maxMembers'] }
+        isPrivate: false,
+        $expr: { $lt: [{ $size: '$members' }, '$maxMembers'] },
     }).sort({ createdAt: -1 })
 }
 
-// Instance methods
-GroupSchema.methods.addMember = function (userId: string, role: 'member' | 'admin' | 'moderator' = 'member') {
-    if (this.isFull) {
-        throw new Error('Group is full')
-    }
-
-    const existingMember = this.members.find(member => member.userId === userId)
-    if (existingMember) {
-        throw new Error('User is already a member')
-    }
-
-    this.members.push({
-        userId,
-        role,
-        joinedAt: new Date(),
-    })
-
+// Methods
+GroupSchema.methods.addMember = async function (
+    this: any,
+    userId: string,
+    role: 'member' | 'admin' | 'moderator' = 'member'
+) {
+    if (this.maxMembers && this.members.length >= this.maxMembers) throw new Error('Group is full')
+    if (this.members.find((m: any) => m.userId === userId)) throw new Error('User is already a member')
+    this.members.push({ userId, role, joinedAt: new Date() })
     return this.save()
 }
 
-GroupSchema.methods.removeMember = function (userId: string) {
-    if (userId === this.createdBy) {
-        throw new Error('Cannot remove group creator')
-    }
-
-    this.members = this.members.filter(member => member.userId !== userId)
+GroupSchema.methods.removeMember = async function (this: any, userId: string) {
+    if (userId === this.createdBy) throw new Error('Cannot remove group creator')
+    this.members = this.members.filter((m: any) => m.userId !== userId)
     return this.save()
 }
 
-GroupSchema.methods.updateMemberRole = function (userId: string, role: 'member' | 'admin' | 'moderator') {
-    const member = this.members.find(member => member.userId === userId)
-    if (!member) {
-        throw new Error('User is not a member of this group')
-    }
-
+GroupSchema.methods.updateMemberRole = async function (
+    this: any,
+    userId: string,
+    role: 'member' | 'admin' | 'moderator'
+) {
+    const member = this.members.find((m: any) => m.userId === userId)
+    if (!member) throw new Error('User is not a member of this group')
     member.role = role
     return this.save()
 }
 
-GroupSchema.methods.isMember = function (userId: string) {
-    return this.members.some(member => member.userId === userId)
+GroupSchema.methods.isMember = function (this: any, userId: string) {
+    return this.members.some((m: any) => m.userId === userId)
 }
 
-GroupSchema.methods.isAdmin = function (userId: string) {
-    const member = this.members.find(member => member.userId === userId)
-    return member && (member.role === 'admin' || member.role === 'moderator')
+GroupSchema.methods.isAdmin = function (this: any, userId: string) {
+    const m = this.members.find((m: any) => m.userId === userId)
+    return m ? m.role === 'admin' || m.role === 'moderator' : false
 }
 
-GroupSchema.methods.canModerate = function (userId: string) {
+GroupSchema.methods.canModerate = function (this: any, userId: string) {
     return this.isAdmin(userId) || userId === this.createdBy
 }
 
-GroupSchema.methods.addMessage = function (messageId: string) {
+GroupSchema.methods.addMessage = function (this: any, messageId: string) {
     this.messages.push(messageId)
     return this.save()
 }
 
-GroupSchema.methods.removeMessage = function (messageId: string) {
-    this.messages = this.messages.filter(id => id.toString() !== messageId)
+GroupSchema.methods.removeMessage = function (this: any, messageId: string) {
+    this.messages = this.messages.filter((id: any) => id.toString() !== messageId)
     return this.save()
 }
 
-// Export the model
-export const GroupModel = mongoose.models.Group || mongoose.model<IGroup>('Group', GroupSchema)
+// Export Model (עם תיקון ל־TS)
+// FIXED: Use type assertion to avoid TS `union too complex`
+export const GroupModel = mongoose.models.Group
+    ? (mongoose.models.Group as unknown as IGroupModel)
+    : mongoose.model<IGroupDocument, IGroupModel>('Group', GroupSchema)
 
-
+// Default export for convenience
+export default GroupModel

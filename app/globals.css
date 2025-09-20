@@ -9,7 +9,7 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --background-start-rgb: 240, 248, 255;
   --background-end-rgb: 255, 255, 255;
 }
 
@@ -145,7 +145,7 @@ a {
 }
 
 .keyboard-navigation *:focus {
-  outline: 3px solid #3b82f6 !important;
+  outline: 3px solid #10b981 !important;
   outline-offset: 2px !important;
   border-radius: 4px;
 }
@@ -177,7 +177,7 @@ a {
 
 /* Focus Visible */
 .focus-visible:focus {
-  outline: 3px solid #3b82f6;
+  outline: 3px solid #10b981;
   outline-offset: 2px;
 }
 
@@ -226,7 +226,7 @@ a {
 [data-progress="100"] { width: 100%; }
 
 .gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

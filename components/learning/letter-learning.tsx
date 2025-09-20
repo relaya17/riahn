@@ -1,35 +1,27 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useLanguage } from '@/components/providers'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { 
+  Volume2, 
+  ChevronLeft, 
+  ChevronRight, 
+  Mic, 
+  Award,
+  Star,
+  Target,
+  Settings,
+  VolumeX,
+  Play,
+  Speaker
+} from 'lucide-react'
 
 interface LetterLearningProps {
   language: string
   difficulty: 'beginner' | 'intermediate' | 'advanced'
 }
-import { useLanguage } from '@/components/providers'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Select } from '@/components/ui/select'
-import { 
-  Volume2, 
-  Play, 
-  Pause, 
-  RotateCcw, 
-  ChevronLeft, 
-  ChevronRight, 
-  BookOpen, 
-  Mic, 
-  MicOff,
-  Award,
-  Star,
-  Target,
-  Clock,
-  Users,
-  Settings,
-  Headphones,
-  Speaker,
-  VolumeX
-} from 'lucide-react'
 
 interface Letter {
   id: string
@@ -67,7 +59,9 @@ interface LearningProgress {
 }
 
 export function LetterLearning({ language, difficulty }: LetterLearningProps) {
-  const { t, currentLanguage } = useLanguage()
+  // Use language and difficulty props for filtering if needed
+  console.log('Language:', language, 'Difficulty:', difficulty);
+  const { t } = useLanguage()
   const [currentLetter, setCurrentLetter] = useState<Letter | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -80,8 +74,7 @@ export function LetterLearning({ language, difficulty }: LetterLearningProps) {
   const [playbackSpeed, setPlaybackSpeed] = useState(1.0)
   const [showSettings, setShowSettings] = useState(false)
   
-  const audioRef = useRef<HTMLAudioElement>(null)
-  const recognitionRef = useRef<any>(null)
+  const recognitionRef = useRef<{ lang: string; continuous: boolean; interimResults: boolean; onstart: () => void; onresult: (event: { results: { [key: number]: { [key: number]: { transcript: string } } } }) => void; onerror: () => void; onend: () => void; start: () => void } | null>(null)
 
   // Demo letters data
   const letters: Letter[] = [
@@ -269,8 +262,8 @@ export function LetterLearning({ language, difficulty }: LetterLearningProps) {
 
   const startListening = () => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-      recognitionRef.current = new SpeechRecognition()
+      const SpeechRecognition = (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown }).SpeechRecognition || (window as unknown as { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown }).webkitSpeechRecognition
+      recognitionRef.current = new (SpeechRecognition as new () => { lang: string; continuous: boolean; interimResults: boolean; onstart: () => void; onresult: (event: { results: { [key: number]: { [key: number]: { transcript: string } } } }) => void; onerror: () => void; onend: () => void; start: () => void })()
       
       recognitionRef.current.lang = 'he-IL'
       recognitionRef.current.continuous = false
@@ -280,7 +273,7 @@ export function LetterLearning({ language, difficulty }: LetterLearningProps) {
         setIsListening(true)
       }
       
-      recognitionRef.current.onresult = (event: any) => {
+      recognitionRef.current.onresult = (event: { results: { [key: number]: { [key: number]: { transcript: string } } } }) => {
         const transcript = event.results[0][0].transcript
         checkPronunciation(transcript)
         setIsListening(false)

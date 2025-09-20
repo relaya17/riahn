@@ -18,8 +18,8 @@ export type DashboardPage = 'home' | 'lessons' | 'connect' | 'learning-chat' | '
 export function DashboardLayout() {
   const [currentPage, setCurrentPage] = useState<DashboardPage>('home')
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { user } = useAuth()
-  const { isRTL } = useLanguage()
+  // const auth = useAuth() // Not currently used
+  // const language = useLanguage() // Not currently used
 
   const renderPage = () => {
     switch (currentPage) {

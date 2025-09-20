@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/components/providers'
 import { 
@@ -52,7 +52,7 @@ export function LetterPractice({ language, difficulty }: LetterPracticeProps) {
   const [currentAttempt, setCurrentAttempt] = useState(0)
   const [showFeedback, setShowFeedback] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  // const canvasRef = useRef<HTMLCanvasElement>(null) // Not currently used
 
   // Generate letters based on language and difficulty
   const generateLetters = () => {
@@ -505,7 +505,7 @@ export function LetterPractice({ language, difficulty }: LetterPracticeProps) {
   }
 
   const currentLetter = letters[currentLetterIndex]
-  const currentResult = results.find(r => r.letter === currentLetter.letter)
+  // const currentResult = results.find(r => r.letter === currentLetter.letter) // Not currently used
 
   return (
     <div className="space-y-6">

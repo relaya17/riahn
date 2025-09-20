@@ -52,10 +52,10 @@ export async function POST(
             data: group,
             message: 'User added to group successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to add user to group',
+            error: (error as Error).message || 'Failed to add user to group',
         }, { status: 500 })
     }
 }
@@ -117,10 +117,10 @@ export async function DELETE(
             data: group,
             message: 'User removed from group successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to remove user from group',
+            error: (error as Error).message || 'Failed to remove user from group',
         }, { status: 500 })
     }
 }

@@ -34,7 +34,7 @@ export function ChatInterface({
 }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState('')
-  const [isTyping, setIsTyping] = useState(false)
+  const [isTyping] = useState(false)
   const [showTranslator, setShowTranslator] = useState(false)
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)

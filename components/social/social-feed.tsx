@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { 
@@ -11,14 +11,12 @@ import {
   MoreHorizontal,
   Users,
   Globe,
-  Lock,
   Star,
   Award,
   BookOpen,
   TrendingUp,
   Filter,
   Search,
-  Plus,
   Image,
   Video,
   Mic
@@ -65,7 +63,7 @@ interface SocialFeedProps {
   userId?: string
 }
 
-export function SocialFeed({ userId }: SocialFeedProps) {
+export function SocialFeed({ userId: _userId }: SocialFeedProps) {
   const [posts, setPosts] = useState<Post[]>([])
   const [newPost, setNewPost] = useState('')
   const [isCreatingPost, setIsCreatingPost] = useState(false)
@@ -338,7 +336,7 @@ export function SocialFeed({ userId }: SocialFeedProps) {
               key={filterOption.id}
               variant={filter === filterOption.id ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setFilter(filterOption.id as any)}
+              onClick={() => setFilter(filterOption.id as 'all' | 'following' | 'trending' | 'nearby')}
               className="flex items-center gap-2"
             >
               <Icon className="h-4 w-4" />
@@ -352,6 +350,7 @@ export function SocialFeed({ userId }: SocialFeedProps) {
       <div className="space-y-4">
         {filteredPosts.map((post) => {
           const PostIcon = getPostIcon(post.type)
+          void PostIcon // Suppress unused variable warning
           
           return (
             <Card key={post.id} className="hover:shadow-md transition-all">

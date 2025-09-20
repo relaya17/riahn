@@ -35,10 +35,10 @@ export async function GET(
             },
             message: 'Translation retrieved successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to get translation',
+            error: (error as Error).message || 'Failed to get translation',
         }, { status: 500 })
     }
 }
@@ -90,10 +90,10 @@ export async function PUT(
             },
             message: 'Translation updated successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to update translation',
+            error: (error as Error).message || 'Failed to update translation',
         }, { status: 500 })
     }
 }
@@ -133,10 +133,10 @@ export async function DELETE(
             },
             message: 'Translation deleted successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to delete translation',
+            error: (error as Error).message || 'Failed to delete translation',
         }, { status: 500 })
     }
 }

@@ -17,8 +17,8 @@ interface AdvancedFeature {
   id: string
   title: string
   description: string
-  icon: React.ComponentType<any>
-  component: React.ComponentType<any>
+  icon: React.ComponentType<{ className?: string }>
+  component: React.ComponentType<unknown>
   color: string
   gradient: string
   isNew: boolean

@@ -7,18 +7,17 @@ import { RegisterForm } from './register-form'
 import { ForgotPasswordForm } from './forgot-password-form'
 import { LanguageSelector } from './language-selector'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Globe, Users, BookOpen, MessageCircle } from 'lucide-react'
 
 type AuthMode = 'login' | 'register' | 'forgot-password'
 
 export function AuthScreen() {
   const [mode, setMode] = useState<AuthMode>('login')
-  const { t, isRTL } = useLanguage()
+  const { t } = useLanguage()
 
   const features = [
     {
-      icon: <BookOpen className="h-8 w-8 text-blue-500" />,
+      icon: <BookOpen className="h-8 w-8 text-emerald-500" />,
       title: t('auth.features.lessons'),
       description: t('auth.features.lessonsDesc'),
     },
@@ -28,7 +27,7 @@ export function AuthScreen() {
       description: t('auth.features.connectDesc'),
     },
     {
-      icon: <MessageCircle className="h-8 w-8 text-purple-500" />,
+      icon: <MessageCircle className="h-8 w-8 text-emerald-500" />,
       title: t('auth.features.chat'),
       description: t('auth.features.chatDesc'),
     },
@@ -45,12 +44,12 @@ export function AuthScreen() {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
       
       {/* Content */}
-      <div className="relative z-10 min-h-screen bg-gradient-to-br from-blue-50/90 via-white/90 to-purple-50/90 dark:from-gray-900/90 dark:via-gray-800/90 dark:to-gray-900/90">
+      <div className="relative z-10 min-h-screen bg-gradient-to-br from-emerald-50/90 via-white/90 to-teal-50/90 dark:from-gray-900/90 dark:via-gray-800/90 dark:to-gray-900/90">
       {/* Header */}
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3 space-x-reverse">
-            <div className="h-10 w-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="h-10 w-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
               <Globe className="h-6 w-6 text-white" />
             </div>
             <div>

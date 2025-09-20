@@ -244,7 +244,7 @@ export function NotificationCenter({ isOpen, onClose }: NotificationCenterProps)
                   key={filterOption.id}
                   variant={filter === filterOption.id ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => setFilter(filterOption.id as any)}
+                  onClick={() => setFilter(filterOption.id as 'all' | 'unread' | 'high')}
                   className="relative"
                 >
                   {filterOption.label}

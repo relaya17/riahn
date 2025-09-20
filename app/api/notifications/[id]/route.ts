@@ -32,10 +32,10 @@ export async function PUT(
             data: notification,
             message: 'Notification updated successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to update notification',
+            error: (error as Error).message || 'Failed to update notification',
         }, { status: 500 })
     }
 }
@@ -60,10 +60,10 @@ export async function DELETE(
             data: notification,
             message: 'Notification deleted successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to delete notification',
+            error: (error as Error).message || 'Failed to delete notification',
         }, { status: 500 })
     }
 }

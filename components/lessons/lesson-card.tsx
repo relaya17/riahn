@@ -9,7 +9,6 @@ import {
   Star, 
   BookOpen, 
   CheckCircle,
-  Lock,
   Heart,
   Share
 } from 'lucide-react'

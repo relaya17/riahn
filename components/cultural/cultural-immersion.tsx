@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { Globe, MapPin, Users, Calendar, Camera, Mic, Play, Pause, Volume2, Heart, Star, Share2, MessageCircle } from 'lucide-react'
+import React, { useState } from 'react'
+import { Globe, MapPin, Users, Calendar, Star, Clock } from 'lucide-react'
 
 interface CulturalEvent {
   id: string
@@ -52,11 +52,6 @@ interface NativeSpeaker {
 export function CulturalImmersion() {
   const [activeTab, setActiveTab] = useState<'events' | 'tours' | 'speakers'>('events')
   const [selectedEvent, setSelectedEvent] = useState<CulturalEvent | null>(null)
-  const [selectedTour, setSelectedTour] = useState<VirtualTour | null>(null)
-  const [selectedSpeaker, setSelectedSpeaker] = useState<NativeSpeaker | null>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
 
   const culturalEvents: CulturalEvent[] = [
     {
@@ -229,7 +224,7 @@ export function CulturalImmersion() {
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as 'events' | 'tours' | 'speakers')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-xl transition-all duration-300 ${
               activeTab === tab.id
                 ? 'bg-green-600 text-white shadow-lg'

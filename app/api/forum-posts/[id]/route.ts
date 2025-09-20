@@ -30,10 +30,10 @@ export async function GET(
             data: post,
             message: 'Forum post retrieved successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to get forum post',
+            error: error instanceof Error ? error.message : 'Failed to get forum post',
         }, { status: 500 })
     }
 }
@@ -74,10 +74,10 @@ export async function PUT(
             data: post,
             message: 'Forum post updated successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to update forum post',
+            error: error instanceof Error ? error.message : 'Failed to update forum post',
         }, { status: 500 })
     }
 }
@@ -102,10 +102,10 @@ export async function DELETE(
             data: post,
             message: 'Forum post deleted successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to delete forum post',
+            error: error instanceof Error ? error.message : 'Failed to delete forum post',
         }, { status: 500 })
     }
 }

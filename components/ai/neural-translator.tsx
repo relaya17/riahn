@@ -273,7 +273,7 @@ export function NeuralTranslator() {
             <Button
               key={mode.id}
               variant={selectedMode === mode.id ? 'default' : 'outline'}
-              onClick={() => setSelectedMode(mode.id as any)}
+              onClick={() => setSelectedMode(mode.id as 'real-time' | 'batch' | 'context' | 'voice')}
               className="flex items-center gap-2"
             >
               <Icon className="h-4 w-4" />

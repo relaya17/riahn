@@ -10,20 +10,12 @@ import {
   Share,
   CheckCircle,
   Clock,
-  Globe,
   Lock,
   Eye,
   Copy,
-  QrCode,
-  Star,
-  TrendingUp,
-  Users,
   BookOpen,
   Zap,
-  Link,
   FileText,
-  Image,
-  Send,
   Verified
 } from 'lucide-react'
 
@@ -184,7 +176,7 @@ export function CertificateSystem() {
     }, 3000)
   }
 
-  const verifyCertificate = async (certificateId: string) => {
+  const verifyCertificate = async () => {
     // Simulate verification
     setTimeout(() => {
       setVerificationResult({
@@ -252,7 +244,7 @@ export function CertificateSystem() {
             </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                מערכת תעודות בלוקצ'יין
+                מערכת תעודות בלוקצ&apos;יין
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
                 תעודות מאובטחות, מאומתות ובלתי ניתנות לזיוף
@@ -271,7 +263,7 @@ export function CertificateSystem() {
                 {blockchainStats.totalCertificates.toLocaleString()}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
-                תעודות סה"כ
+                תעודות סה&quot;כ
               </div>
             </CardContent>
           </Card>
@@ -291,7 +283,7 @@ export function CertificateSystem() {
                 ${blockchainStats.totalValue.toLocaleString()}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
-                ערך סה"כ
+                ערך סה&quot;כ
               </div>
             </CardContent>
           </Card>
@@ -425,7 +417,7 @@ export function CertificateSystem() {
                 <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                   <h4 className="font-medium text-gray-900 dark:text-white mb-2 flex items-center gap-2">
                     <Lock className="h-4 w-4" />
-                    מידע בלוקצ'יין
+                    מידע בלוקצ&apos;יין
                   </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center justify-between">
@@ -480,7 +472,7 @@ export function CertificateSystem() {
                 {/* Actions */}
                 <div className="flex gap-2">
                   <Button
-                    onClick={() => verifyCertificate(selectedCertificate.id)}
+                    onClick={() => verifyCertificate()}
                     className="flex-1"
                   >
                     <CheckCircle className="h-4 w-4 mr-2" />
@@ -545,7 +537,7 @@ export function CertificateSystem() {
                 מוכן לתעודה הבאה?
               </h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                השלם קורס כדי לקבל תעודה מאובטחת בבלוקצ'יין
+                השלם קורס כדי לקבל תעודה מאובטחת בבלוקצ&apos;יין
               </p>
             </div>
             <Button

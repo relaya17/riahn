@@ -35,8 +35,9 @@ export function ForumReply({
     onLike?.(reply._id)
   }
 
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString('he-IL', {
+  const formatDate = (date: Date | undefined) => {
+    const actualDate = date || new Date()
+    return new Date(actualDate).toLocaleDateString('he-IL', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -84,7 +85,7 @@ export function ForumReply({
               className={`flex items-center gap-1 text-sm ${isLiked ? 'text-blue-600' : 'text-gray-500'}`}
             >
               <ThumbsUp className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
-              <span>{reply.likes + (isLiked ? 1 : 0)}</span>
+              <span>{reply.likes.length + (isLiked ? 1 : 0)}</span>
             </Button>
 
             <Button

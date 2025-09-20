@@ -59,10 +59,10 @@ export async function POST(
             },
             message: 'Translation added successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to add translation',
+            error: (error as Error).message || 'Failed to add translation',
         }, { status: 500 })
     }
 }

@@ -1,80 +1,84 @@
-import mongoose, { Schema, Document } from 'mongoose'
-import { Notification, NotificationType } from '@/types'
+import mongoose, { Schema, Document, Model } from 'mongoose'
 
-export interface INotification extends Omit<Notification, '_id'>, Document { }
+// ----------------- Interfaces -----------------
+export interface INotification {
+    userId: string
+    type: 'lesson_completed' | 'new_message' | 'forum_reply' | 'achievement_unlocked' | 'friend_request' | 'group_invite'
+    title: string
+    message: string
+    data?: Record<string, unknown>
+    isRead: boolean
+    createdAt?: Date
+    updatedAt?: Date
 
-const NotificationSchema = new Schema<INotification>({
-    userId: {
-        type: String,
-        required: true,
-        ref: 'User',
-    },
-    type: {
-        type: String,
-        enum: ['lesson_completed', 'new_message', 'forum_reply', 'achievement_unlocked', 'friend_request', 'group_invite'],
-        required: true,
-    },
-    title: {
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: 200,
-    },
-    message: {
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: 500,
-    },
-    data: {
-        type: Schema.Types.Mixed,
-        default: null,
-    },
-    isRead: {
-        type: Boolean,
-        default: false,
-    },
-}, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-})
+    // Virtuals
+    ageInDays?: number
+    isRecent?: boolean
+}
 
-// Indexes for better performance
+// Document עם Methods
+export interface INotificationDocument extends INotification, Document {
+    markAsRead(): Promise<INotificationDocument>
+    markAsUnread(): Promise<INotificationDocument>
+    updateData(newData: Record<string, unknown>): Promise<INotificationDocument>
+}
+
+// Model עם Statics
+export interface INotificationModel extends Model<INotificationDocument> {
+    findByUser(userId: string): Promise<INotificationDocument[]>
+    findUnread(userId: string): Promise<INotificationDocument[]>
+    findByType(type: string): Promise<INotificationDocument[]>
+    findRecent(userId: string, days?: number): Promise<INotificationDocument[]>
+    markAllAsRead(userId: string): Promise<void>
+    deleteOld(days?: number): Promise<void>
+}
+
+// ----------------- Schema -----------------
+const NotificationSchema = new Schema<INotificationDocument>(
+    {
+        userId: { type: String, required: true, ref: 'User' },
+        type: {
+            type: String,
+            enum: ['lesson_completed', 'new_message', 'forum_reply', 'achievement_unlocked', 'friend_request', 'group_invite'],
+            required: true
+        },
+        title: { type: String, required: true, trim: true, maxlength: 200 },
+        message: { type: String, required: true, trim: true, maxlength: 500 },
+        data: { type: Schema.Types.Mixed, default: {} },
+        isRead: { type: Boolean, default: false },
+    },
+    { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
+)
+
+// Indexes
 NotificationSchema.index({ userId: 1, createdAt: -1 })
-NotificationSchema.index({ userId: 1, isRead: 1 })
+NotificationSchema.index({ userId: 1, isRead: 1, createdAt: -1 })
 NotificationSchema.index({ type: 1 })
 NotificationSchema.index({ createdAt: -1 })
 
-// Virtual for age in days
-NotificationSchema.virtual('ageInDays').get(function () {
+// Virtuals
+NotificationSchema.virtual('ageInDays').get(function (this: INotificationDocument) {
     const now = new Date()
-    const diffTime = Math.abs(now.getTime() - this.createdAt.getTime())
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    const createdAt = this.createdAt || now
+    return Math.ceil((now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24))
 })
 
-// Virtual for is recent
-NotificationSchema.virtual('isRecent').get(function () {
+NotificationSchema.virtual('isRecent').get(function (this: INotificationDocument) {
     const now = new Date()
-    const diffTime = Math.abs(now.getTime() - this.createdAt.getTime())
-    const diffHours = diffTime / (1000 * 60 * 60)
-    return diffHours < 24
+    const createdAt = this.createdAt || now
+    return (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60) < 24
 })
 
-// Pre-save middleware
-NotificationSchema.pre('save', function (next) {
-    // Auto-expire notifications older than 30 days
+// Pre-save
+NotificationSchema.pre<INotificationDocument>('save', function (next) {
     const thirtyDaysAgo = new Date()
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-
-    if (this.createdAt < thirtyDaysAgo) {
-        return next(new Error('Notification is too old'))
-    }
-
+    const createdAt = this.createdAt || new Date()
+    if (createdAt < thirtyDaysAgo) return next(new Error('Notification is too old'))
     next()
 })
 
-// Static methods
+// Statics
 NotificationSchema.statics.findByUser = function (userId: string) {
     return this.find({ userId }).sort({ createdAt: -1 })
 }
@@ -83,32 +87,27 @@ NotificationSchema.statics.findUnread = function (userId: string) {
     return this.find({ userId, isRead: false }).sort({ createdAt: -1 })
 }
 
-NotificationSchema.statics.findByType = function (type: NotificationType) {
+NotificationSchema.statics.findByType = function (type: string) {
     return this.find({ type }).sort({ createdAt: -1 })
 }
 
 NotificationSchema.statics.findRecent = function (userId: string, days: number = 7) {
     const date = new Date()
     date.setDate(date.getDate() - days)
-
-    return this.find({
-        userId,
-        createdAt: { $gte: date }
-    }).sort({ createdAt: -1 })
+    return this.find({ userId, createdAt: { $gte: date } }).sort({ createdAt: -1 })
 }
 
-NotificationSchema.statics.markAllAsRead = function (userId: string) {
-    return this.updateMany({ userId, isRead: false }, { isRead: true })
+NotificationSchema.statics.markAllAsRead = async function (userId: string) {
+    await this.updateMany({ userId, isRead: false }, { isRead: true })
 }
 
-NotificationSchema.statics.deleteOld = function (days: number = 30) {
+NotificationSchema.statics.deleteOld = async function (days: number = 30) {
     const date = new Date()
     date.setDate(date.getDate() - days)
-
-    return this.deleteMany({ createdAt: { $lt: date } })
+    await this.deleteMany({ createdAt: { $lt: date } })
 }
 
-// Instance methods
+// Methods
 NotificationSchema.methods.markAsRead = function () {
     this.isRead = true
     return this.save()
@@ -124,7 +123,7 @@ NotificationSchema.methods.updateData = function (newData: Record<string, unknow
     return this.save()
 }
 
-// Export the model
-export const NotificationModel = mongoose.models.Notification || mongoose.model<INotification>('Notification', NotificationSchema)
-
-
+// ----------------- Export Model -----------------
+export const NotificationModel: INotificationModel =
+    (mongoose.models.Notification as unknown as INotificationModel) ||
+    mongoose.model<INotificationDocument, INotificationModel>('Notification', NotificationSchema)

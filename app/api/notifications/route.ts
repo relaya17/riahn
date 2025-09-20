@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
             }, { status: 400 })
         }
 
-        let query: Record<string, unknown> = { userId }
+        const query: Record<string, unknown> = { userId }
 
         if (isRead !== null) {
             query.isRead = isRead === 'true'

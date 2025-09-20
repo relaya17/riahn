@@ -7,21 +7,16 @@ import {
   Camera, 
   Eye, 
   EyeOff,
-  Volume2,
-  VolumeX,
   Target,
-  MapPin,
   Globe,
   BookOpen,
   Zap,
-  Star,
   Award,
   Settings,
-  Play,
-  Pause,
-  RotateCcw,
   Download,
-  Share
+  Share,
+  Star,
+  Volume2
 } from 'lucide-react'
 
 interface ARObject {
@@ -55,7 +50,6 @@ export function ARLanguageLearning() {
   const [detectedObjects, setDetectedObjects] = useState<ARObject[]>([])
   const [selectedLanguage, setSelectedLanguage] = useState('he')
   const [arMode, setArMode] = useState<'explore' | 'quiz' | 'story'>('explore')
-  const [isScanning, setIsScanning] = useState(false)
   const [cameraPermission, setCameraPermission] = useState(false)
   
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -199,25 +193,7 @@ export function ARLanguageLearning() {
     }
   }
 
-  const getLanguageName = (lang: string) => {
-    switch (lang) {
-      case 'he': return 'עברית'
-      case 'en': return 'English'
-      case 'ar': return 'العربية'
-      default: return 'עברית'
-    }
-  }
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'food': return '🍎'
-      case 'transport': return '🚗'
-      case 'building': return '🏢'
-      case 'nature': return '🌳'
-      case 'clothing': return '👕'
-      default: return '📦'
-    }
-  }
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -310,7 +286,7 @@ export function ARLanguageLearning() {
               </div>
               
               {/* Detected Objects Overlay */}
-              {detectedObjects.map((obj, index) => (
+              {detectedObjects.map((obj) => (
                 <div
                   key={obj.id}
                   className="absolute bg-white/90 dark:bg-gray-800/90 rounded-lg p-3 shadow-lg ar-overlay-item"
@@ -398,7 +374,7 @@ export function ARLanguageLearning() {
                 <Button
                   key={mode.id}
                   variant={arMode === mode.id ? 'default' : 'outline'}
-                  onClick={() => setArMode(mode.id as any)}
+                  onClick={() => setArMode(mode.id as 'vocabulary' | 'pronunciation' | 'quiz' | 'story')}
                   className="w-full justify-start h-auto p-3"
                 >
                   <div className="text-left">

@@ -47,10 +47,10 @@ export async function POST(
             },
             message: 'Lesson unsaved successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to unsave lesson',
+            error: (error as Error).message || 'Failed to unsave lesson',
         }, { status: 500 })
     }
 }

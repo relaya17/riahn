@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { useAuth, useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { LoadingSpinner } from '@/components/ui/loading'
 import {
   BookOpen,
   Users,
@@ -16,7 +15,6 @@ import {
   Play,
   Star,
   Target,
-  Calendar,
   Globe,
   ChevronRight,
 } from 'lucide-react'
@@ -35,7 +33,7 @@ export function DashboardHome() {
     totalTime: 0,
   })
 
-  const [recentLessons, setRecentLessons] = useState([
+  const [recentLessons] = useState([
     {
       id: '1',
       title: 'מילים בסיסיות בעברית',

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import { Select } from '@/components/ui/select'
 import { LearningChat } from '@/components/learning/learning-chat'
 import { 
@@ -121,7 +120,7 @@ export default function LearningChatPage() {
               <MessageCircle className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-              צ'אט ללמידה
+              צ&apos;אט ללמידה
             </h1>
           </div>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -260,7 +259,7 @@ export default function LearningChatPage() {
                   </label>
                   <Select
                     value={userLanguage}
-                    onValueChange={setUserLanguage}
+                    onChange={(e) => setUserLanguage(e.target.value)}
                     options={languages}
                   />
                 </div>
@@ -270,7 +269,7 @@ export default function LearningChatPage() {
                   </label>
                   <Select
                     value={targetLanguage}
-                    onValueChange={setTargetLanguage}
+                    onChange={(e) => setTargetLanguage(e.target.value)}
                     options={languages.filter(l => l.value !== userLanguage)}
                   />
                 </div>
@@ -297,7 +296,7 @@ export default function LearningChatPage() {
                     בחר שותף למידה
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    בחר שותף למידה מהרשימה כדי להתחיל לצ'אט
+                    בחר שותף למידה מהרשימה כדי להתחיל לצ&apos;אט
                   </p>
                 </div>
               </Card>
@@ -308,7 +307,7 @@ export default function LearningChatPage() {
         {/* Learning Tips */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-8">
-            טיפים לצ'אט ללמידה
+            טיפים לצ&apos;אט ללמידה
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="text-center">
@@ -318,7 +317,7 @@ export default function LearningChatPage() {
                 </div>
                 <h3 className="font-semibold mb-2">השתמש במילים חדשות</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  נסה להשתמש במילים שלמדת בשיעורים בצ'אט
+                  נסה להשתמש במילים שלמדת בשיעורים בצ&apos;אט
                 </p>
               </CardContent>
             </Card>
@@ -342,7 +341,7 @@ export default function LearningChatPage() {
                 </div>
                 <h3 className="font-semibold mb-2">תרגל באופן קבוע</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  צ'אט קצר כל יום יעזור לך יותר מצ'אט ארוך פעם בשבוע
+                  צ&apos;אט קצר כל יום יעזור לך יותר מצ&apos;אט ארוך פעם בשבוע
                 </p>
               </CardContent>
             </Card>

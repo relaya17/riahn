@@ -19,9 +19,6 @@ import {
   Activity,
   AlertTriangle,
   CheckCircle,
-  Clock,
-  Star,
-  Award,
   Database,
   Server,
   Eye,
@@ -29,9 +26,7 @@ import {
   Trash2,
   Plus,
   Search,
-  Filter,
-  Download,
-  Upload
+  Download
 } from 'lucide-react'
 
 interface AdminStats {
@@ -74,7 +69,6 @@ export default function AdminDashboard() {
   })
 
   const [users, setUsers] = useState<User[]>([])
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterRole, setFilterRole] = useState('all')
   const [filterStatus, setFilterStatus] = useState('all')
@@ -259,7 +253,7 @@ export default function AdminDashboard() {
               <Button
                 key={tab.id}
                 variant={activeTab === tab.id ? 'default' : 'outline'}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'overview' | 'users' | 'content' | 'analytics' | 'settings')}
                 className="flex items-center gap-2"
               >
                 <Icon className="h-4 w-4" />
@@ -280,7 +274,7 @@ export default function AdminDashboard() {
                     <Users className="h-6 w-6 text-blue-600" />
                   </div>
                   <div className="text-2xl font-bold text-blue-600">{stats.totalUsers}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">סה"כ משתמשים</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">סה&quot;כ משתמשים</div>
                   <div className="text-xs text-green-600 mt-1">+{stats.newUsersToday} היום</div>
                 </CardContent>
               </Card>
@@ -302,7 +296,7 @@ export default function AdminDashboard() {
                     <BookOpen className="h-6 w-6 text-purple-600" />
                   </div>
                   <div className="text-2xl font-bold text-purple-600">{stats.totalLessons}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">סה"כ שיעורים</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">סה&quot;כ שיעורים</div>
                   <div className="text-xs text-gray-500 mt-1">{stats.completedLessons} הושלמו</div>
                 </CardContent>
               </Card>

@@ -457,7 +457,7 @@ export function WorldMap({ onUserClick }: WorldMapProps) {
                 <div className="flex items-center gap-4 mt-2">
                   <Button size="sm" className="bg-gradient-to-r from-blue-500 to-purple-600">
                     <MessageCircle className="h-4 w-4 mr-2" />
-                    התחל צ'אט
+                    התחל צ&apos;אט
                   </Button>
                   <Button variant="outline" size="sm">
                     <Star className="h-4 w-4 mr-2" />

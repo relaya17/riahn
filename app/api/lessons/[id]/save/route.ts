@@ -47,10 +47,10 @@ export async function POST(
             },
             message: 'Lesson saved successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to save lesson',
+            error: (error as Error).message || 'Failed to save lesson',
         }, { status: 500 })
     }
 }

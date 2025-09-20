@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 }
 
 async function performAITranslation(params: TranslateRequest) {
-    const { text, sourceLanguage, targetLanguage, context, preserveFormatting, includePronunciation, includeCulturalNotes } = params
+    const { text, sourceLanguage, targetLanguage, context, includePronunciation, includeCulturalNotes } = params
 
     // Simulate AI translation with enhanced features
     const translations = {
@@ -141,7 +141,7 @@ async function performAITranslation(params: TranslateRequest) {
 
     // Apply context-aware adjustments
     if (context) {
-        const contextAdjusted = applyContextAdjustment(translatedText, context, targetLanguage)
+        const contextAdjusted = applyContextAdjustment(translatedText, context)
         if (contextAdjusted !== translatedText) {
             alternatives.unshift(contextAdjusted)
             translatedText = contextAdjusted
@@ -220,7 +220,7 @@ function generateAlternatives(text: string, language: string): string[] {
     return alternatives[language as keyof typeof alternatives] || []
 }
 
-function applyContextAdjustment(text: string, context: string, language: string): string {
+function applyContextAdjustment(text: string, context: string): string {
     // Apply context-aware adjustments
     if (context.includes('formal')) {
         return `[Formal] ${text}`

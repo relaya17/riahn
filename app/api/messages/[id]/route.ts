@@ -26,10 +26,10 @@ export async function GET(
             data: message,
             message: 'Message retrieved successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to get message',
+            error: error instanceof Error ? error.message : 'Failed to get message',
         }, { status: 500 })
     }
 }
@@ -71,10 +71,10 @@ export async function PUT(
             data: message,
             message: 'Message updated successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to update message',
+            error: error instanceof Error ? error.message : 'Failed to update message',
         }, { status: 500 })
     }
 }
@@ -99,10 +99,10 @@ export async function DELETE(
             data: message,
             message: 'Message deleted successfully',
         })
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json<ApiResponse>({
             success: false,
-            error: error.message || 'Failed to delete message',
+            error: error instanceof Error ? error.message : 'Failed to delete message',
         }, { status: 500 })
     }
 }

@@ -30,7 +30,7 @@ export async function POST(
 
         // Create new comment
         const newComment = {
-            _id: new (require('mongoose').Types.ObjectId)(),
+            _id: new mongoose.Types.ObjectId(),
             content,
             authorId,
             parentId: parentId || undefined,

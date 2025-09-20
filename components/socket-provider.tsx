@@ -3,14 +3,19 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { useAuth } from './providers'
-import { SocketEvents } from '@/types'
+import {
+  ClientToServerEvents,
+  ServerToClientEvents,
+} from '../socket-types'
+
+type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>
 
 interface SocketContextType {
-  socket: Socket | null
+  socket: TypedSocket | null
   isConnected: boolean
-  emit: (event: keyof SocketEvents, data: unknown) => void
-  on: (event: keyof SocketEvents, callback: (...args: unknown[]) => void) => void
-  off: (event: keyof SocketEvents, callback?: (...args: unknown[]) => void) => void
+  emit: (event: string, data: any) => void
+  on: (event: string, callback: (...args: any[]) => void) => void
+  off: (event: string, callback?: (...args: any[]) => void) => void
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined)
@@ -24,7 +29,7 @@ export function useSocket() {
 }
 
 export function SocketProvider({ children }: { children: ReactNode }) {
-  const [socket, setSocket] = useState<Socket | null>(null)
+  const [socket, setSocket] = useState<TypedSocket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
   const { user } = useAuth()
 
@@ -38,59 +43,45 @@ export function SocketProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    // Temporarily disable socket connection to avoid errors
-    // const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:2252'
+    // Temporarily disable Socket.IO connection
+    console.log('🔌 Socket.IO temporarily disabled - using Next.js only')
+    
+    // const socketUrl = process.env.NODE_ENV === 'production' 
+    //   ? process.env.NEXT_PUBLIC_APP_URL || 'https://your-domain.com'
+    //   : 'http://localhost:5005'
+    
     // const newSocket = io(socketUrl, {
     //   auth: {
     //     userId: user._id,
     //     token: user._id, // In production, use JWT token
     //   },
     //   transports: ['websocket', 'polling'],
-    // })
-    
-    const newSocket = null // Disable socket temporarily
-
-    // Temporarily disable socket event handlers
-    // newSocket.on('connect', () => {
-    //   console.log('Socket connected:', newSocket.id)
-    //   setIsConnected(true)
+    //   path: '/api/socket',
     // })
 
-    // newSocket.on('disconnect', () => {
-    //   console.log('Socket disconnected')
-    //   setIsConnected(false)
-    // })
-
-    // newSocket.on('connect_error', (error) => {
-    //   console.error('Socket connection error:', error)
-    //   setIsConnected(false)
-    // })
-
-    setSocket(newSocket)
-
-    return () => {
-      // newSocket.close()
-    }
+    // Socket.IO temporarily disabled
+    // setSocket(null)
+    // setIsConnected(false)
   }, [user])
 
-  const emit = (event: keyof SocketEvents, data: unknown) => {
+  const emit = (event: string, data: any) => {
     if (socket && isConnected) {
-      socket.emit(event, data)
+      socket.emit(event as any, data)
     }
   }
 
-  const on = (event: keyof SocketEvents, callback: (...args: unknown[]) => void) => {
+  const on = (event: string, callback: (...args: any[]) => void) => {
     if (socket) {
-      socket.on(event, callback)
+      socket.on(event as any, callback)
     }
   }
 
-  const off = (event: keyof SocketEvents, callback?: (...args: unknown[]) => void) => {
+  const off = (event: string, callback?: (...args: any[]) => void) => {
     if (socket) {
       if (callback) {
-        socket.off(event, callback)
+        socket.off(event as any, callback)
       } else {
-        socket.removeAllListeners(event)
+        socket.removeAllListeners(event as any)
       }
     }
   }

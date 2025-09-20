@@ -198,7 +198,7 @@ export default function AdvancedAnalytics() {
             <span className="text-green-400 text-sm font-medium">+8.3%</span>
           </div>
           <div className="text-2xl font-bold text-white mb-1">
-            {analyticsData.engagement.sessionDuration}דק'
+            {analyticsData.engagement.sessionDuration}דק&apos;
           </div>
           <div className="text-gray-400 text-sm">זמן ממוצע</div>
         </motion.div>
