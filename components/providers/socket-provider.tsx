@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { io, Socket } from 'socket.io-client'
 
 interface ClientToServerEvents {
-  authenticate: (data: { userId: string; token: string }) => void
+  authenticate: (data: { userId: string; username: string; token?: string }) => void
   sendMessage: (data: { content: string; chatId: string }) => void
   typing: (data: { chatId: string; isTyping: boolean }) => void
   joinGroup: (groupId: string) => void
@@ -13,8 +13,8 @@ interface ClientToServerEvents {
 
 interface ServerToClientEvents {
   authenticated: () => void
-  newMessage: (msg: { content: string; senderId: string; timestamp: string }) => void
-  userTyping: (data: { userId: string; chatId: string; isTyping: boolean }) => void
+  newMessage: (msg: { content: string; senderId: string; senderName: string; timestamp: string }) => void
+  userTyping: (data: { userId: string; username: string; chatId: string; isTyping: boolean }) => void
   usersInRoom: (data: { chatId: string; users: string[] }) => void
 }
 
@@ -48,11 +48,13 @@ export function useSocket() {
 export function SocketProvider({
   children,
   userId,
+  username,
   token,
 }: {
   children: ReactNode
   userId: string
-  token: string
+  username: string
+  token?: string
 }) {
   const [socket, setSocket] = useState<TypedSocket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
@@ -67,16 +69,16 @@ export function SocketProvider({
 
     newSocket.on('connect', () => {
       setIsConnected(true)
-      // שולחים את פרטי המשתמש לשרת
-      newSocket.emit('authenticate', { userId, username: userId })
+      newSocket.emit('authenticate', { userId, username, token })
     })
-    
+
     newSocket.on('disconnect', () => setIsConnected(false))
+    newSocket.on('connect_error', (err) => console.error('Socket connection error', err))
 
     setSocket(newSocket)
 
     return () => newSocket.disconnect()
-  }, [userId, token])
+  }, [userId, username, token])
 
   const emit = <K extends keyof ClientToServerEvents>(
     event: K,
@@ -85,15 +87,17 @@ export function SocketProvider({
 
   const on = <K extends keyof ServerToClientEvents>(
     event: K,
-    callback: ServerToClientEvents[K]
-  ) => socket?.on(event, callback)
+    callback: ServerToClientEvents[K] & ((...args: any[]) => void)
+  ) => {
+    socket?.on(event as string, callback as (...args: any[]) => void)
+  }
 
   const off = <K extends keyof ServerToClientEvents>(
     event: K,
-    callback?: ServerToClientEvents[K]
+    callback?: ServerToClientEvents[K] & ((...args: any[]) => void)
   ) => {
-    if (callback) socket?.off(event, callback)
-    else socket?.removeAllListeners(event)
+    if (callback) socket?.off(event as string, callback as (...args: any[]) => void)
+    else socket?.removeAllListeners(event as string)
   }
 
   return (

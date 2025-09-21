@@ -79,7 +79,14 @@ export function ChatRoom({ chatId }: { chatId: string }) {
         ))}
       </div>
 
-      <input type="text" value={newMessage} onChange={handleChange} onKeyDown={(e) => e.key === 'Enter' && handleSend()} />
+      <input 
+        type="text" 
+        value={newMessage} 
+        onChange={handleChange} 
+        onKeyDown={(e) => e.key === 'Enter' && handleSend()} 
+        placeholder="Type your message..."
+        aria-label="Message input"
+      />
       <button onClick={handleSend}>Send</button>
     </div>
   )
