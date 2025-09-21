@@ -100,7 +100,7 @@ export function BaseForm<T extends FieldValues>({
     }
 
     const commonProps = {
-      ...register(field.name as keyof typeof defaultValues, validation),
+      ...register(field.name as Path<T>, validation),
       placeholder: field.placeholder,
       disabled: field.disabled || isLoading,
       className: field.className

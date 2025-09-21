@@ -370,7 +370,7 @@ export function VirtualClassroom() {
                   <Button
                     key={env.id}
                     variant={selectedEnvironment === env.id ? 'default' : 'outline'}
-                    onClick={() => setSelectedEnvironment(env.id as 'classroom' | 'library' | 'cafe' | 'park' | 'museum')}
+                    onClick={() => setSelectedEnvironment(env.id as 'classroom' | 'library' | 'garden' | 'space' | 'underwater')}
                     className="h-20 flex flex-col items-center gap-2"
                   >
                     <span className="text-2xl">{env.icon}</span>

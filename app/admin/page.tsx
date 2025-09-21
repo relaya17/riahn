@@ -57,7 +57,7 @@ interface User {
 }
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState<AdminStats>({
+  const [stats, _setStats] = useState<AdminStats>({
     totalUsers: 1247,
     activeUsers: 892,
     totalLessons: 5432,

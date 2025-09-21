@@ -6,6 +6,8 @@ import { toast } from 'react-hot-toast'
 import { useAuth, useLanguage } from '@/components/providers'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { EnhancedInput, EnhancedButton } from '@/components/ui/enhanced-form'
+import { useSoundEffects } from '@/components/ui/sound-effects'
 import { Mail, Lock } from 'lucide-react'
 import { LoginForm as LoginFormType } from '@/types'
 import { usePasswordToggle } from '@/hooks/usePasswordToggle'
@@ -19,6 +21,7 @@ export function LoginForm({ onModeChange }: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { signIn, signInWithGoogle, signInWithFacebook } = useAuth()
   const { t } = useLanguage()
+  const { playSound } = useSoundEffects()
 
   const {
     register,
@@ -28,11 +31,14 @@ export function LoginForm({ onModeChange }: LoginFormProps) {
 
   const onSubmit = async (data: LoginFormType) => {
     setIsLoading(true)
+    playSound('click', 0.1)
     try {
       await signIn(data.email, data.password)
+      playSound('success', 0.2)
       toast.success(t('auth.loginSuccess'))
     } catch (error: unknown) {
-      toast.error(error.message || t('auth.loginError'))
+      playSound('error', 0.2)
+      toast.error((error as Error).message || t('auth.loginError'))
     } finally {
       setIsLoading(false)
     }
@@ -44,7 +50,7 @@ export function LoginForm({ onModeChange }: LoginFormProps) {
       await signInWithGoogle()
       toast.success(t('auth.loginSuccess'))
     } catch (error: unknown) {
-      toast.error(error.message || t('auth.loginError'))
+      toast.error((error as Error).message || t('auth.loginError'))
     } finally {
       setIsLoading(false)
     }
@@ -56,7 +62,7 @@ export function LoginForm({ onModeChange }: LoginFormProps) {
       await signInWithFacebook()
       toast.success(t('auth.loginSuccess'))
     } catch (error: unknown) {
-      toast.error(error.message || t('auth.loginError'))
+      toast.error((error as Error).message || t('auth.loginError'))
     } finally {
       setIsLoading(false)
     }

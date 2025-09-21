@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
+import { connectDB } from '@/lib/mongodb'
 import { LessonModel } from '@/models/Lesson'
 import { ApiResponse } from '@/types'
+import mongoose from 'mongoose'
 
 export const dynamic = 'force-dynamic'
 
@@ -39,26 +40,24 @@ export async function POST(
         }
 
         // Check if user already rated this lesson
-        const existingRating = lesson.ratings.find(r => r.userId === userId)
+        const existingRating = lesson.ratings?.find(r => r.userId.toString() === userId)
         if (existingRating) {
             // Update existing rating
             existingRating.rating = rating
-            existingRating.feedback = feedback
-            existingRating.updatedAt = new Date()
         } else {
             // Add new rating
+            if (!lesson.ratings) {
+                lesson.ratings = []
+            }
             lesson.ratings.push({
-                userId,
-                rating,
-                feedback,
-                createdAt: new Date(),
-                updatedAt: new Date(),
+                userId: new mongoose.Types.ObjectId(userId),
+                rating
             })
         }
 
         // Calculate average rating
-        const totalRating = lesson.ratings.reduce((sum, r) => sum + r.rating, 0)
-        lesson.averageRating = totalRating / lesson.ratings.length
+        const totalRating = lesson.ratings?.reduce((sum, r) => sum + r.rating, 0) || 0
+        lesson.averageRating = lesson.ratings?.length ? totalRating / lesson.ratings.length : 0
 
         await lesson.save()
 

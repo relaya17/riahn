@@ -19,7 +19,7 @@ interface EnhancementResult {
 
 export async function POST(request: NextRequest) {
     try {
-        const session = await getServerSession(authOptions)
+        const session = await getServerSession()
         if (!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
@@ -158,7 +158,7 @@ async function performTextEnhancement(params: EnhanceTextRequest) {
     // Apply enhancements
     for (const [original, enhanced] of Object.entries(languageEnhancements)) {
         if (text.includes(original)) {
-            enhancedText = enhancedText.replace(original, enhanced)
+            enhancedText = enhancedText.replace(original, String(enhanced))
             improvements.push(`שיפור: "${original}" → "${enhanced}"`)
         }
     }

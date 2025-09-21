@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { getServerSession, Session } from 'next-auth'
+import { authOptions, getCurrentUserFromSession } from '@/lib/auth'
 import { PasswordSecurity, SecurityAudit, RateLimiter } from '@/lib/security'
 
 export async function POST(request: NextRequest) {
     try {
-        const session = await getServerSession(authOptions)
-        if (!session?.user?.id) {
+        const session = await getServerSession()
+        const user = await getCurrentUserFromSession(session as Session | null)
+
+        if (!user?.id) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
@@ -17,7 +19,7 @@ export async function POST(request: NextRequest) {
         if (!rateLimitResult.allowed) {
             SecurityAudit.logSecurityEvent('PASSWORD_CHANGE_RATE_LIMIT', {
                 ip: clientIP,
-                userId: session.user.id
+                userId: user.id
             }, 'high')
 
             return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
@@ -35,7 +37,7 @@ export async function POST(request: NextRequest) {
         if (!passwordValidation.isValid) {
             SecurityAudit.logSecurityEvent('WEAK_PASSWORD_ATTEMPT', {
                 ip: clientIP,
-                userId: session.user.id,
+                userId: user.id,
                 score: passwordValidation.score
             }, 'medium')
 
@@ -57,7 +59,7 @@ export async function POST(request: NextRequest) {
 
         SecurityAudit.logSecurityEvent('PASSWORD_CHANGED', {
             ip: clientIP,
-            userId: session.user.id,
+            userId: user.id,
             userAgent: request.headers.get('user-agent')
         }, 'medium')
 

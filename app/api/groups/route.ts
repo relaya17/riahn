@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
-import { GroupModel } from '@/models/Group'
+import { connectDB } from '@/lib/mongodb'
+import Group, { IGroup } from '@/models/Group'
 import { ApiResponse } from '@/types'
 
 export async function GET(request: NextRequest) {
@@ -30,14 +30,15 @@ export async function GET(request: NextRequest) {
 
         const skip = (page - 1) * limit
 
-        const groups = await GroupModel.find(query)
+        const groups: IGroup[] = await Group.find(query)
             .sort({ createdAt: -1 })
             .limit(limit)
             .skip(skip)
-            .populate('adminId', 'name profileImage')
-            .populate('members', 'name profileImage')
+            .populate('createdBy', 'name avatar')
+            .populate('members.userId', 'name avatar')
+            .lean()
 
-        const total = await GroupModel.countDocuments(query)
+        const total = await Group.countDocuments(query)
 
         return NextResponse.json<ApiResponse>({
             success: true,
@@ -65,7 +66,7 @@ export async function POST(request: NextRequest) {
         await connectDB()
 
         const body = await request.json()
-        const { name, description, adminId, language, type, isPrivate } = body
+        const { name, description, adminId, language, type: _type, isPrivate } = body
 
         if (!name || !adminId || !language) {
             return NextResponse.json<ApiResponse>({
@@ -74,24 +75,20 @@ export async function POST(request: NextRequest) {
             }, { status: 400 })
         }
 
-        const group = new GroupModel({
+        const group = new Group({
             name,
             description: description || '',
-            adminId,
-            members: [adminId], // Admin is automatically a member
-            language,
-            type: type || 'learning',
+            createdBy: adminId,
+            members: [{ userId: adminId, role: 'admin', joinedAt: new Date() }],
+            messages: [],
             isPrivate: isPrivate || false,
-            memberCount: 1,
-            createdAt: new Date(),
-            updatedAt: new Date(),
         })
 
         await group.save()
 
-        // Populate admin and members info
-        await group.populate('adminId', 'name profileImage')
-        await group.populate('members', 'name profileImage')
+        // Populate createdBy and members info
+        await group.populate('createdBy', 'name avatar')
+        await group.populate('members.userId', 'name avatar')
 
         return NextResponse.json<ApiResponse>({
             success: true,

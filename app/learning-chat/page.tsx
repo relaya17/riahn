@@ -317,7 +317,7 @@ export default function LearningChatPage() {
                 </div>
                 <h3 className="font-semibold mb-2">השתמש במילים חדשות</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  נסה להשתמש במילים שלמדת בשיעורים בצ&apos;אט
+נסה להשתמש במילים שלמדת בשיעורים בצ&apos;אט                                         {/*  */}
                 </p>
               </CardContent>
             </Card>

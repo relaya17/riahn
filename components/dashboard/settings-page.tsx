@@ -112,11 +112,11 @@ export function SettingsPage() {
     
     // Apply changes immediately for certain settings
     if (key === 'language') {
-      setLanguage(value)
-      localStorage.setItem('language', value)
+      setLanguage(value as string)
+      localStorage.setItem('language', String(value))
     }
     if (key === 'theme') {
-      setTheme(value)
+      setTheme(value as string)
     }
   }
 

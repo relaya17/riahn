@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
+import { connectDB } from '@/lib/mongodb'
 import { LessonModel } from '@/models/Lesson'
 import { ApiResponse } from '@/types'
 
@@ -20,7 +20,7 @@ export async function GET(
         }
 
         // Find translation
-        const translation = lesson.translations.find(t => t.language === params.language)
+        const translation = lesson.translations?.[params.language]
         if (!translation) {
             return NextResponse.json<ApiResponse>({
                 success: false,
@@ -31,7 +31,7 @@ export async function GET(
         return NextResponse.json<ApiResponse>({
             success: true,
             data: {
-                translation: translation,
+                translation: lesson.translations[params.language],
             },
             message: 'Translation retrieved successfully',
         })
@@ -70,7 +70,7 @@ export async function PUT(
         }
 
         // Find and update translation
-        const translation = lesson.translations.find(t => t.language === params.language)
+        const translation = lesson.translations?.[params.language]
         if (!translation) {
             return NextResponse.json<ApiResponse>({
                 success: false,
@@ -78,15 +78,14 @@ export async function PUT(
             }, { status: 404 })
         }
 
-        translation.content = content
-        translation.updatedAt = new Date()
+        lesson.translations[params.language] = content
 
         await lesson.save()
 
         return NextResponse.json<ApiResponse>({
             success: true,
             data: {
-                translation: translation,
+                translation: lesson.translations[params.language],
             },
             message: 'Translation updated successfully',
         })
@@ -115,15 +114,14 @@ export async function DELETE(
         }
 
         // Find and remove translation
-        const translationIndex = lesson.translations.findIndex(t => t.language === params.language)
-        if (translationIndex === -1) {
+        if (!lesson.translations?.[params.language]) {
             return NextResponse.json<ApiResponse>({
                 success: false,
                 error: 'Translation not found',
             }, { status: 404 })
         }
 
-        lesson.translations.splice(translationIndex, 1)
+        delete lesson.translations[params.language]
         await lesson.save()
 
         return NextResponse.json<ApiResponse>({

@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth, useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { AdvancedCard } from '@/components/ui/advanced-card'
+import { ProgressRing } from '@/components/ui/progress-ring'
+import { AnimatedCounter } from '@/components/ui/animated-counter'
+import { StaggerAnimation, RevealOnScroll, Magnetic } from '@/components/ui/advanced-animations'
 import { Button } from '@/components/ui/button'
 import {
   BookOpen,
@@ -158,97 +162,127 @@ export function DashboardHome() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  {t('dashboard.stats.totalLessons')}
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {stats.totalLessons}
-                </p>
-              </div>
-              <BookOpen className="h-8 w-8 text-blue-500" />
-            </div>
-          </CardContent>
-        </Card>
+      <RevealOnScroll direction="up" delay={200}>
+        <StaggerAnimation delay={150}>
+          {[
+            <div key="stats-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <Magnetic strength={0.2}>
+              <AdvancedCard
+                title={t('dashboard.stats.totalLessons')}
+                variant="gradient"
+                size="md"
+                hover={true}
+                glow={false}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <AnimatedCounter
+                      value={stats.totalLessons}
+                      className="text-2xl font-bold text-gray-900 dark:text-white"
+                    />
+                  </div>
+                  <BookOpen className="h-8 w-8 text-blue-500 animate-pulse-glow" />
+                </div>
+              </AdvancedCard>
+            </Magnetic>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  {t('dashboard.stats.completed')}
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {stats.completedLessons}
-                </p>
-              </div>
-              <TrendingUp className="h-8 w-8 text-green-500" />
-            </div>
-          </CardContent>
-        </Card>
+            <Magnetic strength={0.2}>
+              <AdvancedCard
+                title={t('dashboard.stats.completed')}
+                variant="gradient"
+                size="md"
+                hover={true}
+                glow={false}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <AnimatedCounter
+                      value={stats.completedLessons}
+                      className="text-2xl font-bold text-gray-900 dark:text-white"
+                    />
+                  </div>
+                  <TrendingUp className="h-8 w-8 text-green-500 animate-pulse-glow" />
+                </div>
+              </AdvancedCard>
+            </Magnetic>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  {t('dashboard.stats.streak')}
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {stats.streak}
-                </p>
-              </div>
-              <Clock className="h-8 w-8 text-orange-500" />
-            </div>
-          </CardContent>
-        </Card>
+            <Magnetic strength={0.2}>
+              <AdvancedCard
+                title={t('dashboard.stats.streak')}
+                variant="gradient"
+                size="md"
+                hover={true}
+                glow={false}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <AnimatedCounter
+                      value={stats.streak}
+                      className="text-2xl font-bold text-gray-900 dark:text-white"
+                      suffix=" ימים"
+                    />
+                  </div>
+                  <Clock className="h-8 w-8 text-orange-500 animate-pulse-glow" />
+                </div>
+              </AdvancedCard>
+            </Magnetic>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  {t('dashboard.stats.achievements')}
-                </p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {stats.achievements}
-                </p>
-              </div>
-              <Award className="h-8 w-8 text-yellow-500" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            <Magnetic strength={0.2}>
+              <AdvancedCard
+                title={t('dashboard.stats.achievements')}
+                variant="gradient"
+                size="md"
+                hover={true}
+                glow={false}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <AnimatedCounter
+                      value={stats.achievements}
+                      className="text-2xl font-bold text-gray-900 dark:text-white"
+                    />
+                  </div>
+                  <Award className="h-8 w-8 text-yellow-500 animate-pulse-glow" />
+                </div>
+              </AdvancedCard>
+            </Magnetic>
+          </div>
+          ]}
+        </StaggerAnimation>
+      </RevealOnScroll>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Progress Overview */}
         <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2 space-x-reverse">
-                <TrendingUp className="h-5 w-5" />
-                <span>{t('dashboard.progressOverview')}</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600 dark:text-gray-400">
-                      {t('dashboard.overallProgress')}
-                    </span>
-                    <span className="font-medium">{progressPercentage}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2" role="progressbar" aria-label={`Overall progress: ${progressPercentage}%`}>
-                    <div
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300 dashboard-progress"
-                    />
-                  </div>
+          <AdvancedCard
+            title={t('dashboard.progressOverview')}
+            variant="glass"
+            size="lg"
+            hover={false}
+            glow={false}
+          >
+            <div className="space-y-6">
+              <div className="flex items-center justify-center">
+                <ProgressRing
+                  progress={progressPercentage}
+                  size={120}
+                  strokeWidth={8}
+                  color="#3b82f6"
+                  showPercentage={true}
+                />
+              </div>
+              
+              <div className="text-center">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  {t('dashboard.overallProgress')}
+                </p>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3" role="progressbar" aria-label={`Overall progress: ${progressPercentage}%`}>
+                  <div
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 h-3 rounded-full transition-all duration-500"
+                    style={{ width: `${progressPercentage}%` }}
+                  />
                 </div>
+              </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -269,8 +303,7 @@ export function DashboardHome() {
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </AdvancedCard>
         </div>
 
         {/* Quick Actions */}

@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { AdvancedCard } from '@/components/ui/advanced-card'
+import { ProgressRing } from '@/components/ui/progress-ring'
+import { AnimatedCounter } from '@/components/ui/animated-counter'
 import { Button } from '@/components/ui/button'
 import { 
   Camera, 
@@ -41,15 +44,16 @@ interface ARSession {
   score: number
   timeSpent: number
   language: string
-  mode: 'explore' | 'quiz' | 'story'
+  mode: 'explore' | 'quiz' | 'story' | 'vocabulary' | 'pronunciation'
 }
 
 export function ARLanguageLearning() {
   const [isARActive, setIsARActive] = useState(false)
+  const [isScanning, setIsScanning] = useState(false)
   const [currentSession, setCurrentSession] = useState<ARSession | null>(null)
   const [detectedObjects, setDetectedObjects] = useState<ARObject[]>([])
   const [selectedLanguage, setSelectedLanguage] = useState('he')
-  const [arMode, setArMode] = useState<'explore' | 'quiz' | 'story'>('explore')
+  const [arMode, setArMode] = useState<'explore' | 'quiz' | 'story' | 'vocabulary' | 'pronunciation'>('explore')
   const [cameraPermission, setCameraPermission] = useState(false)
   
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -207,44 +211,25 @@ export function ARLanguageLearning() {
   return (
     <div className="space-y-6">
       {/* AR Header */}
-      <Card className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full">
-                <Camera className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  למידה במציאות רבודה
-                </h2>
-                <p className="text-gray-600 dark:text-gray-400">
-                  למד שפות על ידי סריקת העולם סביבך
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant={isARActive ? "destructive" : "default"}
-                onClick={isARActive ? stopARSession : startARSession}
-                className="flex items-center gap-2"
-              >
-                {isARActive ? (
-                  <>
-                    <EyeOff className="h-4 w-4" />
-                    עצור AR
-                  </>
-                ) : (
-                  <>
-                    <Eye className="h-4 w-4" />
-                    התחל AR
-                  </>
-                )}
-              </Button>
-            </div>
+      <AdvancedCard
+        title="למידה במציאות רבודה"
+        description="למד שפות על ידי סריקת העולם סביבך"
+        variant="gradient"
+        size="lg"
+        hover={false}
+        glow={true}
+        action={{
+          label: isARActive ? "עצור AR" : "התחל AR",
+          onClick: isARActive ? stopARSession : startARSession,
+          variant: isARActive ? "outline" : "default"
+        }}
+      >
+        <div className="flex items-center justify-center">
+          <div className="p-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse-glow">
+            <Camera className="h-12 w-12 text-white" />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </AdvancedCard>
 
       {/* AR Camera View */}
       {isARActive && (
@@ -329,33 +314,31 @@ export function ARLanguageLearning() {
 
       {/* Settings Panel */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Globe className="h-5 w-5" />
-              <span>הגדרות שפה</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {[
-                { code: 'he', name: 'עברית', flag: '🇮🇱' },
-                { code: 'en', name: 'English', flag: '🇺🇸' },
-                { code: 'ar', name: 'العربية', flag: '🇸🇦' }
-              ].map((lang) => (
-                <Button
-                  key={lang.code}
-                  variant={selectedLanguage === lang.code ? 'default' : 'outline'}
-                  onClick={() => setSelectedLanguage(lang.code)}
-                  className="w-full justify-start"
-                >
-                  <span className="text-lg mr-2">{lang.flag}</span>
-                  {lang.name}
-                </Button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <AdvancedCard
+          title="הגדרות שפה"
+          variant="glass"
+          size="md"
+          hover={true}
+          glow={false}
+        >
+          <div className="space-y-3">
+            {[
+              { code: 'he', name: 'עברית', flag: '🇮🇱' },
+              { code: 'en', name: 'English', flag: '🇺🇸' },
+              { code: 'ar', name: 'العربية', flag: '🇸🇦' }
+            ].map((lang) => (
+              <Button
+                key={lang.code}
+                variant={selectedLanguage === lang.code ? 'default' : 'outline'}
+                onClick={() => setSelectedLanguage(lang.code)}
+                className="w-full justify-start hover:scale-105 transition-transform"
+              >
+                <span className="text-lg mr-2">{lang.flag}</span>
+                {lang.name}
+              </Button>
+            ))}
+          </div>
+        </AdvancedCard>
 
         <Card>
           <CardHeader>
@@ -431,54 +414,57 @@ export function ARLanguageLearning() {
 
       {/* Detected Objects List */}
       {detectedObjects.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="h-5 w-5" />
-              <span>אובייקטים שזוהו</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {detectedObjects.map((obj) => (
-                <div key={obj.id} className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-3xl">{obj.model}</span>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">
-                        {selectedLanguage === 'he' ? obj.hebrewName :
-                         selectedLanguage === 'ar' ? obj.arabicName : obj.englishName}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {obj.pronunciation}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                    {obj.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(obj.difficulty)}`}>
-                      {obj.difficulty === 'beginner' ? 'מתחיל' :
-                       obj.difficulty === 'intermediate' ? 'בינוני' : 'מתקדם'}
-                    </span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => speakWord(
-                        selectedLanguage === 'he' ? obj.hebrewName :
-                        selectedLanguage === 'ar' ? obj.arabicName : obj.englishName,
-                        selectedLanguage
-                      )}
-                    >
-                      <Volume2 className="h-3 w-3" />
-                    </Button>
+        <AdvancedCard
+          title="אובייקטים שזוהו"
+          variant="glass"
+          size="lg"
+          hover={false}
+          glow={false}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {detectedObjects.map((obj, index) => (
+              <div 
+                key={obj.id} 
+                className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                style={{animationDelay: `${index * 0.1}s`}}
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-3xl animate-bounce-gentle">{obj.model}</span>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white">
+                      {selectedLanguage === 'he' ? obj.hebrewName :
+                       selectedLanguage === 'ar' ? obj.arabicName : obj.englishName}
+                    </h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {obj.pronunciation}
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                  {obj.description}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(obj.difficulty)}`}>
+                    {obj.difficulty === 'beginner' ? 'מתחיל' :
+                     obj.difficulty === 'intermediate' ? 'בינוני' : 'מתקדם'}
+                  </span>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => speakWord(
+                      selectedLanguage === 'he' ? obj.hebrewName :
+                      selectedLanguage === 'ar' ? obj.arabicName : obj.englishName,
+                      selectedLanguage
+                    )}
+                    className="hover:scale-110 transition-transform"
+                  >
+                    <Volume2 className="h-3 w-3" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </AdvancedCard>
       )}
 
       {/* Quick Actions */}

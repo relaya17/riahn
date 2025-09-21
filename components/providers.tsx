@@ -5,6 +5,7 @@ import { AuthUser } from '@/lib/auth'
 import { ThemeProvider } from './theme-provider'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { SocketProvider } from './providers/socket-provider'
+import { ErrorBoundary } from './ui/error-boundary'
 
 // Auth Context
 interface AuthContextType {
@@ -1479,6 +1480,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       // Check for admin user
       if (email === 'admin@languageconnect.com' && password === 'admin123') {
         const adminUser = {
+          id: 'admin_user',
           _id: 'admin_user',
           email: 'admin@languageconnect.com',
           name: 'מנהל המערכת',
@@ -1500,6 +1502,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       
       // For demo purposes, create a demo user
       const demoUser = {
+        id: 'demo_user_' + Date.now(),
         _id: 'demo_user_' + Date.now(),
         email: email,
         name: 'Demo User',
@@ -1533,6 +1536,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // For demo purposes, create a demo user
       const demoUser = {
+        id: 'demo_user_' + Date.now(),
         _id: 'demo_user_' + Date.now(),
         email: formData.email,
         name: formData.name,
@@ -1570,6 +1574,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // For now, create a demo user for Google sign in
       const demoUser = {
+        id: 'google_demo_user',
         _id: 'google_demo_user',
         email: 'demo@google.com',
         name: 'Google Demo User',
@@ -1596,6 +1601,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // For now, create a demo user for Facebook sign in
       const demoUser = {
+        id: 'facebook_demo_user',
         _id: 'facebook_demo_user',
         email: 'demo@facebook.com',
         name: 'Facebook Demo User',
@@ -1618,7 +1624,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const resetPassword = async (email: string): Promise<boolean> => {
+  const resetPassword = async (_email: string): Promise<boolean> => {
     try {
       // For demo purposes, always return success
       return true
@@ -1641,7 +1647,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider value={value}>
-      <SocketProvider userId={user?._id || ''} username={user?.name || ''}>
+      <SocketProvider userId={user?._id || ''} token={user?._id || ''}>
         {children}
       </SocketProvider>
     </AuthContext.Provider>
@@ -1703,14 +1709,16 @@ const queryClient = new QueryClient({
 // Main Providers Component
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProviderWrapper>
-        <LanguageProvider>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
-        </LanguageProvider>
-      </ThemeProviderWrapper>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProviderWrapper>
+          <LanguageProvider>
+            <AuthProvider>
+              {children}
+            </AuthProvider>
+          </LanguageProvider>
+        </ThemeProviderWrapper>
+      </QueryClientProvider>
+    </ErrorBoundary>
   )
 }

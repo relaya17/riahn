@@ -7,9 +7,9 @@ export interface User {
     email: string;
     name: string;
     profileImage?: string;
-    nativeLanguage: string;
-    learningLanguages: string[];
-    currentLevel: string;
+    nativeLanguage: Language;
+    learningLanguages: Language[];
+    currentLevel: LanguageLevel;
     role: string;
     isOnline: boolean;
     lastSeen: Date;
@@ -94,7 +94,24 @@ export interface ApiResponse<T = unknown> {
 
 
 // Forum types - defined in models/ForumPost.ts
+export type ForumCategory = 'general' | 'lessons' | 'culture' | 'grammar' | 'vocabulary' | 'pronunciation' | 'help' | 'off-topic';
+export type ForumPost = IForumPost;
 // Lesson types - defined in models/Lesson.ts
+export type Lesson = ILesson;
+export type QuizOption = {
+    id: string;
+    text: string;
+    isCorrect: boolean;
+};
+
+export type LessonContent = {
+    id: string;
+    type: 'text' | 'video' | 'audio' | 'quiz' | 'exercise';
+    content: string;
+    translation?: string;
+    options?: QuizOption[];
+    metadata?: Record<string, unknown>;
+};
 
 // Theme types
 export type Theme = 'light' | 'dark' | 'auto';

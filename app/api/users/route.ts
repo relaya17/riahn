@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
-import { UserModel } from '@/models/User'
+import { connectDB } from '@/lib/mongodb'
+import User, { IUser } from '@/models/User'
 import { ApiResponse } from '@/types'
 
 export const dynamic = 'force-dynamic'
@@ -26,14 +26,14 @@ export async function GET(req: NextRequest) {
 
         const skip = (page - 1) * limit
 
-        const users = await UserModel.find(query)
+        const users: IUser[] = await User.find(query)
             .select('-password') // לא להחזיר סיסמה
             .sort({ lastActive: -1 })
             .skip(skip)
             .limit(limit)
             .lean()
 
-        const total = await UserModel.countDocuments(query)
+        const total = await User.countDocuments(query)
 
         return NextResponse.json<ApiResponse>({
             success: true,
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
         }
 
         // בדיקה אם המשתמש כבר קיים
-        const existingUser = await UserModel.findOne({ email })
+        const existingUser = await User.findOne({ email })
         if (existingUser) {
             return NextResponse.json<ApiResponse>({
                 success: false,
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
             }, { status: 409 })
         }
 
-        const user = new UserModel({
+        const user = new User({
             email,
             password,
             name,

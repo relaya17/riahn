@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
+import { connectDB } from '@/lib/mongodb'
 import { UserProgressModel } from '@/models/UserProgress'
 import { ApiResponse } from '@/types'
 
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
             }, { status: 400 })
         }
 
-        let query = { userId }
+        let query: { userId: string; language?: string } = { userId }
         if (language) {
             query = { ...query, language }
         }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
+import { connectDB } from '@/lib/mongodb'
 import { LessonModel } from '@/models/Lesson'
 import { ApiResponse } from '@/types'
 
@@ -30,7 +30,7 @@ export async function POST(
         }
 
         // Check if translation already exists
-        const existingTranslation = lesson.translations.find(t => t.language === targetLanguage)
+        const existingTranslation = lesson.translations?.[targetLanguage]
         if (existingTranslation) {
             return NextResponse.json<ApiResponse>({
                 success: true,
@@ -42,20 +42,16 @@ export async function POST(
         }
 
         // Add new translation
-        const translation = {
-            language: targetLanguage,
-            content: content,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+        if (!lesson.translations) {
+            lesson.translations = {}
         }
-
-        lesson.translations.push(translation)
+        lesson.translations[targetLanguage] = content
         await lesson.save()
 
         return NextResponse.json<ApiResponse>({
             success: true,
             data: {
-                translation: translation,
+                translation: lesson.translations[targetLanguage],
             },
             message: 'Translation added successfully',
         })

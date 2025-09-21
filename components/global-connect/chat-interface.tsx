@@ -14,7 +14,7 @@ import {
   Volume2,
   Copy
 } from 'lucide-react'
-import { Message, User } from '@/types'
+import { IMessage, User } from '@/types'
 import { TranslationWidget } from '@/components/translation/translation-widget'
 
 interface ChatInterfaceProps {
@@ -32,7 +32,7 @@ export function ChatInterface({
   onSendMessage,
   onStartCall
 }: ChatInterfaceProps) {
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<IMessage[]>([])
   const [newMessage, setNewMessage] = useState('')
   const [isTyping] = useState(false)
   const [showTranslator, setShowTranslator] = useState(false)
@@ -94,7 +94,7 @@ export function ChatInterface({
     }
   }
 
-  const translateMessage = async (message: Message, targetLanguage: string) => {
+  const translateMessage = async (message: IMessage, targetLanguage: string) => {
     try {
       const response = await fetch('/api/translate', {
         method: 'POST',
@@ -111,7 +111,7 @@ export function ChatInterface({
       if (data.success) {
         // Update message with translation
         setMessages(prev => prev.map(msg => 
-          msg._id === message._id 
+          msg.senderId === message.senderId && msg.createdAt?.getTime() === message.createdAt?.getTime() 
             ? {
                 ...msg,
                 translatedContent: {
@@ -242,7 +242,7 @@ export function ChatInterface({
             
             return (
               <div
-                key={message._id}
+                key={`${message.senderId}-${message.createdAt?.getTime()}`}
                 className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
               >
                 <div className={`max-w-xs lg:max-w-md ${isOwnMessage ? 'order-1' : 'order-2'}`}>

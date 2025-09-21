@@ -1,4 +1,5 @@
 export interface MockUser {
+  id: string
   _id: string
   email: string
   name: string
@@ -24,6 +25,7 @@ export interface MockUser {
 
 export const mockUsers: MockUser[] = [
   {
+    id: '1',
     _id: '1',
     email: 'sarah.cohen@example.com',
     name: 'שרה כהן',
@@ -47,6 +49,7 @@ export const mockUsers: MockUser[] = [
     location: 'תל אביב, ישראל'
   },
   {
+    id: '2',
     _id: '2',
     email: 'ahmed.hassan@example.com',
     name: 'אחמד חסן',
@@ -70,6 +73,7 @@ export const mockUsers: MockUser[] = [
     location: 'ריאד, ערב הסעודית'
   },
   {
+    id: '3',
     _id: '3',
     email: 'john.smith@example.com',
     name: 'ג\'ון סמית',
@@ -93,6 +97,7 @@ export const mockUsers: MockUser[] = [
     location: 'ניו יורק, ארה"ב'
   },
   {
+    id: '4',
     _id: '4',
     email: 'maria.garcia@example.com',
     name: 'מריה גרסיה',
@@ -116,6 +121,7 @@ export const mockUsers: MockUser[] = [
     location: 'מדריד, ספרד'
   },
   {
+    id: '5',
     _id: '5',
     email: 'raj.patel@example.com',
     name: 'ראג\' פטל',

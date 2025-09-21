@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { getServerSession, Session } from 'next-auth'
+import { authOptions, getCurrentUserFromSession } from '@/lib/auth'
 import { SecurityAudit, RateLimiter, InputSanitizer } from '@/lib/security'
 
 export async function POST(request: NextRequest) {
     try {
-        const session = await getServerSession(authOptions)
-        if (!session?.user?.id) {
+        const session = await getServerSession()
+        const user = await getCurrentUserFromSession(session as Session | null)
+
+        if (!user?.id) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
@@ -17,7 +19,7 @@ export async function POST(request: NextRequest) {
         if (!rateLimitResult.allowed) {
             SecurityAudit.logSecurityEvent('LEARNING_CHAT_RATE_LIMIT', {
                 ip: clientIP,
-                userId: session.user.id
+                userId: user.id
             }, 'medium')
 
             return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
@@ -57,7 +59,7 @@ export async function POST(request: NextRequest) {
         // Log learning activity
         SecurityAudit.logSecurityEvent('LEARNING_CHAT_MESSAGE', {
             ip: clientIP,
-            userId: session.user.id,
+            userId: user.id,
             partnerId,
             fromLanguage,
             toLanguage,

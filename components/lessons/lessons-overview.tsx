@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { AdvancedCard } from '@/components/ui/advanced-card'
+import { ProgressRing } from '@/components/ui/progress-ring'
+import { AnimatedCounter } from '@/components/ui/animated-counter'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
@@ -128,51 +131,78 @@ export function LessonsOverview({ groupId }: LessonsOverviewProps) {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full w-fit mx-auto mb-2">
+        <AdvancedCard
+          title={t('lessons.totalLessons')}
+          variant="gradient"
+          size="md"
+          hover={true}
+          glow={false}
+        >
+          <div className="text-center">
+            <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-full w-fit mx-auto mb-2 animate-pulse-glow">
               <BookOpen className="h-6 w-6 text-blue-600" />
             </div>
-            <div className="text-2xl font-bold text-blue-600">{lessons.length}</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">{t('lessons.totalLessons')}</div>
-          </CardContent>
-        </Card>
+            <AnimatedCounter
+              value={lessons.length}
+              className="text-2xl font-bold text-blue-600"
+            />
+          </div>
+        </AdvancedCard>
 
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-full w-fit mx-auto mb-2">
+        <AdvancedCard
+          title={t('lessons.averageProgress')}
+          variant="gradient"
+          size="md"
+          hover={true}
+          glow={false}
+        >
+          <div className="text-center">
+            <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-full w-fit mx-auto mb-2 animate-pulse-glow">
               <TrendingUp className="h-6 w-6 text-green-600" />
             </div>
-            <div className="text-2xl font-bold text-green-600">
-              {Math.round(lessons.reduce((sum, lesson) => sum + lesson.progress, 0) / lessons.length)}%
-            </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">{t('lessons.averageProgress')}</div>
-          </CardContent>
-        </Card>
+            <AnimatedCounter
+              value={Math.round(lessons.reduce((sum, lesson) => sum + lesson.progress, 0) / lessons.length)}
+              className="text-2xl font-bold text-green-600"
+              suffix="%"
+            />
+          </div>
+        </AdvancedCard>
 
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-full w-fit mx-auto mb-2">
+        <AdvancedCard
+          title={t('lessons.completed')}
+          variant="gradient"
+          size="md"
+          hover={true}
+          glow={false}
+        >
+          <div className="text-center">
+            <div className="p-3 bg-yellow-100 dark:bg-yellow-900/20 rounded-full w-fit mx-auto mb-2 animate-pulse-glow">
               <Award className="h-6 w-6 text-yellow-600" />
             </div>
-            <div className="text-2xl font-bold text-yellow-600">
-              {lessons.filter(lesson => lesson.progress === 100).length}
-            </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">{t('lessons.completed')}</div>
-          </CardContent>
-        </Card>
+            <AnimatedCounter
+              value={lessons.filter(lesson => lesson.progress === 100).length}
+              className="text-2xl font-bold text-yellow-600"
+            />
+          </div>
+        </AdvancedCard>
 
-        <Card>
-          <CardContent className="p-6 text-center">
-            <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-full w-fit mx-auto mb-2">
+        <AdvancedCard
+          title={t('lessons.totalMinutes')}
+          variant="gradient"
+          size="md"
+          hover={true}
+          glow={false}
+        >
+          <div className="text-center">
+            <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-full w-fit mx-auto mb-2 animate-pulse-glow">
               <Clock className="h-6 w-6 text-purple-600" />
             </div>
-            <div className="text-2xl font-bold text-purple-600">
-              {lessons.reduce((sum, lesson) => sum + lesson.duration, 0)}
-            </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">{t('lessons.totalMinutes')}</div>
-          </CardContent>
-        </Card>
+            <AnimatedCounter
+              value={lessons.reduce((sum, lesson) => sum + lesson.duration, 0)}
+              className="text-2xl font-bold text-purple-600"
+            />
+          </div>
+        </AdvancedCard>
       </div>
 
       {/* Filters */}
@@ -231,20 +261,21 @@ export function LessonsOverview({ groupId }: LessonsOverviewProps) {
 
             <CardContent>
               <div className="space-y-4">
-                {/* Progress Bar */}
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600 dark:text-gray-400">
-                      {t('lessons.progress')}
-                    </span>
-                    <span className="font-medium">{lesson.progress}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                    <div
-                      className="bg-blue-600 h-2 rounded-full transition-all"
-                      data-progress={lesson.progress}
-                    />
-                  </div>
+                {/* Progress Ring */}
+                <div className="flex items-center justify-center">
+                  <ProgressRing
+                    progress={lesson.progress}
+                    size={60}
+                    strokeWidth={4}
+                    color="#3b82f6"
+                    showPercentage={false}
+                  >
+                    <div className="text-center">
+                      <div className="text-xs font-bold text-blue-600">
+                        {lesson.progress}%
+                      </div>
+                    </div>
+                  </ProgressRing>
                 </div>
 
                 {/* Tags */}

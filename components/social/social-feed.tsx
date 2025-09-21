@@ -336,7 +336,7 @@ export function SocialFeed({ userId: _userId }: SocialFeedProps) {
               key={filterOption.id}
               variant={filter === filterOption.id ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setFilter(filterOption.id as 'all' | 'following' | 'trending' | 'nearby')}
+              onClick={() => setFilter(filterOption.id as 'all' | 'following' | 'lessons' | 'achievements')}
               className="flex items-center gap-2"
             >
               <Icon className="h-4 w-4" />

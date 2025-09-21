@@ -1,83 +1,67 @@
-import mongoose, { Schema, Document, Types } from 'mongoose'
+import mongoose, { Schema, Document, Model } from 'mongoose'
 
-// ============================
-// Data Interfaces (לשימוש בקוד)
-// ============================
-
-export interface GroupMember {
-    userId: Types.ObjectId
+export interface IGroupMember {
+    userId: string
     role: 'member' | 'admin' | 'moderator'
-    joinedAt: Date
+    joinedAt?: Date
 }
 
-export interface IGroupMemberDocument extends GroupMember, Document { }
-
-export interface Group {
+export interface IGroup extends Document {
     name: string
     description: string
-    members: GroupMember[]
-    messages: string[]
+    members: IGroupMember[]
+    messages: {
+        senderId: string
+        content: string
+        timestamp: Date
+    }[]
     maxMembers?: number
+    memberCount?: number
+    adminId?: string
     isPrivate: boolean
-    createdBy?: Types.ObjectId
+    createdBy: string
     createdAt: Date
     updatedAt: Date
 }
 
-// ============================
-// Mongoose Document Interfaces
-// ============================
-
-export interface IGroupDocument extends Group, Document { }
-
-export interface IGroupModel extends mongoose.Model<IGroupDocument> { }
-
-// ============================
-// Subdocument Schema
-// ============================
-
-const GroupMemberSchema = new Schema<IGroupMemberDocument>(
+const GroupMemberSchema = new Schema<IGroupMember>(
     {
-        userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-        role: {
-            type: String,
-            enum: ['member', 'admin', 'moderator'],
-            default: 'member',
-            required: true,
-        },
+        userId: { type: String, required: true, ref: 'User' },
+        role: { type: String, enum: ['member', 'admin', 'moderator'], default: 'member' },
         joinedAt: { type: Date, default: Date.now },
     },
-    { _id: false } // לא צור _id אוטומטי לכל member
+    { _id: false }
 )
 
-// ============================
-// Main Group Schema
-// ============================
+const MessageSchema = new Schema(
+    {
+        senderId: { type: String, required: true, ref: 'User' },
+        content: { type: String, required: true, trim: true },
+        timestamp: { type: Date, default: Date.now },
+    },
+    { _id: false }
+)
 
-const GroupSchema = new Schema<IGroupDocument>(
+const GroupSchema = new Schema<IGroup>(
     {
         name: { type: String, required: true, trim: true, maxlength: 100 },
         description: { type: String, required: true, trim: true, maxlength: 500 },
         members: { type: [GroupMemberSchema], default: [] },
-        messages: { type: [String], default: [] },
-        maxMembers: { type: Number },
+        messages: { type: [MessageSchema], default: [] },
+        maxMembers: { type: Number, default: 50 },
+        memberCount: { type: Number, default: 0 },
+        adminId: { type: String, ref: 'User' },
         isPrivate: { type: Boolean, default: false },
-        createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+        createdBy: { type: String, required: true },
     },
-    {
-        timestamps: true,
-        toJSON: { virtuals: false }, // מונע מורכבות מיותרת
-        toObject: { virtuals: false },
-    }
+    { timestamps: true }
 )
 
-// Index for faster queries
+// Indexים שימושיים
 GroupSchema.index({ createdAt: -1 })
+GroupSchema.index({ name: 1 })
 
-// ============================
-// Export Model
-// ============================
-
-export const GroupModel = mongoose.models.Group
-    ? (mongoose.models.Group as unknown as IGroupModel)
-    : mongoose.model<IGroupDocument, IGroupModel>('Group', GroupSchema)
+// Singleton export למניעת שגיאות במודולים חמים
+const Group: Model<IGroup> = mongoose.models.Group || mongoose.model<IGroup>('Group', GroupSchema)
+export const GroupModel = Group
+export default Group

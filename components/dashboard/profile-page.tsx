@@ -2,11 +2,13 @@
 
 import { useState } from 'react'
 import { useAuth, useLanguage } from '@/components/providers'
+import type { Language, LanguageLevel } from '@/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select } from '@/components/ui/select'
 import { LoadingSpinner } from '@/components/ui/loading'
+import { OptimizedAvatar } from '@/components/ui/optimized-image'
 import { ProfileStats } from '@/components/profile/profile-stats'
 import { AchievementBadge } from '@/components/profile/achievement-badge'
 import { LanguageProgress } from '@/components/profile/language-progress'
@@ -276,17 +278,18 @@ export function ProfilePage() {
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-6 space-x-reverse">
                 <div className="relative">
-                  <div className="h-24 w-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                    {user?.profileImage ? (
-                      <img
-                        src={user.profileImage}
-                        alt={user.name}
-                        className="h-24 w-24 rounded-full object-cover"
-                      />
-                    ) : (
-                      getInitials(user?.name || 'U')
-                    )}
-                  </div>
+                  <OptimizedAvatar
+                    src={user?.profileImage}
+                    alt={user?.name || 'User'}
+                    size="xl"
+                    className="h-24 w-24"
+                    priority={true}
+                    fallback={
+                      <div className="h-24 w-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                        {getInitials(user?.name || 'U')}
+                      </div>
+                    }
+                  />
                   {isEditing && (
                     <button 
                       className="absolute bottom-0 right-0 h-8 w-8 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600"

@@ -1,11 +1,13 @@
 import jwt from 'jsonwebtoken'
 import { NextRequest } from 'next/server'
+import { Session } from 'next-auth'
 import User, { IUser } from '@/models/User'
-import connectDB from '@/lib/mongodb'
+import { connectDB } from '@/lib/mongodb'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-here'
 
 export interface AuthUser {
+    id: string
     _id: string
     email: string
     name: string
@@ -37,6 +39,38 @@ export function verifyToken(token: string): { userId: string; email: string } | 
     }
 }
 
+export async function getCurrentUserFromSession(session: Session | null): Promise<AuthUser | null> {
+    if (!session?.user?.email) {
+        return null
+    }
+
+    try {
+        await connectDB()
+        const user = await User.findOne({ email: session.user.email }).select('-password')
+
+        if (!user) {
+            return null
+        }
+
+        return {
+            id: user._id.toString(),
+            _id: user._id.toString(),
+            email: user.email,
+            name: user.name,
+            avatar: user.avatar,
+            profileImage: user.avatar,
+            nativeLanguage: user.nativeLanguage,
+            learningLanguages: user.learningLanguages,
+            currentLevel: user.currentLevel,
+            totalPoints: user.totalPoints,
+            streak: user.streak
+        }
+    } catch (dbError) {
+        console.warn('Database connection failed, using mock user:', dbError)
+        return null
+    }
+}
+
 export async function getCurrentUser(request: NextRequest): Promise<AuthUser | null> {
     try {
         const token = request.cookies.get('auth-token')?.value
@@ -59,7 +93,8 @@ export async function getCurrentUser(request: NextRequest): Promise<AuthUser | n
             }
 
             return {
-                _id: user._id,
+                id: user._id.toString(),
+                _id: user._id.toString(),
                 email: user.email,
                 name: user.name,
                 avatar: user.avatar,
@@ -75,6 +110,7 @@ export async function getCurrentUser(request: NextRequest): Promise<AuthUser | n
 
             // Return mock user for development
             return {
+                id: decoded.userId,
                 _id: decoded.userId,
                 email: decoded.email,
                 name: 'Demo User',
@@ -111,7 +147,8 @@ export async function authenticateUser(email: string, password: string): Promise
 
         return {
             user: {
-                _id: user._id,
+                id: user._id.toString(),
+                _id: user._id.toString(),
                 email: user.email,
                 name: user.name,
                 avatar: user.avatar,
@@ -153,7 +190,8 @@ export async function createUser(userData: {
 
         return {
             user: {
-                _id: user._id,
+                id: user._id.toString(),
+                _id: user._id.toString(),
                 email: user.email,
                 name: user.name,
                 avatar: user.avatar,

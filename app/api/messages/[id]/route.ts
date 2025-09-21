@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
+import { connectDB } from '@/lib/mongodb'
 import { MessageModel } from '@/models/Message'
 import { ApiResponse } from '@/types'
 
@@ -55,7 +55,12 @@ export async function PUT(
         // Update fields if provided
         if (content !== undefined) message.content = content
         if (isRead !== undefined) message.isRead = isRead
-        if (translations !== undefined) message.translations = translations
+        if (translations !== undefined) {
+            // Update translated content
+            Object.entries(translations).forEach(([language, translation]) => {
+                message.translatedContent.set(language as any, String(translation))
+            })
+        }
 
         message.updatedAt = new Date()
         await message.save()

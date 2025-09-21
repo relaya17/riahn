@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { getServerSession, Session } from 'next-auth'
+import { authOptions, getCurrentUserFromSession } from '@/lib/auth'
 import { SecurityAudit, RateLimiter } from '@/lib/security'
 
 export async function POST(request: NextRequest) {
     try {
-        const session = await getServerSession(authOptions)
-        if (!session?.user?.id) {
+        const session = await getServerSession()
+        const user = await getCurrentUserFromSession(session as Session | null)
+
+        if (!user?.id) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
@@ -17,7 +19,7 @@ export async function POST(request: NextRequest) {
         if (!rateLimitResult.allowed) {
             SecurityAudit.logSecurityEvent('2FA_RATE_LIMIT', {
                 ip: clientIP,
-                userId: session.user.id
+                userId: user.id
             }, 'high')
 
             return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
@@ -35,12 +37,12 @@ export async function POST(request: NextRequest) {
         }
 
         // Validate 2FA code (in real app, use proper 2FA library like speakeasy)
-        const isValidCode = validate2FACode(code, session.user.id)
+        const isValidCode = validate2FACode(code, user.id)
 
         if (!isValidCode) {
             SecurityAudit.logSecurityEvent('INVALID_2FA_CODE', {
                 ip: clientIP,
-                userId: session.user.id,
+                userId: user.id,
                 action
             }, 'medium')
 
@@ -54,7 +56,7 @@ export async function POST(request: NextRequest) {
 
         SecurityAudit.logSecurityEvent('2FA_TOGGLED', {
             ip: clientIP,
-            userId: session.user.id,
+            userId: user.id,
             action,
             userAgent: request.headers.get('user-agent')
         }, 'medium')

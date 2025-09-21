@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import connectDB from '@/lib/mongodb'
+import { connectDB } from '@/lib/mongodb'
 import ForumPostModel from '@/models/ForumPost'
 import { ApiResponse } from '@/types'
+import mongoose from 'mongoose'
 
 export async function POST(
     request: NextRequest,
@@ -11,7 +12,7 @@ export async function POST(
         await connectDB()
 
         const body = await request.json()
-        const { content, authorId, parentId } = body
+        const { content, authorId, parentId: _parentId } = body
 
         if (!content || !authorId) {
             return NextResponse.json<ApiResponse>({
@@ -28,19 +29,11 @@ export async function POST(
             }, { status: 404 })
         }
 
-        // Create new comment
-        const newComment = {
-            _id: new mongoose.Types.ObjectId(),
-            content,
-            authorId,
-            parentId: parentId || undefined,
-            likes: [],
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        }
+        // Create new comment ID
+        const newCommentId = new mongoose.Types.ObjectId()
 
         // Add comment to post
-        post.comments.push(newComment)
+        post.comments.push(newCommentId)
         await post.save()
 
         // Populate author info for the new comment
@@ -48,7 +41,7 @@ export async function POST(
 
         // Find the newly added comment
         const addedComment = post.comments.find((comment: { _id: { toString(): string } }) =>
-            comment._id.toString() === newComment._id.toString()
+            comment._id.toString() === newCommentId.toString()
         )
 
         return NextResponse.json<ApiResponse>({

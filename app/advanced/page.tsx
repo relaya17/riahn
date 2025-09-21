@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Brain, Globe, Music, Target, Zap, Star, Users, Award, BookOpen, Mic, Eye, Hand, PenTool } from 'lucide-react'
+import { Brain, Zap, Star, Users, Award } from 'lucide-react'
 import { AILearningPath } from '@/components/ai/ai-learning-path'
 import { AdvancedRPGSystem } from '@/components/gamification/advanced-rpg-system'
 

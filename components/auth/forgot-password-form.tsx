@@ -35,7 +35,7 @@ export function ForgotPasswordForm({ onModeChange }: ForgotPasswordFormProps) {
       setIsEmailSent(true)
       toast.success(t('auth.resetEmailSent'))
     } catch (error: unknown) {
-      toast.error(error.message || t('auth.resetError'))
+      toast.error((error as Error).message || t('auth.resetError'))
     } finally {
       setIsLoading(false)
     }

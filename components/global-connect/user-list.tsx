@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { User, Language, LanguageLevel } from '@/types'
 import { mockUsers } from '@/data/mockData'
+import { OptimizedAvatar } from '@/components/ui/optimized-image'
 
 interface UserListProps {
   currentUser: User
@@ -46,6 +47,7 @@ export function UserList({ currentUser, onStartChat, onStartCall }: UserListProp
       // Use centralized mock data
       // Convert mock users to User type
       const convertedUsers = mockUsers.map(mockUser => ({
+        id: mockUser.id,
         _id: mockUser._id,
         email: mockUser.email,
         name: mockUser.name,
@@ -263,10 +265,16 @@ export function UserList({ currentUser, onStartChat, onStartCall }: UserListProp
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <img
-                      src={user.profileImage || '/default-avatar.png'}
+                    <OptimizedAvatar
+                      src={user.profileImage}
                       alt={user.name}
-                      className="w-12 h-12 rounded-full"
+                      size="md"
+                      className="w-12 h-12"
+                      fallback={
+                        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                          {user.name.charAt(0).toUpperCase()}
+                        </div>
+                      }
                     />
                     {user.isOnline && (
                       <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>

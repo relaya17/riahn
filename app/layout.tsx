@@ -4,6 +4,9 @@ import './globals.css'
 import { Providers } from '@/components/providers'
 import { Toaster } from 'react-hot-toast'
 import { AccessibilityButton } from '@/components/accessibility/accessibility-button'
+import { AdvancedPerformanceMonitor } from '@/components/performance/advanced-performance-monitor'
+import { ErrorMonitor, ErrorBoundary } from '@/components/error/error-monitor'
+import { QuickPerformance } from '@/components/performance/quick-performance'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -31,7 +34,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   icons: {
     icon: '/sary.jpg',
-    apple: '/sary.jpg',
+    apple: '/apple-touch-icon.png',
   },
 }
 
@@ -53,9 +56,14 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className={`${inter.variable} ${heebo.variable} ${cairo.variable} min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-gray-900 dark:to-gray-800`}>
-        <Providers>
-          {children}
-          <AccessibilityButton />
+        <ErrorBoundary>
+          <Providers>
+            {children}
+            <AccessibilityButton />
+            <AdvancedPerformanceMonitor />
+            <ErrorMonitor />
+            <QuickPerformance />
+          </Providers>
           <Toaster
             position="top-center"
             toastOptions={{
@@ -80,7 +88,7 @@ export default function RootLayout({
               },
             }}
           />
-        </Providers>
+        </ErrorBoundary>
       </body>
     </html>
   )

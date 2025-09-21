@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Accessibility, Eye, Ear, Hand, Brain, Keyboard, Monitor, Smartphone } from 'lucide-react'
 
 export default function AccessibilityPage() {
-  const { t } = useLanguage()
+  const { t: _t } = useLanguage()
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">

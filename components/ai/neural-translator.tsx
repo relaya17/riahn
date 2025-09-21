@@ -41,7 +41,7 @@ interface TranslationResult {
   culturalNotes: string[]
   pronunciation: string
   timestamp: Date
-  type: 'text' | 'voice' | 'image' | 'document'
+  type: 'text' | 'voice' | 'image' | 'document' | 'real-time' | 'batch' | 'context'
 }
 
 interface LanguageModel {
@@ -63,7 +63,7 @@ export function NeuralTranslator() {
   const [isListening, setIsListening] = useState(false)
   const [translationHistory, setTranslationHistory] = useState<TranslationResult[]>([])
   const [copied, setCopied] = useState(false)
-  const [selectedMode, setSelectedMode] = useState<'text' | 'voice' | 'image' | 'document'>('text')
+  const [selectedMode, setSelectedMode] = useState<'text' | 'voice' | 'image' | 'document' | 'real-time' | 'batch' | 'context'>('text')
 
   const languages: LanguageModel[] = [
     {

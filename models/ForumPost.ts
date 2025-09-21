@@ -25,9 +25,11 @@ export interface IForumPost extends Document {
     category: string;
     language: string;
     tags: string[];
-    likes: number;
+    likes: mongoose.Types.ObjectId[];
+    comments: mongoose.Types.ObjectId[];
     replies: mongoose.Types.ObjectId[];
     views: number;
+    isPublished: boolean;
     isPinned: boolean;
     isLocked: boolean;
     lastReply?: Date;
@@ -45,9 +47,11 @@ const ForumPostSchema = new Schema<IForumPost>({
     category: { type: String, required: true },
     language: { type: String, required: true },
     tags: [{ type: String }],
-    likes: { type: Number, default: 0 },
+    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'ForumReply' }],
     replies: [{ type: Schema.Types.ObjectId, ref: 'ForumReply' }],
     views: { type: Number, default: 0 },
+    isPublished: { type: Boolean, default: true },
     isPinned: { type: Boolean, default: false },
     isLocked: { type: Boolean, default: false },
     lastReply: { type: Date }

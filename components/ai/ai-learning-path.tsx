@@ -1,7 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Brain, Target, TrendingUp, Clock, BookOpen, Users, Award, ChevronRight } from 'lucide-react'
+import { Brain, Target, TrendingUp, Clock, BookOpen, Users, Award, ChevronRight, Zap } from 'lucide-react'
+import { AdvancedCard } from '@/components/ui/advanced-card'
+import { ProgressRing } from '@/components/ui/progress-ring'
+import { AnimatedCounter } from '@/components/ui/animated-counter'
 
 // Helper function for progress bar width
 const getProgressWidth = (percentage: number) => ({ width: `${percentage}%` })
@@ -230,24 +233,44 @@ export function AILearningPath() {
       {learningPath && (
         <div className="space-y-6">
           {/* Path Overview */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-gray-800">{learningPath.title}</h2>
-              <div className="text-right">
-                <div className="text-sm text-gray-600">התקדמות</div>
-                <div className="text-2xl font-bold text-blue-600">{Math.round(learningPath.progress)}%</div>
+          <AdvancedCard
+            title={learningPath.title}
+            variant="gradient"
+            size="lg"
+            hover={false}
+            glow={true}
+          >
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex-1">
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  {learningPath.description}
+                </p>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-blue-600" />
+                    <span className="text-sm text-gray-600">
+                      {learningPath.totalDuration} דקות
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Target className="w-4 h-4 text-purple-600" />
+                    <span className="text-sm text-gray-600">
+                      {learningPath.difficulty}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="ml-6">
+                <ProgressRing
+                  progress={learningPath.progress}
+                  size={100}
+                  strokeWidth={8}
+                  color="#3b82f6"
+                  showPercentage={true}
+                />
               </div>
             </div>
-            
-            <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
-              <div 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 h-3 rounded-full transition-all duration-500"
-                style={getProgressWidth(learningPath.progress)}
-              ></div>
-            </div>
-            
-            <p className="text-gray-600">{learningPath.description}</p>
-          </div>
+          </AdvancedCard>
 
           {/* Next Step */}
           {learningPath.nextStep && (
