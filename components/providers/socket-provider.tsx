@@ -58,13 +58,19 @@ export function SocketProvider({
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
+    if (!userId) return
+
     const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000'
     const newSocket: TypedSocket = io(socketUrl, {
-      auth: { userId, token },
       transports: ['websocket', 'polling'],
     })
 
-    newSocket.on('connect', () => setIsConnected(true))
+    newSocket.on('connect', () => {
+      setIsConnected(true)
+      // שולחים את פרטי המשתמש לשרת
+      newSocket.emit('authenticate', { userId, username: userId })
+    })
+    
     newSocket.on('disconnect', () => setIsConnected(false))
 
     setSocket(newSocket)
