@@ -3,9 +3,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { io, Socket } from 'socket.io-client'
 
-// ----------------------
-// טיפוסי אירועים
-// ----------------------
 interface ClientToServerEvents {
   authenticate: (data: { userId: string; token: string }) => void
   sendMessage: (data: { content: string; chatId: string }) => void
@@ -20,12 +17,8 @@ interface ServerToClientEvents {
   userTyping: (data: { userId: string; chatId: string; isTyping: boolean }) => void
 }
 
-// טיפוס לסוקט עצמו
 type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>
 
-// ----------------------
-// Context
-// ----------------------
 interface SocketContextType {
   socket: TypedSocket | null
   isConnected: boolean
@@ -51,16 +44,20 @@ export function useSocket() {
   return context
 }
 
-// ----------------------
-// Provider
-// ----------------------
-export function SocketProvider({ children, userId, token }: { children: ReactNode; userId: string; token: string }) {
+export function SocketProvider({
+  children,
+  userId,
+  token,
+}: {
+  children: ReactNode
+  userId: string
+  token: string
+}) {
   const [socket, setSocket] = useState<TypedSocket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
     const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000'
-
     const newSocket: TypedSocket = io(socketUrl, {
       auth: { userId, token },
       transports: ['websocket', 'polling'],
@@ -76,15 +73,20 @@ export function SocketProvider({ children, userId, token }: { children: ReactNod
     }
   }, [userId, token])
 
-  const emit = <K extends keyof ClientToServerEvents>(event: K, data: Parameters<ClientToServerEvents[K]>[0]) => {
-    socket?.emit(event, data)
-  }
+  const emit = <K extends keyof ClientToServerEvents>(
+    event: K,
+    data: Parameters<ClientToServerEvents[K]>[0]
+  ) => socket?.emit(event, data)
 
-  const on = <K extends keyof ServerToClientEvents>(event: K, callback: ServerToClientEvents[K]) => {
-    socket?.on(event, callback)
-  }
+  const on = <K extends keyof ServerToClientEvents>(
+    event: K,
+    callback: ServerToClientEvents[K]
+  ) => socket?.on(event, callback)
 
-  const off = <K extends keyof ServerToClientEvents>(event: K, callback?: ServerToClientEvents[K]) => {
+  const off = <K extends keyof ServerToClientEvents>(
+    event: K,
+    callback?: ServerToClientEvents[K]
+  ) => {
     if (callback) socket?.off(event, callback)
     else socket?.removeAllListeners(event)
   }
