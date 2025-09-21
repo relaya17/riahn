@@ -24,7 +24,27 @@ const ErrorSchemaZod = z.object({
 })
 
 // ----------------------
-// 2. ממשק MongoDB
+// 2. טיפוסים לתגובות API
+// ----------------------
+interface ValidationError {
+    field: string
+    message: string
+}
+
+interface ApiResponse<T = unknown> {
+    success: boolean
+    data?: T
+    error?: string | ValidationError[]
+    message?: string
+}
+
+interface ErrorCreateResponse {
+    id: string
+    message: string
+}
+
+// ----------------------
+// 3. ממשק MongoDB
 // ----------------------
 export interface IError extends Document {
     type: string
@@ -44,7 +64,7 @@ export interface IError extends Document {
 }
 
 // ----------------------
-// 3. סכימת מונגו
+// 4. סכימת מונגו
 // ----------------------
 const ErrorSchema = new Schema<IError>(
     {
@@ -70,9 +90,9 @@ const ErrorModel: Model<IError> =
     mongoose.models.Error || mongoose.model<IError>('Error', ErrorSchema)
 
 // ----------------------
-// 4. POST - יצירת שגיאה
+// 5. POST - יצירת שגיאה
 // ----------------------
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse<ApiResponse>> {
     try {
         await connectDB()
         const rawData = await request.json()
@@ -80,32 +100,40 @@ export async function POST(request: NextRequest) {
         const parsed = ErrorSchemaZod.safeParse(rawData)
         if (!parsed.success) {
             // החזרת שגיאות Zod בצורה מסודרת
-            const formattedErrors = parsed.error.issues.map(issue => ({
+            const formattedErrors: ValidationError[] = parsed.error.issues.map(issue => ({
                 field: issue.path.join('.'),
                 message: issue.message
             }))
-            return NextResponse.json({ error: formattedErrors }, { status: 400 })
+            return NextResponse.json<ApiResponse>({
+                success: false,
+                error: formattedErrors
+            }, { status: 400 })
         }
 
-        const error = new ErrorModel({
+        const errorData = {
             ...parsed.data,
             timestamp: parsed.data.timestamp ? new Date(parsed.data.timestamp) : new Date(),
-        })
+            resolved: parsed.data.resolved ?? false,
+        }
 
+        const error = new ErrorModel(errorData)
         await error.save()
 
         if (parsed.data.severity === 'CRITICAL') {
             console.error('🚨 CRITICAL ERROR:', parsed.data)
         }
 
-        return NextResponse.json({
+        return NextResponse.json<ApiResponse>({
             success: true,
-            id: error._id,
-            message: 'Error report saved successfully'
+            data: {
+                id: error._id.toString(),
+                message: 'Error report saved successfully'
+            }
         })
     } catch (err: unknown) {
         console.error('❌ Error saving error report:', err)
-        return NextResponse.json({
+        return NextResponse.json<ApiResponse>({
+            success: false,
             error: 'Failed to save error report',
             message: err instanceof Error ? err.message : 'Unknown error'
         }, { status: 500 })
@@ -113,7 +141,7 @@ export async function POST(request: NextRequest) {
 }
 
 // ----------------------
-// 5. GET - שליפת שגיאות
+// 6. GET - שליפת שגיאות
 // ----------------------
 export async function GET(request: NextRequest) {
     try {
@@ -167,7 +195,7 @@ export async function GET(request: NextRequest) {
 }
 
 // ----------------------
-// 6. PATCH - עדכון שגיאה
+// 7. PATCH - עדכון שגיאה
 // ----------------------
 export async function PATCH(request: NextRequest) {
     try {
