@@ -26,6 +26,10 @@ export interface ILesson extends Document {
     }[]
 }
 
+export interface ILessonDocument extends ILesson { }
+
+export interface ILessonModel extends mongoose.Model<ILessonDocument> { }
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const LessonSchema = new Schema<any>({
     title: { type: String, required: true, trim: true },
@@ -60,6 +64,6 @@ LessonSchema.index({ author: 1 })
 LessonSchema.index({ isPublished: 1 })
 
 export const LessonModel = mongoose.models.Lesson
-    ? (mongoose.models.Lesson as unknown as any)
-    : mongoose.model('Lesson', LessonSchema)
+    ? (mongoose.models.Lesson as unknown as ILessonModel)
+    : mongoose.model<ILessonDocument, ILessonModel>('Lesson', LessonSchema)
 export default LessonModel

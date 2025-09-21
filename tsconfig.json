@@ -44,8 +44,6 @@
     "dist",
     "build",
     "**/*.test.*",
-    "**/*.spec.*",
-    "models",
-    "lib"
+    "**/*.spec.*"
   ]
 }

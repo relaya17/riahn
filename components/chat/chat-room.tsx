@@ -5,6 +5,7 @@ interface Message {
   content: string
   senderId: string
   timestamp: string
+  chatId: string
 }
 
 export function ChatRoom({ chatId }: { chatId: string }) {
@@ -63,17 +64,17 @@ export function ChatRoom({ chatId }: { chatId: string }) {
   }
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: 10, width: 400 }}>
+    <div className="chat-room">
       <h3>Chat Room: {chatId}</h3>
 
-      <div>
+      <div className="online-users">
         <strong>Online:</strong> {usersOnline.join(', ')}
       </div>
-      {usersTyping.length > 0 && <div>{usersTyping.join(', ')} typing...</div>}
+      {usersTyping.length > 0 && <div className="typing-indicator">{usersTyping.join(', ')} typing...</div>}
 
-      <div style={{ minHeight: 200, border: '1px solid #eee', marginBottom: 10, padding: 5 }}>
+      <div className="messages-container">
         {messages.map((m, i) => (
-          <div key={i}>
+          <div key={i} className="message">
             <b>{m.senderId}</b>: {m.content} <small>({new Date(m.timestamp).toLocaleTimeString()})</small>
           </div>
         ))}
@@ -86,8 +87,9 @@ export function ChatRoom({ chatId }: { chatId: string }) {
         onKeyDown={(e) => e.key === 'Enter' && handleSend()} 
         placeholder="Type your message..."
         aria-label="Message input"
+        className="message-input"
       />
-      <button onClick={handleSend}>Send</button>
+      <button onClick={handleSend} className="send-button">Send</button>
     </div>
   )
 }

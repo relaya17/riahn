@@ -10,15 +10,12 @@ import {
   TrendingDown,
   Users, 
   BookOpen, 
-  MessageCircle,
   Clock,
   Target,
   Award,
   Calendar,
   Download,
-  Filter,
   Eye,
-  Heart,
   Star
 } from 'lucide-react'
 
@@ -216,7 +213,7 @@ export function AnalyticsDashboard() {
                   זמן ממוצע
                 </p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {data.averageSessionTime} דק'
+                  {data.averageSessionTime} דק&apos;
                 </p>
                 <div className="flex items-center mt-1">
                   <TrendingUp className="h-4 w-4 text-green-500" />

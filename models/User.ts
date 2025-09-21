@@ -23,6 +23,12 @@ export interface IUser extends Document {
     comparePassword(candidatePassword: string): Promise<boolean>
 }
 
+export interface IUserDocument extends IUser {
+    comparePassword(candidatePassword: string): Promise<boolean>
+}
+
+export interface IUserModel extends mongoose.Model<IUserDocument> { }
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const UserSchema = new Schema<any>({
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
@@ -47,11 +53,11 @@ const UserSchema = new Schema<any>({
 
 // Hash password before saving
 UserSchema.pre('save', async function (next) {
-    const thisDoc = this as any
+    const thisDoc = this as unknown as IUserDocument
     if (!thisDoc.isModified('password')) return next()
     try {
         const salt = await bcrypt.genSalt(12)
-        thisDoc.password = await bcrypt.hash(thisDoc.password, salt as string)
+        thisDoc.password = await bcrypt.hash(thisDoc.password, salt)
         next()
     } catch (error) {
         next(error as Error)
@@ -60,7 +66,7 @@ UserSchema.pre('save', async function (next) {
 
 // Compare password
 UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-    const thisDoc = this as any
+    const thisDoc = this as unknown as IUserDocument
     return bcrypt.compare(candidatePassword, thisDoc.password)
 }
 
@@ -73,7 +79,7 @@ UserSchema.methods.toJSON = function () {
 
 // Export Model (with TS assertion to avoid "union too complex")
 export const UserModel = mongoose.models.User
-    ? (mongoose.models.User as unknown as any)
-    : mongoose.model('User', UserSchema)
+    ? (mongoose.models.User as unknown as IUserModel)
+    : mongoose.model<IUserDocument, IUserModel>('User', UserSchema)
 
 export default UserModel

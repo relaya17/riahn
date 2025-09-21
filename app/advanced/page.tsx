@@ -3,15 +3,7 @@
 import React, { useState } from 'react'
 import { Brain, Globe, Music, Target, Zap, Star, Users, Award, BookOpen, Mic, Eye, Hand, PenTool } from 'lucide-react'
 import { AILearningPath } from '@/components/ai/ai-learning-path'
-import { MemoryTechniques } from '@/components/learning/memory-techniques'
-import { CulturalImmersion } from '@/components/cultural/cultural-immersion'
-import { MusicLearning } from '@/components/music/music-learning'
 import { AdvancedRPGSystem } from '@/components/gamification/advanced-rpg-system'
-import { MobileFirstFeatures } from '@/components/mobile/mobile-first-features'
-import { BrainLearningOptimizer } from '@/components/neuroscience/brain-learning-optimizer'
-import { GlobalMarketplace } from '@/components/marketplace/global-marketplace'
-import { MentorshipSystem } from '@/components/mentorship/mentorship-system'
-import { CreativeTools } from '@/components/creative/creative-tools'
 
 interface AdvancedFeature {
   id: string
@@ -41,39 +33,6 @@ export default function AdvancedPage() {
       rating: 5.0
     },
     {
-      id: 'memory-techniques',
-      title: 'Memory Techniques',
-      description: 'טכניקות זיכרון מדעיות מוכחות',
-      icon: Target,
-      component: MemoryTechniques,
-      color: 'purple',
-      gradient: 'from-purple-600 to-pink-600',
-      isNew: true,
-      rating: 4.9
-    },
-    {
-      id: 'cultural-immersion',
-      title: 'Cultural Immersion',
-      description: 'חוויות תרבותיות מכל העולם',
-      icon: Globe,
-      component: CulturalImmersion,
-      color: 'green',
-      gradient: 'from-green-600 to-blue-600',
-      isNew: true,
-      rating: 4.8
-    },
-    {
-      id: 'music-learning',
-      title: 'Music & Rhythm',
-      description: 'למידה דרך מוזיקה וקריוקי',
-      icon: Music,
-      component: MusicLearning,
-      color: 'pink',
-      gradient: 'from-pink-600 to-purple-600',
-      isNew: true,
-      rating: 4.7
-    },
-    {
       id: 'rpg-system',
       title: 'RPG System',
       description: 'מערכת RPG מתקדמת עם דמויות ומשימות',
@@ -83,61 +42,6 @@ export default function AdvancedPage() {
       gradient: 'from-yellow-600 to-orange-600',
       isNew: true,
       rating: 4.9
-    },
-    {
-      id: 'mobile-features',
-      title: 'Mobile Features',
-      description: 'תכונות מתקדמות למובייל',
-      icon: Users,
-      component: MobileFirstFeatures,
-      color: 'blue',
-      gradient: 'from-blue-600 to-cyan-600',
-      isNew: true,
-      rating: 4.8
-    },
-    {
-      id: 'neuroscience',
-      title: 'Neuroscience',
-      description: 'אופטימיזציה של למידה באמצעות מדעי המוח',
-      icon: Brain,
-      component: BrainLearningOptimizer,
-      color: 'purple',
-      gradient: 'from-purple-600 to-pink-600',
-      isNew: true,
-      rating: 4.9
-    },
-    {
-      id: 'marketplace',
-      title: 'Global Marketplace',
-      description: 'שוק גלובלי לקורסי שפות',
-      icon: Globe,
-      component: GlobalMarketplace,
-      color: 'green',
-      gradient: 'from-green-600 to-emerald-600',
-      isNew: true,
-      rating: 4.7
-    },
-    {
-      id: 'mentorship',
-      title: 'Mentorship System',
-      description: 'מערכת חונכות ומנטורינג מתקדמת',
-      icon: Users,
-      component: MentorshipSystem,
-      color: 'blue',
-      gradient: 'from-blue-600 to-indigo-600',
-      isNew: true,
-      rating: 4.8
-    },
-    {
-      id: 'creative-tools',
-      title: 'Creative Tools',
-      description: 'כלי יצירה ותוכן למשתמשים',
-      icon: PenTool,
-      component: CreativeTools,
-      color: 'purple',
-      gradient: 'from-purple-600 to-pink-600',
-      isNew: true,
-      rating: 4.6
     }
   ]
 

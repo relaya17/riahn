@@ -65,7 +65,7 @@ ForumPostSchema.pre<IForumPost>('save', async function (next) {
 
 // Instance methods
 ForumPostSchema.methods.addReply = async function (replyId: string) {
-    this.replies.push(replyId as any);
+    this.replies.push(replyId);
     await this.save();
 };
 

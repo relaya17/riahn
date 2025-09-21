@@ -80,7 +80,7 @@ export function AchievementBadge({ achievement, isUnlocked, onClick }: Achieveme
   const Icon = getIcon(achievement.icon)
   const progress = achievement.progress || 0
   const maxProgress = achievement.maxProgress || 1
-  const progressPercentage = Math.min((progress / maxProgress) * 100, 100)
+  // const progressPercentage = Math.min((progress / maxProgress) * 100, 100)
 
   return (
     <Card 

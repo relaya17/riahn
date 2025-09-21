@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useAuth, useLanguage } from '@/components/providers'
+// import { useAuth, useLanguage } from '@/components/providers'
 import { Sidebar } from './sidebar'
 import { Header } from './header'
 import { DashboardHome } from './dashboard-home'

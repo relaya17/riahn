@@ -5,7 +5,7 @@ import { io, Socket } from 'socket.io-client'
 
 // Client -> Server events
 interface ClientToServerEvents {
-  authenticate: (data: { userId: string; token: string }) => void
+  authenticate: (data: { userId: string; username: string }) => void
   sendMessage: (data: { content: string; chatId: string }) => void
   typing: (data: { chatId: string; isTyping: boolean }) => void
   joinGroup: (groupId: string) => void
@@ -15,7 +15,7 @@ interface ClientToServerEvents {
 // Server -> Client events
 interface ServerToClientEvents {
   authenticated: () => void
-  newMessage: (msg: { content: string; senderId: string; timestamp: string }) => void
+  newMessage: (msg: { content: string; senderId: string; timestamp: string; chatId: string }) => void
   userTyping: (data: { userId: string; chatId: string; isTyping: boolean }) => void
   usersInRoom: (data: { chatId: string; users: string[] }) => void
 }
@@ -60,11 +60,11 @@ export function useSocket() {
 export function SocketProvider({
   children,
   userId,
-  token,
+  username,
 }: {
   children: ReactNode
   userId: string
-  token: string
+  username: string
 }) {
   const [socket, setSocket] = useState<SafeSocket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
@@ -80,7 +80,7 @@ export function SocketProvider({
 
     ;(rawSocket as TypedSocket).on('connect', () => {
       setIsConnected(true)
-      newSocket.emit('authenticate', { userId, token })
+      newSocket.emit('authenticate', { userId, username })
     })
 
     ;(rawSocket as TypedSocket).on('disconnect', () => setIsConnected(false))
@@ -88,8 +88,8 @@ export function SocketProvider({
     // Handle new messages
     newSocket.on('newMessage', (msg) => {
       setMessages(prev => {
-        const chatMsgs = prev[msg.senderId] || []
-        return { ...prev, [msg.senderId]: [...chatMsgs, msg] }
+        const chatMsgs = prev[msg.chatId] || []
+        return { ...prev, [msg.chatId]: [...chatMsgs, msg] }
       })
     })
 
@@ -108,7 +108,7 @@ export function SocketProvider({
       setSocket(null)
       setIsConnected(false)
     }
-  }, [userId, token])
+  }, [userId, username])
 
   const emit = useCallback(
     <K extends keyof ClientToServerEvents>(event: K, ...args: Parameters<ClientToServerEvents[K]>) => {

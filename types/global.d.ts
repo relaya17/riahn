@@ -36,74 +36,15 @@ export type Language = 'he' | 'ar' | 'en' | 'si' | 'ta' | 'fr' | 'es' | 'de' | '
 
 export type LanguageLevel = 'beginner' | 'intermediate' | 'advanced' | 'native';
 
-// Achievement types
-export interface Achievement {
-    id: string;
-    name: string;
-    description: string;
-    icon: string;
-    unlockedAt?: Date;
-}
+// Achievement types - defined in userProgress.types.ts
 
-// User Progress types
-export interface UserProgress {
-    userId: string;
-    language: Language;
-    level: LanguageLevel;
-    totalLessons: number;
-    completedLessons: number;
-    totalTimeSpent: number;
-    streak: number;
-    achievements: Achievement[];
-    lastActivity: Date;
-}
+// User Progress types - defined in userProgress.types.ts
 
-// Group types
-export interface GroupMember {
-    userId: string;
-    role: 'member' | 'admin' | 'moderator';
-    joinedAt: Date;
-}
+// Group types - defined in group.types.ts
 
-export interface Group {
-    name: string;
-    description?: string;
-    members: GroupMember[];
-}
+// Notification types - defined in notification.types.ts
 
-// Notification types
-export type NotificationType = 'lesson_completed' | 'new_message' | 'forum_reply' | 'achievement_unlocked' | 'friend_request' | 'group_invite';
-
-export interface Notification {
-    userId: string
-    type: string
-    title: string
-    message: string
-    data?: Record<string, unknown>
-    isRead: boolean
-    createdAt?: Date
-    updatedAt?: Date
-}
-
-// Message types
-export interface Message {
-    senderId: string;
-    receiverId?: string;
-    groupId?: string;
-    content: string;
-    originalLanguage: Language;
-    translatedContent: Map<Language, string>;
-    type: 'text' | 'image' | 'audio' | 'video' | 'file';
-    attachments: MessageAttachment[];
-    isRead: boolean;
-}
-
-export interface MessageAttachment {
-    type: 'text' | 'image' | 'audio' | 'video' | 'file';
-    url: string;
-    filename: string;
-    size: number;
-}
+// Message types - defined in message.types.ts
 
 // Forum Reply types
 export interface ForumReply {
@@ -151,74 +92,9 @@ export interface ApiResponse<T = unknown> {
     message?: string;
 }
 
-export interface TranslationResponse {
-    translatedText: string;
-    sourceLanguage: string;
-    targetLanguage: string;
-    confidence?: number;
-}
 
-// Forum types
-export interface ForumPost {
-    _id: string;
-    id: string;
-    title: string;
-    content: string;
-    author: {
-        name: string;
-        avatar: string | null;
-        level: string;
-    };
-    authorId: string;
-    category: string;
-    language: string;
-    tags: string[];
-    likes: number;
-    replies: unknown[];
-    views: number;
-    isPinned: boolean;
-    isLocked: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    lastReply: Date;
-}
-
-export type ForumCategory = 'all' | 'general' | 'grammar-help' | 'pronunciation' | 'culture' | 'resources' | 'success-stories';
-
-// Lesson types
-export interface Lesson {
-    _id: string;
-    title: string;
-    description: string;
-    level: 'beginner' | 'intermediate' | 'advanced';
-    duration: number;
-    progress: number;
-    completed: boolean;
-    language: string;
-    category: string;
-    thumbnail?: string;
-    content: LessonContent[];
-    rating: number;
-    savedBy?: string[];
-    isCompleted?: boolean;
-}
-
-export interface LessonContent {
-    id: string;
-    type: 'text' | 'image' | 'audio' | 'video' | 'quiz' | 'exercise';
-    title: string;
-    content: string;
-    order: number;
-    translation?: string;
-    options?: QuizOption[];
-}
-
-// Quiz types
-export interface QuizOption {
-    id: string;
-    text: string;
-    isCorrect?: boolean;
-}
+// Forum types - defined in models/ForumPost.ts
+// Lesson types - defined in models/Lesson.ts
 
 // Theme types
 export type Theme = 'light' | 'dark' | 'auto';
@@ -390,62 +266,3 @@ declare global {
     };
 }
 
-// Missing types that were referenced but not defined
-export interface LessonContent {
-    id: string;
-    type: 'text' | 'image' | 'audio' | 'video' | 'quiz' | 'exercise';
-    title: string;
-    content: string;
-    order: number;
-    translation?: string;
-    options?: QuizOption[];
-}
-
-export interface QuizOption {
-    id: string;
-    text: string;
-    isCorrect?: boolean;
-}
-
-export interface ForumPost {
-    _id: string;
-    id: string;
-    title: string;
-    content: string;
-    author: {
-        name: string;
-        avatar: string | null;
-        level: string;
-    };
-    authorId: string;
-    category: string;
-    language: string;
-    tags: string[];
-    likes: number;
-    replies: unknown[];
-    views: number;
-    isPinned: boolean;
-    isLocked: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    lastReply: Date;
-}
-
-export type ForumCategory = 'all' | 'general' | 'grammar-help' | 'pronunciation' | 'culture' | 'resources' | 'success-stories';
-
-export interface Lesson {
-    _id: string;
-    title: string;
-    description: string;
-    level: 'beginner' | 'intermediate' | 'advanced';
-    duration: number;
-    progress: number;
-    completed: boolean;
-    language: string;
-    category: string;
-    thumbnail?: string;
-    content: LessonContent[];
-    rating: number;
-    savedBy?: string[];
-    isCompleted?: boolean;
-}

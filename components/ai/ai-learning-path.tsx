@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Brain, Target, TrendingUp, Clock, Star, Zap, BookOpen, Users, Award, ChevronRight } from 'lucide-react'
+import { Brain, Target, TrendingUp, Clock, BookOpen, Users, Award, ChevronRight } from 'lucide-react'
 
 // Helper function for progress bar width
 const getProgressWidth = (percentage: number) => ({ width: `${percentage}%` })

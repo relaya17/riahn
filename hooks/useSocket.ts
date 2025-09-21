@@ -37,6 +37,10 @@ export const useSocket = () => {
             console.log('⌨️ User typing:', data);
         });
 
+        socket.on('usersInRoom', (data) => {
+            console.log('👥 Users in room:', data);
+        });
+
         socket.on('disconnect', (reason) => {
             console.log('❌ Disconnected:', reason);
         });
@@ -46,12 +50,12 @@ export const useSocket = () => {
         };
     }, []);
 
-    const authenticate = (userId: string, token?: string) => {
-        socketRef.current?.emit('authenticate', { userId, token });
+    const authenticate = (userId: string, username: string) => {
+        socketRef.current?.emit('authenticate', { userId, username });
     };
 
-    const sendMessage = (chatId: string, text: string) => {
-        socketRef.current?.emit('sendMessage', { chatId, text });
+    const sendMessage = (chatId: string, content: string) => {
+        socketRef.current?.emit('sendMessage', { chatId, content });
     };
 
     const setTyping = (chatId: string, isTyping: boolean) => {
