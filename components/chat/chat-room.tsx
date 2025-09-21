@@ -13,6 +13,7 @@ export function ChatRoom({ chatId }: { chatId: string }) {
   const [newMessage, setNewMessage] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [usersTyping, setUsersTyping] = useState<string[]>([])
+  const [usersOnline, setUsersOnline] = useState<string[]>([])
 
   useEffect(() => {
     // הצטרפות לחדר
@@ -29,13 +30,19 @@ export function ChatRoom({ chatId }: { chatId: string }) {
       })
     }
 
+    const handleUsersInRoom = (data: { chatId: string; users: string[] }) => {
+      if (data.chatId === chatId) setUsersOnline(data.users)
+    }
+
     on('newMessage', handleNewMessage)
     on('userTyping', handleTyping)
+    on('usersInRoom', handleUsersInRoom)
 
     return () => {
       emit('leaveGroup', chatId)
       off('newMessage', handleNewMessage)
       off('userTyping', handleTyping)
+      off('usersInRoom', handleUsersInRoom)
     }
   }, [chatId, emit, on, off])
 
@@ -58,6 +65,12 @@ export function ChatRoom({ chatId }: { chatId: string }) {
   return (
     <div style={{ border: '1px solid #ccc', padding: 10, width: 400 }}>
       <h3>Chat Room: {chatId}</h3>
+
+      <div>
+        <strong>Online:</strong> {usersOnline.join(', ')}
+      </div>
+      {usersTyping.length > 0 && <div>{usersTyping.join(', ')} typing...</div>}
+
       <div style={{ minHeight: 200, border: '1px solid #eee', marginBottom: 10, padding: 5 }}>
         {messages.map((m, i) => (
           <div key={i}>
@@ -65,7 +78,7 @@ export function ChatRoom({ chatId }: { chatId: string }) {
           </div>
         ))}
       </div>
-      {usersTyping.length > 0 && <div>{usersTyping.join(', ')} typing...</div>}
+
       <input type="text" value={newMessage} onChange={handleChange} onKeyDown={(e) => e.key === 'Enter' && handleSend()} />
       <button onClick={handleSend}>Send</button>
     </div>
