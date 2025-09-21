@@ -3,8 +3,9 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { io, Socket } from 'socket.io-client'
 
+// טיפוסי אירועים
 interface ClientToServerEvents {
-  authenticate: (data: { userId: string; username: string; token?: string }) => void
+  authenticate: (data: { userId: string; token: string }) => void
   sendMessage: (data: { content: string; chatId: string }) => void
   typing: (data: { chatId: string; isTyping: boolean }) => void
   joinGroup: (groupId: string) => void
@@ -13,13 +14,15 @@ interface ClientToServerEvents {
 
 interface ServerToClientEvents {
   authenticated: () => void
-  newMessage: (msg: { content: string; senderId: string; senderName: string; timestamp: string }) => void
-  userTyping: (data: { userId: string; username: string; chatId: string; isTyping: boolean }) => void
+  newMessage: (msg: { content: string; senderId: string; timestamp: string }) => void
+  userTyping: (data: { userId: string; chatId: string; isTyping: boolean }) => void
   usersInRoom: (data: { chatId: string; users: string[] }) => void
 }
 
+// טיפוס Socket עם אירועים
 type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>
 
+// Context
 interface SocketContextType {
   socket: TypedSocket | null
   isConnected: boolean
@@ -45,16 +48,15 @@ export function useSocket() {
   return context
 }
 
+// Provider
 export function SocketProvider({
   children,
   userId,
-  username,
   token,
 }: {
   children: ReactNode
   userId: string
-  username: string
-  token?: string
+  token: string
 }) {
   const [socket, setSocket] = useState<TypedSocket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
@@ -67,37 +69,44 @@ export function SocketProvider({
       transports: ['websocket', 'polling'],
     })
 
+    // חיבור
     newSocket.on('connect', () => {
       setIsConnected(true)
-      newSocket.emit('authenticate', { userId, username, token })
+      newSocket.emit('authenticate', { userId, token })
     })
 
     newSocket.on('disconnect', () => setIsConnected(false))
-    newSocket.on('connect_error', (err) => console.error('Socket connection error', err))
 
     setSocket(newSocket)
 
-    return () => newSocket.disconnect()
-  }, [userId, username, token])
+    return () => {
+      newSocket.disconnect()
+    }
+  }, [userId, token])
 
+  // Emit
   const emit = <K extends keyof ClientToServerEvents>(
     event: K,
     data: Parameters<ClientToServerEvents[K]>[0]
-  ) => socket?.emit(event, data)
-
-  const on = <K extends keyof ServerToClientEvents>(
-    event: K,
-    callback: ServerToClientEvents[K] & ((...args: any[]) => void)
   ) => {
-    socket?.on(event as string, callback as (...args: any[]) => void)
+    socket?.emit(event, data)
   }
 
+  // On
+  const on = <K extends keyof ServerToClientEvents>(
+    event: K,
+    callback: (...args: Parameters<ServerToClientEvents[K]>) => void
+  ) => {
+    socket?.on(event, callback as (...args: any[]) => void)
+  }
+
+  // Off
   const off = <K extends keyof ServerToClientEvents>(
     event: K,
-    callback?: ServerToClientEvents[K] & ((...args: any[]) => void)
+    callback?: (...args: Parameters<ServerToClientEvents[K]>) => void
   ) => {
-    if (callback) socket?.off(event as string, callback as (...args: any[]) => void)
-    else socket?.removeAllListeners(event as string)
+    if (callback) socket?.off(event, callback as (...args: any[]) => void)
+    else socket?.removeAllListeners(event)
   }
 
   return (
