@@ -1,9 +1,9 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react'
 import { io, Socket } from 'socket.io-client'
 
-// טיפוסי אירועים
+// Client -> Server events
 interface ClientToServerEvents {
   authenticate: (data: { userId: string; token: string }) => void
   sendMessage: (data: { content: string; chatId: string }) => void
@@ -12,6 +12,7 @@ interface ClientToServerEvents {
   leaveGroup: (groupId: string) => void
 }
 
+// Server -> Client events
 interface ServerToClientEvents {
   authenticated: () => void
   newMessage: (msg: { content: string; senderId: string; timestamp: string }) => void
@@ -19,16 +20,24 @@ interface ServerToClientEvents {
   usersInRoom: (data: { chatId: string; users: string[] }) => void
 }
 
-// טיפוס Socket עם אירועים
 type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>
 
-// Context
+// Helper type to safely handle Socket.IO events
+type SafeSocket = {
+  on: <K extends keyof ServerToClientEvents>(event: K, listener: ServerToClientEvents[K]) => SafeSocket
+  off: <K extends keyof ServerToClientEvents>(event: K, listener?: ServerToClientEvents[K]) => SafeSocket
+  emit: <K extends keyof ClientToServerEvents>(event: K, ...args: Parameters<ClientToServerEvents[K]>) => boolean
+  disconnect: () => void
+}
+
 interface SocketContextType {
-  socket: TypedSocket | null
+  socket: SafeSocket | null
   isConnected: boolean
+  messages: Record<string, { content: string; senderId: string; timestamp: string }[]>
+  typingStatus: Record<string, Record<string, boolean>>
   emit: <K extends keyof ClientToServerEvents>(
     event: K,
-    data: Parameters<ClientToServerEvents[K]>[0]
+    ...args: Parameters<ClientToServerEvents[K]>
   ) => void
   on: <K extends keyof ServerToClientEvents>(
     event: K,
@@ -48,7 +57,6 @@ export function useSocket() {
   return context
 }
 
-// Provider
 export function SocketProvider({
   children,
   userId,
@@ -58,59 +66,75 @@ export function SocketProvider({
   userId: string
   token: string
 }) {
-  const [socket, setSocket] = useState<TypedSocket | null>(null)
+  const [socket, setSocket] = useState<SafeSocket | null>(null)
   const [isConnected, setIsConnected] = useState(false)
+  const [messages, setMessages] = useState<Record<string, { content: string; senderId: string; timestamp: string }[]>>({})
+  const [typingStatus, setTypingStatus] = useState<Record<string, Record<string, boolean>>>({})
 
   useEffect(() => {
     if (!userId) return
 
     const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000'
-    const newSocket: TypedSocket = io(socketUrl, {
-      transports: ['websocket', 'polling'],
-    })
+    const rawSocket = io(socketUrl, { transports: ['websocket', 'polling'] })
+    const newSocket: SafeSocket = rawSocket as unknown as SafeSocket
 
-    // חיבור
-    newSocket.on('connect', () => {
+    ;(rawSocket as TypedSocket).on('connect', () => {
       setIsConnected(true)
       newSocket.emit('authenticate', { userId, token })
     })
 
-    newSocket.on('disconnect', () => setIsConnected(false))
+    ;(rawSocket as TypedSocket).on('disconnect', () => setIsConnected(false))
+
+    // Handle new messages
+    newSocket.on('newMessage', (msg) => {
+      setMessages(prev => {
+        const chatMsgs = prev[msg.senderId] || []
+        return { ...prev, [msg.senderId]: [...chatMsgs, msg] }
+      })
+    })
+
+    // Handle typing updates
+    newSocket.on('userTyping', ({ chatId, userId: typingUserId, isTyping }) => {
+      setTypingStatus(prev => {
+        const chatTyping = prev[chatId] || {}
+        return { ...prev, [chatId]: { ...chatTyping, [typingUserId]: isTyping } }
+      })
+    })
 
     setSocket(newSocket)
 
     return () => {
       newSocket.disconnect()
+      setSocket(null)
+      setIsConnected(false)
     }
   }, [userId, token])
 
-  // Emit
-  const emit = <K extends keyof ClientToServerEvents>(
-    event: K,
-    data: Parameters<ClientToServerEvents[K]>[0]
-  ) => {
-    socket?.emit(event, data)
-  }
+  const emit = useCallback(
+    <K extends keyof ClientToServerEvents>(event: K, ...args: Parameters<ClientToServerEvents[K]>) => {
+      socket?.emit(event, ...args)
+    },
+    [socket]
+  )
 
-  // On
-  const on = <K extends keyof ServerToClientEvents>(
-    event: K,
-    callback: (...args: Parameters<ServerToClientEvents[K]>) => void
-  ) => {
-    socket?.on(event, callback as (...args: any[]) => void)
-  }
+  const on = useCallback(
+    <K extends keyof ServerToClientEvents>(event: K, callback: ServerToClientEvents[K]) => {
+      socket?.on(event, callback)
+    },
+    [socket]
+  )
 
-  // Off
-  const off = <K extends keyof ServerToClientEvents>(
-    event: K,
-    callback?: (...args: Parameters<ServerToClientEvents[K]>) => void
-  ) => {
-    if (callback) socket?.off(event, callback as (...args: any[]) => void)
-    else socket?.removeAllListeners(event)
-  }
+  const off = useCallback(
+    <K extends keyof ServerToClientEvents>(event: K, callback?: ServerToClientEvents[K]) => {
+      socket?.off(event, callback)
+    },
+    [socket]
+  )
 
   return (
-    <SocketContext.Provider value={{ socket, isConnected, emit, on, off }}>
+    <SocketContext.Provider
+      value={{ socket, isConnected, messages, typingStatus, emit, on, off }}
+    >
       {children}
     </SocketContext.Provider>
   )
