@@ -5,7 +5,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "server": "node server.cjs",
+        "server": "node server.js",
         "build": "next build",
         "analyze": "next build --analyze",
         "export": "next export",

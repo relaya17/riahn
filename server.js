@@ -5,15 +5,18 @@ const next = require('next');
 
 // Node.js globals
 const process = global.process;
+const console = global.console;
 
 const app = express();
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' 
-      ? process.env.NEXT_PUBLIC_SOCKET_URL || 'https://languageconnect.onrender.com'
-      : 'http://localhost:3000',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? process.env.NEXT_PUBLIC_SOCKET_URL ||
+          'https://languageconnect.onrender.com'
+        : 'http://localhost:3000',
     methods: ['GET', 'POST'],
   },
 });
