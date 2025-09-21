@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { AuthUser } from '@/lib/auth'
 import { ThemeProvider } from './theme-provider'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { SocketProvider } from './socket-provider'
+import { SocketProvider } from './providers/socket-provider'
 
 // Auth Context
 interface AuthContextType {
@@ -1639,7 +1639,13 @@ function AuthProvider({ children }: { children: ReactNode }) {
     resetPassword,
   }
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={value}>
+      <SocketProvider userId={user?._id || ''} username={user?.name || ''}>
+        {children}
+      </SocketProvider>
+    </AuthContext.Provider>
+  )
 }
 
 // Language Provider
@@ -1701,9 +1707,7 @@ export function Providers({ children }: { children: ReactNode }) {
       <ThemeProviderWrapper>
         <LanguageProvider>
           <AuthProvider>
-            <SocketProvider>
-              {children}
-            </SocketProvider>
+            {children}
           </AuthProvider>
         </LanguageProvider>
       </ThemeProviderWrapper>
