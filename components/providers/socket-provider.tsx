@@ -15,6 +15,7 @@ interface ServerToClientEvents {
   authenticated: () => void
   newMessage: (msg: { content: string; senderId: string; timestamp: string }) => void
   userTyping: (data: { userId: string; chatId: string; isTyping: boolean }) => void
+  usersInRoom: (data: { chatId: string; users: string[] }) => void
 }
 
 type TypedSocket = Socket<ServerToClientEvents, ClientToServerEvents>
@@ -68,9 +69,7 @@ export function SocketProvider({
 
     setSocket(newSocket)
 
-    return () => {
-      newSocket.disconnect()
-    }
+    return () => newSocket.disconnect()
   }, [userId, token])
 
   const emit = <K extends keyof ClientToServerEvents>(
