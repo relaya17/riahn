@@ -20,28 +20,26 @@ const nextConfig = {
 
   // Build optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    removeConsole: false,
   },
 
   // API routes
-  async headers() {
-    return [
-      {
-        source: '/api/(.*)',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          {
-            key: 'Access-Control-Allow-Methods',
-            value: 'GET,POST,PUT,DELETE,OPTIONS',
-          },
-          {
-            key: 'Access-Control-Allow-Headers',
-            value: 'Content-Type,Authorization',
-          },
-        ],
-      },
-    ];
-  },
+  headers: () => [
+    {
+      source: '/api/(.*)',
+      headers: [
+        { key: 'Access-Control-Allow-Origin', value: '*' },
+        {
+          key: 'Access-Control-Allow-Methods',
+          value: 'GET,POST,PUT,DELETE,OPTIONS',
+        },
+        {
+          key: 'Access-Control-Allow-Headers',
+          value: 'Content-Type,Authorization',
+        },
+      ],
+    },
+  ],
 
   // Security
   poweredByHeader: false,
@@ -60,8 +58,7 @@ const nextConfig = {
   },
 
   // Webpack optimizations
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Performance optimizations
+  webpack: (config, { dev, isServer }) => {
     if (!dev) {
       config.optimization.splitChunks.cacheGroups = {
         ...config.optimization.splitChunks.cacheGroups,
@@ -75,19 +72,16 @@ const nextConfig = {
       };
     }
 
-    // External dependencies
     if (isServer) {
-      config.externals = [...config.externals, 'mongoose'];
+      config.externals = [...(config.externals || []), 'mongoose'];
     }
 
     return config;
   },
 
-  // Page extensions
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
 
-  // Output
   output: 'standalone',
 };
 
-module.exports = nextConfig;
+export default nextConfig;
