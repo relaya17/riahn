@@ -1,5 +1,5 @@
 # Use the official Node.js 20 LTS image (more secure)
-FROM node:20-alpine
+FROM node:24-alpine
 
 # Create app user for security
 RUN addgroup -g 1001 -S nodejs
