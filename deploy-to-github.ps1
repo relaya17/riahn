@@ -10,7 +10,7 @@ Write-Host ""
 $username = Read-Host "הכנס את שם המשתמש שלך ב-GitHub"
 if ([string]::IsNullOrWhiteSpace($username)) {
     Write-Host "❌ שם משתמש לא הוזן!" -ForegroundColor Red
-    Read-Host "לחץ Enter כדי לצאת"
+    Read-Host "Press Enter to exit"
     exit 1
 }
 
@@ -39,4 +39,4 @@ catch {
 }
 
 Write-Host ""
-Read-Host "לחץ Enter כדי לצאת"
+Read-Host "Press Enter to exit"
