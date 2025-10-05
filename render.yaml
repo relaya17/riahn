@@ -3,7 +3,7 @@ services:
     name: languageconnect
     runtime: node
     plan: free
-    nodeVersion: 18
+    nodeVersion: 20
     buildCommand: pnpm install && pnpm build
     startCommand: pnpm start
     healthCheckPath: /
