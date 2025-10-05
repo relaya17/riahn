@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { AccessibilityButton } from '@/components/accessibility/accessibility-button'
 import { AdvancedPerformanceMonitor } from '@/components/performance/advanced-performance-monitor'
