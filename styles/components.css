@@ -1,0 +1,186 @@
+/* Component-specific styles to replace inline styles */
+
+/* Loading component */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+.loading-skeleton-line {
+  width: calc(60% + 40% * var(--random, 0.5));
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Achievement system */
+.achievement-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.achievement-progress {
+  background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
+}
+
+/* Dashboard components */
+.dashboard-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.dashboard-stat {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.dashboard-progress {
+  width: var(--progress-width, 0%);
+}
+
+/* Lesson components */
+.lesson-card {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 4px 20px rgba(79, 172, 254, 0.3);
+}
+
+.lesson-progress {
+  width: var(--progress-width, 0%);
+}
+
+/* Profile components */
+.achievement-badge-icon {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  box-shadow: 0 4px 15px rgba(252, 182, 159, 0.4);
+}
+
+.language-progress-bar {
+  background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);
+  width: var(--progress-width, 0%);
+}
+
+/* Virtual list */
+.virtual-list-container {
+  height: 400px;
+  overflow-y: auto;
+}
+
+.virtual-list-content {
+  height: var(--total-height);
+  position: relative;
+}
+
+.virtual-list-items {
+  transform: translateY(var(--offset-y));
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.virtual-list-item {
+  height: var(--item-height);
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.virtual-list-item:hover {
+  background-color: #f9fafb;
+}
+
+/* Learning chat */
+.chat-message {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.chat-input {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.chat-typing-dot-2 {
+  animation-delay: 0.1s;
+}
+
+.chat-typing-dot-3 {
+  animation-delay: 0.2s;
+}
+
+/* World map */
+.map-container {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.world-map-svg {
+  transform: scale(var(--zoom, 1));
+  transform-origin: center;
+}
+
+/* Analytics dashboard */
+.analytics-chart {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  height: var(--chart-height, 0%);
+}
+
+.analytics-metric {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.analytics-progress {
+  width: var(--progress-width, 0%);
+}
+
+/* AR language learning */
+.ar-overlay {
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.8) 0%, rgba(0, 242, 254, 0.8) 100%);
+}
+
+.ar-controls {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.ar-canvas {
+  pointer-events: none;
+}
+
+.ar-overlay-item {
+  top: calc(20px + var(--index, 0) * 80px);
+  right: 20px;
+  max-width: 200px;
+}
+
+/* Letter learning components */
+.letter-quiz-container {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.letter-practice-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.letter-quiz-progress {
+  width: var(--progress-width, 0%);
+}
+
+.letter-practice-progress {
+  width: var(--progress-width, 0%);
+}
+
+/* Lesson page */
+.lesson-content {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* RPG System Progress Bars */
+.rpg-experience-progress {
+  width: var(--progress-width, 0%);
+}
+
+.rpg-quest-progress {
+  width: var(--quest-progress, 0%);
+}
+
+.rpg-skill-progress {
+  width: var(--skill-progress, 0%);
+}

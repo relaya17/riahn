@@ -1,0 +1,12 @@
+# Netlify redirects for SPA
+/*    /index.html   200
+
+# API routes (if you have any)
+/api/*  /api/:splat  200
+
+# Language redirects
+/he/*   /he/:splat   200
+/ar/*   /ar/:splat   200
+/en/*   /en/:splat   200
+/si/*   /si/:splat   200
+/ta/*   /ta/:splat   200

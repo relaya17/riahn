@@ -1,0 +1,32 @@
+{
+    "name": "LanguageConnect - חיבור בין שפות ותרבויות",
+    "short_name": "LanguageConnect",
+    "description": "אפליקציה ללימוד שפות וחיבור בין משתמשים מכל העולם עם AI מתקדם",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#ffffff",
+    "theme_color": "#10b981",
+    "scope": "/",
+    "lang": "he",
+    "dir": "rtl",
+    "categories": [
+        "education",
+        "lifestyle",
+        "social"
+    ],
+    "icons": [
+        {
+            "src": "/sary.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg",
+            "purpose": "any"
+        },
+        {
+            "src": "/sary2.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any"
+        }
+    ]
+}
