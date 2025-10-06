@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Select } from '@/components/ui/select'
+import { Card } from '@/components/core/card'
+import { Button } from '@/components/core/button'
+import { Select } from '@/components/core/select'
 import { 
   Search, 
   Filter, 
@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import { User, Language, LanguageLevel } from '@/types'
 import { mockUsers } from '@/data/mockData'
-import { OptimizedAvatar } from '@/components/ui/optimized-image'
+import { OptimizedAvatar } from '@/components/core/optimized-image'
 
 interface UserListProps {
   currentUser: User
@@ -367,5 +367,6 @@ export function UserList({ currentUser, onStartChat, onStartCall }: UserListProp
     </div>
   )
 }
+
 
 

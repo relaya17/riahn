@@ -1,7 +1,7 @@
 'use client'
 
 import { useLanguage } from '@/components/providers'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Shield, Eye, Lock, Database, UserCheck, Globe } from 'lucide-react'
 
 export default function PrivacyPolicyPage() {

@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Select } from '@/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
+import { Select } from '@/components/core/select'
 import { 
   BarChart3, 
   TrendingUp, 
@@ -381,3 +381,4 @@ export function AnalyticsDashboard() {
     </div>
   )
 }
+

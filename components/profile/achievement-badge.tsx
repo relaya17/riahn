@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/core/card'
 import { 
   Trophy, 
   Star, 
@@ -152,3 +152,4 @@ export function AchievementBadge({ achievement, isUnlocked, onClick }: Achieveme
     </Card>
   )
 }
+

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
 import { SecuritySettings } from '@/components/security/security-settings'
 import { SecurityMonitor } from '@/components/security/security-monitor'
 import { 
@@ -250,3 +250,4 @@ export default function SecurityPage() {
     </div>
   )
 }
+

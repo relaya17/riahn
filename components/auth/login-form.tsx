@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { useAuth, useLanguage } from '@/components/providers'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { EnhancedInput, EnhancedButton } from '@/components/ui/enhanced-form'
-import { useSoundEffects } from '@/components/ui/sound-effects'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { EnhancedInput, EnhancedButton } from '@/components/core/enhanced-form'
+import { useSoundEffects } from '@/components/core/sound-effects'
 import { Mail, Lock } from 'lucide-react'
 import { LoginForm as LoginFormType } from '@/types'
 import { usePasswordToggle } from '@/hooks/usePasswordToggle'
@@ -189,3 +189,4 @@ export function LoginForm({ onModeChange }: LoginFormProps) {
     </div>
   )
 }
+

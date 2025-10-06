@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
 import { 
   Brain, 
   Languages, 
@@ -551,3 +551,4 @@ export function NeuralTranslator() {
     </div>
   )
 }
+

@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/components/providers'
-import { Card, CardContent, CardTitle } from '@/components/ui/card'
-import { AdvancedCard } from '@/components/ui/advanced-card'
-import { AnimatedCounter } from '@/components/ui/animated-counter'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
-import { LoadingSpinner } from '@/components/ui/loading'
+import { Card, CardContent, CardTitle } from '@/components/core/card'
+import { AdvancedCard } from '@/components/core/advanced-card'
+import { AnimatedCounter } from '@/components/core/animated-counter'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Select } from '@/components/core/select'
+import { LoadingSpinner } from '@/components/core/loading'
 import { ForumPostCard } from '@/components/forums/forum-post-card'
 import { ForumPostForm, ForumPostFormData } from '@/components/forums/forum-post-form'
 import { ForumCategories } from '@/components/forums/forum-categories'
@@ -558,3 +558,4 @@ export function ForumsPage() {
     </div>
   )
 }
+

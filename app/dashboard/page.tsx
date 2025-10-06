@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/providers'
 import { DashboardLayout } from '@/components/dashboard/dashboard-layout'
 import { DashboardProviders } from '@/components/providers/client-providers'
-import { LoadingPage } from '@/components/ui/loading'
+import { LoadingPage } from '@/components/core/loading'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,3 +33,4 @@ export default function DashboardPage() {
     </DashboardProviders>
   )
 }
+

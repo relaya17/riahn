@@ -3,12 +3,12 @@
 import { useState } from 'react'
 import { useAuth, useLanguage } from '@/components/providers'
 import type { Language, LanguageLevel } from '@/types'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
-import { LoadingSpinner } from '@/components/ui/loading'
-import { OptimizedAvatar } from '@/components/ui/optimized-image'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Select } from '@/components/core/select'
+import { LoadingSpinner } from '@/components/core/loading'
+import { OptimizedAvatar } from '@/components/core/optimized-image'
 import { ProfileStats } from '@/components/profile/profile-stats'
 import { AchievementBadge } from '@/components/profile/achievement-badge'
 import { LanguageProgress } from '@/components/profile/language-progress'
@@ -551,3 +551,4 @@ export function ProfilePage() {
     </div>
   )
 }
+

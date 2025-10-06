@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { LoadingPage } from '@/components/ui/loading'
+import { Card } from '@/components/core/card'
+import { Button } from '@/components/core/button'
+import { LoadingPage } from '@/components/core/loading'
 import { 
   ArrowLeft, 
   Play, 

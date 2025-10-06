@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/core/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { useLanguage } from '@/components/providers'
 import { 
   Accessibility,
@@ -402,3 +402,4 @@ export function AccessibilityButton() {
     </>
   )
 }
+

@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 
 interface EnhanceTextRequest {
     text: string
@@ -19,11 +17,6 @@ interface EnhancementResult {
 
 export async function POST(request: NextRequest) {
     try {
-        const session = await getServerSession()
-        if (!session) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-        }
-
         const body: EnhanceTextRequest = await request.json()
         const { text, enhancementType, language } = body
 

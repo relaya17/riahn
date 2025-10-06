@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/components/providers'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AdvancedCard } from '@/components/ui/advanced-card'
-import { ProgressRing } from '@/components/ui/progress-ring'
-import { AnimatedCounter } from '@/components/ui/animated-counter'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { AdvancedCard } from '@/components/core/advanced-card'
+import { ProgressRing } from '@/components/core/progress-ring'
+import { AnimatedCounter } from '@/components/core/animated-counter'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Select } from '@/components/core/select'
 import { mockLessons } from '@/data/mockData'
 import { 
   BookOpen, 
@@ -364,3 +364,4 @@ export function LessonsOverview({ groupId }: LessonsOverviewProps) {
     </div>
   )
 }
+

@@ -1,7 +1,7 @@
 'use client'
 
 import { useLanguage } from '@/components/providers'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Accessibility, Eye, Ear, Hand, Brain, Keyboard, Monitor, Smartphone } from 'lucide-react'
 
 export default function AccessibilityPage() {

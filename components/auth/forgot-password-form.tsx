@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { useAuth, useLanguage } from '@/components/providers'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
 import { Mail, ArrowLeft } from 'lucide-react'
 
 interface ForgotPasswordFormProps {
@@ -129,3 +129,4 @@ export function ForgotPasswordForm({ onModeChange }: ForgotPasswordFormProps) {
     </div>
   )
 }
+

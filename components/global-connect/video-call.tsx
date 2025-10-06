@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/core/button'
 import { 
   Phone, 
   Video, 
@@ -316,3 +316,4 @@ export function VideoCall({
     </div>
   )
 }
+

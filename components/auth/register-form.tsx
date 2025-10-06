@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { useAuth, useLanguage } from '@/components/providers'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Select } from '@/components/core/select'
 import { Mail, Lock, User } from 'lucide-react'
 import { RegisterForm as RegisterFormType, Language } from '@/types'
 import { usePasswordToggle } from '@/hooks/usePasswordToggle'
@@ -284,3 +284,4 @@ export function RegisterForm({ onModeChange }: RegisterFormProps) {
     </div>
   )
 }
+

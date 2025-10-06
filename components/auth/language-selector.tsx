@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useLanguage } from '@/components/providers'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/core/button'
 import { ChevronDown } from 'lucide-react'
 
 const languages = [
@@ -63,3 +63,4 @@ export function LanguageSelector() {
     </div>
   )
 }
+

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card } from '@/components/core/card'
+import { Button } from '@/components/core/button'
 import { 
   Play, 
   Pause, 
@@ -285,3 +285,4 @@ export function AudioPlayer({
     </Card>
   )
 }
+

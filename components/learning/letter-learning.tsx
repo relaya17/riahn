@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '@/components/providers'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
 import { 
   Volume2, 
   ChevronLeft, 
@@ -663,3 +663,4 @@ export function LetterLearning({ language, difficulty }: LetterLearningProps) {
     </div>
   )
 }
+

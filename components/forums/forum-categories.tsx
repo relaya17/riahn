@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { 
   MessageCircle, 
   Users, 
@@ -160,3 +160,4 @@ export function ForumCategories({ onCategorySelect, selectedCategory }: ForumCat
     </div>
   )
 }
+

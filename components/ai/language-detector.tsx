@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
 import { 
   Languages, 
   Zap, 
@@ -220,3 +220,4 @@ export function LanguageDetector({ text, onLanguageDetected }: LanguageDetectorP
     </Card>
   )
 }
+

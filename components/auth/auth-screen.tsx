@@ -6,7 +6,7 @@ import { LoginForm } from './login-form'
 import { RegisterForm } from './register-form'
 import { ForgotPasswordForm } from './forgot-password-form'
 import { LanguageSelector } from './language-selector'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Globe, Users, BookOpen, MessageCircle } from 'lucide-react'
 
 type AuthMode = 'login' | 'register' | 'forgot-password'
@@ -145,3 +145,4 @@ export function AuthScreen() {
     </div>
   )
 }
+

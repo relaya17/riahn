@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useAuth, useLanguage } from '@/components/providers'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Card, CardContent } from '@/components/core/card'
 import {
   Menu,
   Search,
@@ -305,3 +305,4 @@ export function Header({ onMenuClick, currentPage }: HeaderProps) {
     </header>
   )
 }
+

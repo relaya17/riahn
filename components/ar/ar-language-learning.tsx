@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AdvancedCard } from '@/components/ui/advanced-card'
-import { ProgressRing } from '@/components/ui/progress-ring'
-import { AnimatedCounter } from '@/components/ui/animated-counter'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { AdvancedCard } from '@/components/core/advanced-card'
+import { ProgressRing } from '@/components/core/progress-ring'
+import { AnimatedCounter } from '@/components/core/animated-counter'
+import { Button } from '@/components/core/button'
 import { 
   Camera, 
   Eye, 
@@ -485,3 +485,4 @@ export function ARLanguageLearning() {
     </div>
   )
 }
+

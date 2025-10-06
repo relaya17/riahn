@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { 
   Send, 
   Volume2, 
@@ -16,7 +16,7 @@ import {
   Lightbulb,
   Star
 } from 'lucide-react'
-import { useToast } from '@/components/ui/toast'
+import { useToast } from '@/components/core/toast'
 
 interface ChatMessage {
   id: string
@@ -495,3 +495,4 @@ export function LearningChat({
     </div>
   )
 }
+

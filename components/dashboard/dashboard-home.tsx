@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth, useLanguage } from '@/components/providers'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { AdvancedCard } from '@/components/ui/advanced-card'
-import { ProgressRing } from '@/components/ui/progress-ring'
-import { AnimatedCounter } from '@/components/ui/animated-counter'
-import { StaggerAnimation, RevealOnScroll, Magnetic } from '@/components/ui/advanced-animations'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { AdvancedCard } from '@/components/core/advanced-card'
+import { ProgressRing } from '@/components/core/progress-ring'
+import { AnimatedCounter } from '@/components/core/animated-counter'
+import { StaggerAnimation, RevealOnScroll, Magnetic } from '@/components/core/advanced-animations'
+import { Button } from '@/components/core/button'
 import {
   BookOpen,
   Users,
@@ -465,3 +465,4 @@ export function DashboardHome() {
     </div>
   )
 }
+

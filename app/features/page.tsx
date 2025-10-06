@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
 import { AchievementSystem } from '@/components/gamification/achievement-system'
 import { SocialFeed } from '@/components/social/social-feed'
 import { AnalyticsDashboard } from '@/components/analytics/analytics-dashboard'
@@ -238,3 +238,4 @@ export default function FeaturesPage() {
     </div>
   )
 }
+

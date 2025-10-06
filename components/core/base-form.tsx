@@ -2,9 +2,9 @@
 
 import { ReactNode } from 'react'
 import { useForm, FieldValues, UseFormReturn, DefaultValues, Path } from 'react-hook-form'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { LoadingSpinner } from '@/components/ui/loading'
+import { Button } from '@/components/core/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { LoadingSpinner } from '@/components/core/loading'
 
 export interface BaseFormField {
   name: string
@@ -296,3 +296,4 @@ export function useBaseForm<T extends FieldValues>(defaultValues?: Partial<T>) {
     defaultValues: defaultValues as DefaultValues<T>
   })
 }
+

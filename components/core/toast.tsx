@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/core/card'
+import { Button } from '@/components/core/button'
 import { 
   CheckCircle, 
   AlertCircle, 
@@ -158,3 +158,4 @@ export function useToast() {
     info
   }
 }
+

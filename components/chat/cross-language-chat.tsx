@@ -2,10 +2,10 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useLanguage } from '@/components/providers'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Select } from '@/components/core/select'
 import { MessageCircle, Send, Languages, Volume2, Copy, Check } from 'lucide-react'
 
 interface ChatMessage {
@@ -383,3 +383,4 @@ export function CrossLanguageChat() {
     </div>
   )
 }
+

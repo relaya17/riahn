@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Select } from '@/components/core/select'
 import { 
   Sparkles, 
   RefreshCw, 
@@ -15,7 +15,7 @@ import {
   FileText,
   Target
 } from 'lucide-react'
-import { useToast } from '@/components/ui/toast'
+import { useToast } from '@/components/core/toast'
 
 interface TextEnhancerProps {
   initialText?: string
@@ -264,3 +264,4 @@ export function TextEnhancer({ initialText = '', onEnhanced }: TextEnhancerProps
     </div>
   )
 }
+

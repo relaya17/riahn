@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Select } from '@/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Select } from '@/components/core/select'
 import { LearningChat } from '@/components/learning/learning-chat'
 import { 
   MessageCircle, 
@@ -363,3 +363,4 @@ export default function LearningChatPage() {
     </div>
   )
 }
+

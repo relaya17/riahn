@@ -31,6 +31,8 @@
         "clean": "rm -rf node_modules .next out dist"
     },
     "dependencies": {
+        "@radix-ui/react-label": "^2.1.7",
+        "@radix-ui/react-tabs": "^1.1.13",
         "@reduxjs/toolkit": "^2.9.0",
         "@types/mongoose": "^5.11.97",
         "@types/node": "^20.19.17",

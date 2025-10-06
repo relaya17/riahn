@@ -3,11 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth, useLanguage } from '@/components/providers'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Select } from '@/components/ui/select'
-import { LoadingSpinner } from '@/components/ui/loading'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Button } from '@/components/core/button'
+import { Input } from '@/components/core/input'
+import { Select } from '@/components/core/select'
+import { LoadingSpinner } from '@/components/core/loading'
 import {
   Users,
   MessageCircle,
@@ -502,3 +502,4 @@ export function GlobalConnectPage() {
     </div>
   )
 }
+

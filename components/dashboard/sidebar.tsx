@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useAuth, useLanguage } from '@/components/providers'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/core/button'
+import { Card, CardContent } from '@/components/core/card'
 import {
   Home,
   BookOpen,
@@ -258,3 +258,4 @@ export function Sidebar({ isOpen, onClose, currentPage, onPageChange }: SidebarP
     </>
   )
 }
+
