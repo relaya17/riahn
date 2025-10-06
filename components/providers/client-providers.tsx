@@ -10,6 +10,14 @@ export function ClientProviders({ children }: { children: React.ReactNode }) {
     <>
       {children}
       <AccessibilityButton />
+    </>
+  )
+}
+
+export function DashboardProviders({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
       <AdvancedPerformanceMonitor />
       <ErrorMonitor />
       <QuickPerformance />

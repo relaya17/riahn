@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/providers'
 import { DashboardLayout } from '@/components/dashboard/dashboard-layout'
+import { DashboardProviders } from '@/components/providers/client-providers'
 import { LoadingPage } from '@/components/ui/loading'
 
 export const dynamic = 'force-dynamic'
@@ -26,5 +27,9 @@ export default function DashboardPage() {
     return <LoadingPage message="מעביר לעמוד הכניסה..." />
   }
 
-  return <DashboardLayout />
+  return (
+    <DashboardProviders>
+      <DashboardLayout />
+    </DashboardProviders>
+  )
 }
