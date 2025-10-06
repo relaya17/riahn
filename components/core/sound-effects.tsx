@@ -16,7 +16,10 @@ export function useSoundEffects() {
   useEffect(() => {
     // Initialize AudioContext
     if (typeof window !== 'undefined' && !audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+      const Ctx: typeof window.AudioContext | (new () => AudioContext) =
+        (window as unknown as { AudioContext?: typeof window.AudioContext }).AudioContext ||
+        (window as unknown as { webkitAudioContext?: new () => AudioContext }).webkitAudioContext
+      audioContextRef.current = new Ctx()
     }
 
     // Generate sound buffers
@@ -124,7 +127,7 @@ interface SoundButtonProps {
   sound?: SoundEffectProps['sound']
   volume?: number
   className?: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export function SoundButton({ 
@@ -159,7 +162,7 @@ interface SoundInputProps {
   volume?: number
   className?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export function SoundInput({ 

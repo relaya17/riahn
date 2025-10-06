@@ -90,7 +90,7 @@ export function SocketProvider({
     event: K,
     callback: ServerToClientEvents[K]
   ) => {
-    socket?.on(event, callback as any)
+    socket?.on(event, callback)
   }
 
   const off = <K extends keyof ServerToClientEvents>(
@@ -98,7 +98,7 @@ export function SocketProvider({
     callback?: ServerToClientEvents[K]
   ) => {
     if (callback) {
-      socket?.off(event, callback as any)
+      socket?.off(event, callback)
     } else {
       socket?.removeAllListeners(event)
     }

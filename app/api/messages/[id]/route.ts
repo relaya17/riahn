@@ -41,7 +41,11 @@ export async function PUT(
     try {
         await connectDB()
 
-        const body = await request.json()
+        const body: {
+            content?: string
+            isRead?: boolean
+            translations?: Record<string, string>
+        } = await request.json()
         const { content, isRead, translations } = body
 
         const message = await MessageModel.findById(params.id)
@@ -55,11 +59,11 @@ export async function PUT(
         // Update fields if provided
         if (content !== undefined) message.content = content
         if (isRead !== undefined) message.isRead = isRead
-        if (translations !== undefined) {
+        if (translations) {
             // Update translated content
-            Object.entries(translations).forEach(([language, translation]) => {
-                message.translatedContent.set(language as any, String(translation))
-            })
+            for (const [language, translation] of Object.entries(translations)) {
+                message.translatedContent.set(language, translation)
+            }
         }
 
         message.updatedAt = new Date()

@@ -41,7 +41,7 @@ export function PerformanceMonitor() {
       const renderTime = performance.now() - renderStart
 
       // Get memory usage (if available)
-      const memory = (performance as any).memory
+      const memory = (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory
       const memoryUsage = memory ? Math.round(memory.usedJSHeapSize / 1024 / 1024) : 0
 
       // Detect device type
@@ -51,7 +51,13 @@ export function PerformanceMonitor() {
       const deviceType = isMobile ? (isTablet ? 'tablet' : 'mobile') : 'desktop'
 
       // Get connection info
-      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+      const connection = (navigator as unknown as {
+        connection?: { effectiveType?: string; type?: string }
+        mozConnection?: { effectiveType?: string; type?: string }
+        webkitConnection?: { effectiveType?: string; type?: string }
+      }).connection ||
+      (navigator as unknown as { mozConnection?: { effectiveType?: string; type?: string } }).mozConnection ||
+      (navigator as unknown as { webkitConnection?: { effectiveType?: string; type?: string } }).webkitConnection
       const networkSpeed = connection ? connection.effectiveType || 'unknown' : 'unknown'
       const connectionType = connection ? connection.type || 'unknown' : 'unknown'
 
@@ -59,7 +65,7 @@ export function PerformanceMonitor() {
       const getBatteryLevel = async () => {
         if ('getBattery' in navigator) {
           try {
-            const battery = await (navigator as any).getBattery()
+            const battery = await (navigator as unknown as { getBattery: () => Promise<{ level: number }> }).getBattery()
             return Math.round(battery.level * 100)
           } catch {
             return undefined

@@ -74,8 +74,12 @@ export function AITranslator({
   useEffect(() => {
     // Initialize speech recognition
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-      recognitionRef.current = new SpeechRecognition()
+      type SpeechRecognitionConstructor = new () => SpeechRecognition
+      const SpeechRecognitionCtor =
+        (window as unknown as { SpeechRecognition?: SpeechRecognitionConstructor }).SpeechRecognition ||
+        (window as unknown as { webkitSpeechRecognition?: SpeechRecognitionConstructor }).webkitSpeechRecognition
+      recognitionRef.current = SpeechRecognitionCtor ? new SpeechRecognitionCtor() : null
+      if (!recognitionRef.current) return
       recognitionRef.current.continuous = false
       recognitionRef.current.interimResults = false
       recognitionRef.current.lang = getLanguageCode(sourceLanguage)
