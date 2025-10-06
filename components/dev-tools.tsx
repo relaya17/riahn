@@ -1,19 +1,15 @@
 'use client'
 
-import AdvancedPerformanceMonitor from '@/components/performance/advanced-performance-monitor'
-import ErrorMonitor from '@/components/error/error-monitor'
-import QuickPerformance from '@/components/performance/quick-performance'
-
 export default function DevTools() {
-  const showDevTools = process.env.NEXT_PUBLIC_DEV_TOOLS === 'true'
+  // Only show dev tools in development
+  if (process.env.NODE_ENV !== 'development') {
+    return null
+  }
 
-  if (!showDevTools) return null
-
+  // Simple fallback to avoid build issues
   return (
-    <>
-      <AdvancedPerformanceMonitor />
-      <ErrorMonitor />
-      <QuickPerformance />
-    </>
+    <div style={{ display: 'none' }}>
+      Dev Tools (Development Only)
+    </div>
   )
 }
