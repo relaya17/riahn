@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Card } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { 
@@ -40,20 +40,11 @@ export function ChatInterface({
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    fetchMessages()
-  }, [chatId])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
-
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     try {
       setLoading(true)
       const response = await fetch(`/api/messages?senderId=${currentUser._id}&receiverId=${otherUser._id}`)
       const data = await response.json()
-      
       if (data.success) {
         setMessages(data.data.messages || [])
       }
@@ -62,7 +53,17 @@ export function ChatInterface({
     } finally {
       setLoading(false)
     }
-  }
+  }, [currentUser._id, otherUser._id])
+
+  useEffect(() => {
+    fetchMessages()
+  }, [chatId, fetchMessages])
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  
 
   const sendMessage = async () => {
     if (!newMessage.trim()) return
@@ -184,6 +185,7 @@ export function ChatInterface({
             variant="ghost"
             size="sm"
             onClick={() => setShowTranslator(!showTranslator)}
+            aria-label="Toggle translator"
           >
             <Globe className="w-4 h-4" />
           </Button>
@@ -192,6 +194,7 @@ export function ChatInterface({
             variant="ghost"
             size="sm"
             onClick={() => onStartCall?.('audio')}
+            aria-label="Start audio call"
           >
             <Phone className="w-4 h-4" />
           </Button>
@@ -200,6 +203,7 @@ export function ChatInterface({
             variant="ghost"
             size="sm"
             onClick={() => onStartCall?.('video')}
+            aria-label="Start video call"
           >
             <Video className="w-4 h-4" />
           </Button>
@@ -212,6 +216,7 @@ export function ChatInterface({
               console.log('More options clicked')
             }}
             title="More options"
+            aria-label="More options"
           >
             <MoreVertical className="w-4 h-4" />
           </Button>
@@ -281,6 +286,7 @@ export function ChatInterface({
                           size="sm"
                           onClick={() => copyText(message.content)}
                           className="p-1 h-auto"
+                          aria-label="Copy message"
                         >
                           <Copy className="w-3 h-3" />
                         </Button>
@@ -290,6 +296,7 @@ export function ChatInterface({
                           size="sm"
                           onClick={() => speakText(message.content, message.originalLanguage)}
                           className="p-1 h-auto"
+                          aria-label="Speak message"
                         >
                           <Volume2 className="w-3 h-3" />
                         </Button>
@@ -303,6 +310,7 @@ export function ChatInterface({
                               isOwnMessage ? otherUser.nativeLanguage : currentUser.nativeLanguage
                             )}
                             className="p-1 h-auto"
+                            aria-label="Translate message"
                           >
                             <Globe className="w-3 h-3" />
                           </Button>
@@ -344,7 +352,7 @@ export function ChatInterface({
       {/* Message Input */}
       <div className="p-4 border-t">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" aria-label="Attach file">
             <Paperclip className="w-4 h-4" />
           </Button>
           
@@ -362,6 +370,7 @@ export function ChatInterface({
               variant="ghost"
               size="sm"
               className="absolute right-2 top-1/2 transform -translate-y-1/2"
+              aria-label="Insert emoji"
             >
               <Smile className="w-4 h-4" />
             </Button>
@@ -370,6 +379,7 @@ export function ChatInterface({
           <Button 
             onClick={sendMessage}
             disabled={!newMessage.trim()}
+            aria-label="Send message"
           >
             <Send className="w-4 h-4" />
           </Button>
