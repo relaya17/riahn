@@ -25,6 +25,10 @@ export default function AuthNav({ onSelect }: AuthNavProps) {
             <button className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => { onSelect?.('register'); setOpen(false) }}>הרשמה</button>
             <button className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => { onSelect?.('forgot'); setOpen(false) }}>שכחתי סיסמה</button>
             <div className="my-1 h-px bg-gray-200 dark:bg-gray-700" />
+            <Link href="/lessons" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setOpen(false)}>שיעורים</Link>
+            <Link href="/connect" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setOpen(false)}>חיבור</Link>
+            <Link href="/chat" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setOpen(false)}>צ'אט</Link>
+            <Link href="/translate" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setOpen(false)}>תרגום</Link>
             <Link href="/features" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setOpen(false)}>יכולות</Link>
             <Link href="/privacy" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setOpen(false)}>פרטיות</Link>
           </nav>

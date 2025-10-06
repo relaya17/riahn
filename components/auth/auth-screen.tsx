@@ -93,21 +93,25 @@ export function AuthScreen() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="flex items-start space-x-4 space-x-reverse group hover:scale-105 transition-all duration-300 p-4 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex-shrink-0 group-hover:animate-pulse-glow">{feature.icon}</div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-emerald-600 transition-colors">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{feature.description}</p>
-                  </div>
-                </div>
-              ))}
+              {features.map((feature, index) => {
+                const links = ['/lessons', '/connect', '/chat', '/translate']
+                return (
+                  <a
+                    key={index}
+                    href={links[index]}
+                    className="flex items-start space-x-4 space-x-reverse group hover:scale-105 transition-all duration-300 p-4 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 cursor-pointer"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div className="flex-shrink-0 group-hover:animate-pulse-glow">{feature.icon}</div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-emerald-600 transition-colors">
+                        {feature.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{feature.description}</p>
+                    </div>
+                  </a>
+                )
+              })}
             </div>
           </div>
 
