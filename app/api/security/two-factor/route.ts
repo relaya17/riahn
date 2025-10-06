@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     }
 }
 
-function validate2FACode(code: string, userId: string): boolean {
+function validate2FACode(code: string, _userId: string): boolean {
     // In a real application, you would:
     // 1. Use a proper 2FA library like speakeasy
     // 2. Validate against the user's secret key

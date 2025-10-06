@@ -114,12 +114,12 @@ export default function LessonsPage() {
                     setSelectedLesson(lesson.id)
                     // הוספת אנימציה
                     setTimeout(() => {
-                      alert(`מתחיל שיעור: ${lesson.title}`)
+                      alert(`Starting lesson: ${lesson.title}`)
                     }, 100)
                   }}
                 >
                   <Play className="h-4 w-4 mr-2" />
-                  {lesson.completed ? 'חזור לשיעור' : 'התחל שיעור'}
+                  {lesson.completed ? 'Return to lesson' : 'Start lesson'}
                 </Button>
               </CardContent>
             </Card>

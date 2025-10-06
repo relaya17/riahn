@@ -60,10 +60,10 @@ export default function ChatPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            צ'אט ללמידה
+            Learning Chat
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            תרגל את השפה שלך בצ'אט עם תרגום אוטומטי
+            Practice your language skills in chat with automatic translation
           </p>
         </div>
 

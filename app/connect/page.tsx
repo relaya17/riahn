@@ -168,16 +168,16 @@ export default function ConnectPage() {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
             <Card className="w-full max-w-2xl">
               <CardHeader>
-                <CardTitle>התחל שיחה</CardTitle>
+                <CardTitle>Start Conversation</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>כאן יוצג ממשק הצ'אט עם המשתמש הנבחר...</p>
+                <p>Chat interface with the selected user will appear here...</p>
                 <div className="flex gap-2 mt-4">
                   <Button onClick={() => setSelectedUser(null)}>
-                    סגור
+                    Close
                   </Button>
                   <Button variant="outline">
-                    שלח הודעה
+                    Send Message
                   </Button>
                 </div>
               </CardContent>
