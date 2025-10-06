@@ -19,6 +19,7 @@ import {
   Wifi,
 } from 'lucide-react'
 import { getLanguageInfo, getLevelInfo } from '@/lib/utils'
+import NextImage from 'next/image'
 
 export function GlobalConnectPage() {
   const { user } = useAuth()
@@ -369,12 +370,14 @@ export function GlobalConnectPage() {
                     >
                       <div className="flex items-center space-x-4 space-x-reverse">
                         <div className="relative">
-                          <div className="h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                          <div className="h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold overflow-hidden">
                             {userItem.profileImage ? (
-                              <img
+                              <NextImage
                                 src={userItem.profileImage}
                                 alt={userItem.name || 'משתמש'}
-                                className="h-12 w-12 rounded-full object-cover"
+                                width={48}
+                                height={48}
+                                className="rounded-full object-cover"
                               />
                             ) : (
                               userItem.name.charAt(0)
