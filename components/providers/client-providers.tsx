@@ -25,13 +25,5 @@ export function DashboardProviders({ children }: { children: React.ReactNode }) 
   )
 }
 
-export function LayoutProviders({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      {children}
-      <AdvancedPerformanceMonitor />
-      <ErrorMonitor />
-      <QuickPerformance />
-    </>
-  )
-}
+// LayoutProviders - currently unused, but kept for future layout-specific needs
+// You can customize this when you need different providers for specific layouts
