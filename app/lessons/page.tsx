@@ -1,13 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { BookOpen, Play, CheckCircle, Clock, Star } from 'lucide-react'
 
 export default function LessonsPage() {
-  const { t } = useLanguage()
   const [selectedLesson, setSelectedLesson] = useState<number | null>(null)
 
   const lessons = [

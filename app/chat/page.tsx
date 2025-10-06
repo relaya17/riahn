@@ -1,17 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { MessageCircle, Send, Mic, MicOff, Volume2, VolumeX } from 'lucide-react'
 
 export default function ChatPage() {
-  const { t } = useLanguage()
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: 'שלום! איך אפשר לעזור לך היום?',
+      text: 'Hello! How can I help you today?',
       sender: 'AI',
       timestamp: new Date(),
       translated: false
@@ -37,7 +35,7 @@ export default function ChatPage() {
       setTimeout(() => {
         const aiResponse = {
           id: messages.length + 2,
-          text: `תודה על ההודעה: "${newMessage}". איך אני יכול לעזור לך עוד?`,
+          text: `Thank you for your message: "${newMessage}". How else can I help you?`,
           sender: 'AI',
           timestamp: new Date(),
           translated: false

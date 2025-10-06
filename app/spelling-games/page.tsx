@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
-import { BookOpen, CheckCircle, XCircle, RotateCcw, Trophy, Clock, Star } from 'lucide-react'
+import { BookOpen, CheckCircle, XCircle, RotateCcw, Trophy, Clock, Star, Play } from 'lucide-react'
 
 interface Word {
   id: number

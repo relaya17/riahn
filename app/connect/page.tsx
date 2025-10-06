@@ -1,13 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
-import { Users, MessageCircle, Globe, Heart, Star } from 'lucide-react'
+import { Users, MessageCircle, Globe, Heart } from 'lucide-react'
 
 export default function ConnectPage() {
-  const { t } = useLanguage()
   const [selectedUser, setSelectedUser] = useState<number | null>(null)
 
   const users = [
@@ -148,7 +146,7 @@ export default function ConnectPage() {
                       onClick={() => {
                         setSelectedUser(user.id)
                         setTimeout(() => {
-                          alert(`מתחבר עם ${user.name} מ${user.country}`)
+                          alert(`Connecting with ${user.name} from ${user.country}`)
                         }, 100)
                       }}
                     >

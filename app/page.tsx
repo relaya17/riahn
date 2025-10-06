@@ -1,12 +1,11 @@
 'use client'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth, useLanguage } from '@/components/providers'
+import { useAuth } from '@/components/providers'
 import { LoadingPage } from '@/components/core/loading'
 
 export default function HomePage() {
   const { user, loading } = useAuth()
-  const { t } = useLanguage()
   const router = useRouter()
 
   useEffect(() => {

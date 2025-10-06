@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
-import { Brain, RotateCcw, Trophy, Clock, Star, Play, Target } from 'lucide-react'
+import { RotateCcw, Trophy, Clock, Star, Play, Target } from 'lucide-react'
 
 interface Card {
   id: number
