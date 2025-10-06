@@ -55,19 +55,19 @@ export function AuthScreen() {
       {/* Header */}
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
-          <div className="order-2 flex items-center space-x-3">
-            <div className="h-10 w-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
-              <Globe className="h-6 w-6 text-white" />
+            <div className="order-2 flex items-center space-x-3">
+              <div className="h-10 w-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
+                <Globe className="h-6 w-6 text-white" />
+              </div>
+              <div className="text-center">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  LanguageConnect
+                </h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Connecting Languages and Cultures
+                </p>
+              </div>
             </div>
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {t('app.title')}
-              </h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t('app.subtitle')}
-              </p>
-            </div>
-          </div>
           <div className="flex items-center gap-2 order-1">
             <AuthNav onSelect={(action) => {
               if (action === 'login') setMode('login')

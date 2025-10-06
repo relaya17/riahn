@@ -23,9 +23,14 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-gray-900 dark:to-gray-800">
-      <h1 className="text-5xl font-extrabold text-gray-900 dark:text-white animate-fade-in">
-        {t('app.title')}
-      </h1>
+      <div className="text-center">
+        <h1 className="text-5xl font-extrabold text-gray-900 dark:text-white animate-fade-in mb-4">
+          LanguageConnect
+        </h1>
+        <p className="text-xl text-gray-600 dark:text-gray-300">
+          Connecting Languages and Cultures
+        </p>
+      </div>
     </div>
   )
 }

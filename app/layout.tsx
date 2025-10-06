@@ -10,9 +10,9 @@ const heebo = Heebo({ subsets: ['hebrew'], variable: '--font-heebo', display: 's
 const cairo = Cairo({ subsets: ['arabic'], variable: '--font-cairo', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'LanguageConnect - חיבור בין שפות ותרבויות',
-  description: 'אפליקציה ללימוד שפות וחיבור בין משתמשים מכל העולם',
-  keywords: ['שפות', 'לימוד', 'תרגום', 'חיבור', 'תרבות'],
+  title: 'LanguageConnect - Connecting Languages and Cultures',
+  description: 'Advanced language learning platform with AI-powered translation and cultural understanding',
+  keywords: ['language learning', 'translation', 'AI', 'cultural exchange', 'multilingual'],
   authors: [{ name: 'LanguageConnect Team' }],
   manifest: '/manifest.json',
   icons: {
@@ -29,7 +29,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="he" dir="rtl" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
