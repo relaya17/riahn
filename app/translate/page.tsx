@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { Languages, Copy, Volume2, Star } from 'lucide-react'
