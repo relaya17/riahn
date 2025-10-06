@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import type { Language } from '@/types'
 import { connectDB } from '@/lib/mongodb'
 import { MessageModel } from '@/models/Message'
 import { ApiResponse } from '@/types'
@@ -60,9 +61,14 @@ export async function PUT(
         if (content !== undefined) message.content = content
         if (isRead !== undefined) message.isRead = isRead
         if (translations) {
-            // Update translated content
+            // Update translated content with language type guard
+            const isLanguage = (l: string): l is Language => (
+                ['he','ar','en','si','ta','fr','es','de','it','pt','ru','zh','ja','ko','hi'] as readonly string[]
+            ).includes(l)
             for (const [language, translation] of Object.entries(translations)) {
-                message.translatedContent.set(language, translation)
+                if (isLanguage(language)) {
+                    message.translatedContent.set(language, translation)
+                }
             }
         }
 

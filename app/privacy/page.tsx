@@ -18,13 +18,13 @@ export default function PrivacyPolicyPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            מדיניות פרטיות
+            {t('privacy.title')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            הגנה על הפרטיות שלך היא העדיפות הראשונה שלנו
+            {t('privacy.subtitle')}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
-            עודכן לאחרונה: {new Date().toLocaleDateString('he-IL')}
+            {t('common.lastUpdated')}: {new Date().toLocaleDateString('he-IL')}
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Eye className="h-5 w-5 text-blue-600" />
-                מבוא
+                {t('privacy.intro')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -53,13 +53,13 @@ export default function PrivacyPolicyPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Database className="h-5 w-5 text-green-600" />
-                מידע שאנו אוספים
+                {t('privacy.infoWeCollect')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                  מידע אישי:
+                  {t('privacy.personalInfo')}
                 </h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
                   <li>שם מלא וכתובת אימייל</li>
@@ -72,7 +72,7 @@ export default function PrivacyPolicyPage() {
               
               <div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                  מידע שימוש:
+                  {t('privacy.usageInfo')}
                 </h3>
                 <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
                   <li>שיעורים שנלמדו והתקדמות</li>
@@ -90,7 +90,7 @@ export default function PrivacyPolicyPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <UserCheck className="h-5 w-5 text-purple-600" />
-                איך אנו משתמשים במידע
+                {t('privacy.howWeUse')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -110,7 +110,7 @@ export default function PrivacyPolicyPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Lock className="h-5 w-5 text-red-600" />
-                הגנה על מידע
+                {t('privacy.dataProtection')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -132,7 +132,7 @@ export default function PrivacyPolicyPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Globe className="h-5 w-5 text-orange-600" />
-                שיתוף מידע
+                {t('privacy.dataSharing')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -153,7 +153,7 @@ export default function PrivacyPolicyPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <UserCheck className="h-5 w-5 text-indigo-600" />
-                הזכויות שלך
+                {t('privacy.yourRights')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -176,7 +176,7 @@ export default function PrivacyPolicyPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-blue-600" />
-                יצירת קשר
+                {t('privacy.contact')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">

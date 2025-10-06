@@ -177,6 +177,8 @@ export function ForumPostForm({
                 onClick={handleAddTag}
                 disabled={!newTag.trim()}
                 size="sm"
+          aria-label="הוסף תגית"
+          title="הוסף תגית"
               >
                 <Tag className="h-4 w-4" />
               </Button>
@@ -211,6 +213,8 @@ export function ForumPostForm({
                 variant="outline"
                 size="sm"
                 className="flex items-center gap-1"
+          aria-label="העלה תמונה"
+          title="העלה תמונה"
               >
                 <Image className="h-4 w-4" />
                 תמונה
@@ -220,6 +224,8 @@ export function ForumPostForm({
                 variant="outline"
                 size="sm"
                 className="flex items-center gap-1"
+          aria-label="הוסף קישור"
+          title="הוסף קישור"
               >
                 <Link className="h-4 w-4" />
                 קישור

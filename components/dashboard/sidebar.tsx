@@ -156,7 +156,7 @@ export function Sidebar({ isOpen, onClose, currentPage, onPageChange }: SidebarP
                       {user.profileImage ? (
                         <img
                           src={user.profileImage}
-                          alt={user.name}
+                          alt={user.name || 'משתמש'}
                           className="h-12 w-12 rounded-full object-cover"
                         />
                       ) : (

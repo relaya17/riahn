@@ -211,7 +211,7 @@ export function Header({ onMenuClick, currentPage }: HeaderProps) {
                   {user?.profileImage ? (
                     <img
                       src={user.profileImage}
-                      alt={user.name}
+                      alt={user?.name || 'משתמש'}
                       className="h-7 w-7 rounded-full object-cover"
                     />
                   ) : (
@@ -229,7 +229,7 @@ export function Header({ onMenuClick, currentPage }: HeaderProps) {
                         {user?.profileImage ? (
                           <img
                             src={user.profileImage}
-                            alt={user.name}
+                            alt={user?.name || 'משתמש'}
                             className="h-10 w-10 rounded-full object-cover"
                           />
                         ) : (

@@ -18,13 +18,13 @@ export default function TermsOfServicePage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            תנאי שימוש
+            {t('terms.title')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            תנאים ותנאים לשימוש באפליקציה LanguageConnect
+            {t('terms.subtitle')}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
-            עודכן לאחרונה: {new Date().toLocaleDateString('he-IL')}
+            {t('common.lastUpdated')}: {new Date().toLocaleDateString('he-IL')}
           </p>
         </div>
 
@@ -34,7 +34,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Scale className="h-5 w-5 text-blue-600" />
-                מבוא
+                {t('terms.intro')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -54,7 +54,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-green-600" />
-                קבלת התנאים
+                {t('terms.acceptance')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -76,7 +76,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-yellow-600" />
-                אחריות המשתמש
+                {t('terms.userResponsibilities')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -100,7 +100,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Shield className="h-5 w-5 text-red-600" />
-                שימושים אסורים
+                {t('terms.prohibitedUses')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -124,7 +124,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5 text-purple-600" />
-                מדיניות תוכן
+                {t('terms.contentPolicy')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -147,7 +147,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Globe className="h-5 w-5 text-indigo-600" />
-                קניין רוחני
+                {t('terms.intellectualProperty')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -172,7 +172,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-orange-600" />
-                סיום השירות
+                {t('terms.termination')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -197,7 +197,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Scale className="h-5 w-5 text-gray-600" />
-                הגבלת אחריות
+                {t('terms.limitationOfLiability')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -219,7 +219,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5 text-blue-600" />
-                שינויים בתנאים
+                {t('terms.changes')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -238,7 +238,7 @@ export default function TermsOfServicePage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-green-600" />
-                יצירת קשר
+                {t('terms.contact')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">

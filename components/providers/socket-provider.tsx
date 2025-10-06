@@ -90,7 +90,8 @@ export function SocketProvider({
     event: K,
     callback: ServerToClientEvents[K]
   ) => {
-    socket?.on(event, callback)
+    // socket.io type overloads can be strict; cast to maintain compatibility
+    socket?.on(event as unknown as Parameters<typeof socket.on>[0], callback as unknown as Parameters<typeof socket.on>[1])
   }
 
   const off = <K extends keyof ServerToClientEvents>(
@@ -98,9 +99,9 @@ export function SocketProvider({
     callback?: ServerToClientEvents[K]
   ) => {
     if (callback) {
-      socket?.off(event, callback)
+      socket?.off(event as unknown as Parameters<typeof socket.off>[0], callback as unknown as Parameters<typeof socket.off>[1])
     } else {
-      socket?.removeAllListeners(event)
+      socket?.removeAllListeners(event as unknown as Parameters<typeof socket.removeAllListeners>[0])
     }
   }
 

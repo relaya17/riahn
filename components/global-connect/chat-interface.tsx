@@ -165,7 +165,7 @@ export function ChatInterface({
         <div className="flex items-center gap-3">
           <img
             src={otherUser.profileImage || '/default-avatar.png'}
-            alt={otherUser.name}
+            alt={otherUser.name || 'משתמש'}
             className="w-10 h-10 rounded-full"
           />
           <div>
@@ -312,7 +312,7 @@ export function ChatInterface({
                 {!isOwnMessage && (
                   <img
                     src={otherUser.profileImage || '/default-avatar.png'}
-                    alt={otherUser.name}
+                    alt={otherUser.name || 'משתמש'}
                     className="w-8 h-8 rounded-full ml-2 order-1"
                   />
                 )}

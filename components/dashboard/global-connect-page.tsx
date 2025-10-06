@@ -373,7 +373,7 @@ export function GlobalConnectPage() {
                             {userItem.profileImage ? (
                               <img
                                 src={userItem.profileImage}
-                                alt={userItem.name}
+                                alt={userItem.name || 'משתמש'}
                                 className="h-12 w-12 rounded-full object-cover"
                               />
                             ) : (
