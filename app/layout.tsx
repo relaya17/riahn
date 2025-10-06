@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Heebo, Cairo } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/providers'
-import { ClientProviders } from '@/components/providers/client-providers'
+import { LayoutProviders } from '@/components/providers/client-providers'
 import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({ 
@@ -54,9 +54,9 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${heebo.variable} ${cairo.variable} min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-gray-900 dark:to-gray-800`}>
         <Providers>
-          <ClientProviders>
+          <LayoutProviders>
             {children}
-          </ClientProviders>
+          </LayoutProviders>
           <Toaster
             position="top-center"
             toastOptions={{

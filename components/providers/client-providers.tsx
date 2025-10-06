@@ -24,3 +24,14 @@ export function DashboardProviders({ children }: { children: React.ReactNode }) 
     </>
   )
 }
+
+export function LayoutProviders({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      <AdvancedPerformanceMonitor />
+      <ErrorMonitor />
+      <QuickPerformance />
+    </>
+  )
+}
