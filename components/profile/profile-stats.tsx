@@ -1,13 +1,12 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Card, CardContent } from '@/components/core/card'
 import { 
   BookOpen, 
   Trophy, 
   Clock, 
   Target,
   TrendingUp,
-  Calendar,
   Award,
   Users
 } from 'lucide-react'

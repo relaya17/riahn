@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useAuth, useLanguage } from '@/components/providers'
 import { Button } from '@/components/core/button'
 import { Input } from '@/components/core/input'
-import { Card, CardContent } from '@/components/core/card'
 import {
   Menu,
   Search,
@@ -12,13 +11,12 @@ import {
   Settings,
   User,
   LogOut,
-  Globe,
   Moon,
   Sun,
   ChevronDown,
 } from 'lucide-react'
 import { DashboardPage } from './dashboard-layout'
-import { getInitials, getLanguageInfo } from '@/lib/utils'
+import { getInitials } from '@/lib/utils'
 import { useTheme } from 'next-themes'
 import { NotificationCenter } from '@/components/notifications/notification-center'
 import { AdvancedSearch } from '@/components/search/advanced-search'

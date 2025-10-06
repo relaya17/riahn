@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { 
   Bell, 
@@ -11,12 +10,8 @@ import {
   BookOpen, 
   Users, 
   Award,
-  Globe,
-  Star,
   Clock,
-  AlertCircle,
-  Info,
-  CheckCircle
+  Info
 } from 'lucide-react'
 
 interface Notification {

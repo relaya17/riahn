@@ -7,7 +7,6 @@ import { useLanguage } from '@/components/providers'
 import { 
   Accessibility,
   Eye,
-  EyeOff,
   Type,
   MousePointer,
   Keyboard,

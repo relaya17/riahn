@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { Input } from '@/components/core/input'
@@ -12,8 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Play,
-  Eye,
-  EyeOff
+  Eye
 } from 'lucide-react'
 import { PracticeResult } from './types'
 

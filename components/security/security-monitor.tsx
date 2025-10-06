@@ -11,7 +11,6 @@ import {
   Globe,
   User,
   Smartphone,
-  Monitor,
   RefreshCw
 } from 'lucide-react'
 

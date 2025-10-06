@@ -1,10 +1,9 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { Brain, Target, TrendingUp, Clock, BookOpen, Users, Award, ChevronRight, Zap } from 'lucide-react'
+import React, { useState } from 'react'
+import { Brain, Target, Clock, BookOpen, Users, Award, ChevronRight, Zap } from 'lucide-react'
 import { AdvancedCard } from '@/components/core/advanced-card'
 import { ProgressRing } from '@/components/core/progress-ring'
-import { AnimatedCounter } from '@/components/core/animated-counter'
 
 // Helper function for progress bar width
 const getProgressWidth = (percentage: number) => ({ width: `${percentage}%` })

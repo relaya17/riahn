@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '@/components/providers'
 import { getLetterData } from './letterData'
-import { LetterData, PracticeResult, GameState } from './types'
+import { LetterData, PracticeResult } from './types'
 import { LetterDisplay } from './LetterDisplay'
 import { PracticeControls } from './PracticeControls'
 import { ProgressBar } from './ProgressBar'

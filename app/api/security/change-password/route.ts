@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession, Session } from 'next-auth'
-import { authOptions, getCurrentUserFromSession } from '@/lib/auth'
+import { getCurrentUserFromSession } from '@/lib/auth'
 import { PasswordSecurity, SecurityAudit, RateLimiter } from '@/lib/security'
 
 export async function POST(request: NextRequest) {

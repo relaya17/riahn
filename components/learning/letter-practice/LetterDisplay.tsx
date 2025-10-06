@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { Card, CardContent } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { Volume2, VolumeX } from 'lucide-react'

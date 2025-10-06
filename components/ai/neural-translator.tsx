@@ -1,31 +1,22 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
-import { Input } from '@/components/core/input'
 import { 
   Brain, 
   Languages, 
-  Volume2, 
-  VolumeX,
+  Volume2,
   Copy,
   Check,
   Zap,
   Target,
-  TrendingUp,
   Star,
-  Globe,
   Mic,
   MicOff,
-  Camera,
   Image,
   FileText,
-  Download,
-  Share,
-  Settings,
   History,
-  Bookmark,
   Lightbulb
 } from 'lucide-react'
 

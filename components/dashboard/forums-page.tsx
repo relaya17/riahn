@@ -3,13 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/components/providers'
-import { Card, CardContent, CardTitle } from '@/components/core/card'
-import { AdvancedCard } from '@/components/core/advanced-card'
-import { AnimatedCounter } from '@/components/core/animated-counter'
+import { Card, CardContent } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { Input } from '@/components/core/input'
 import { Select } from '@/components/core/select'
-import { LoadingSpinner } from '@/components/core/loading'
 import { ForumPostCard } from '@/components/forums/forum-post-card'
 import { ForumPostForm, ForumPostFormData } from '@/components/forums/forum-post-form'
 import { ForumCategories } from '@/components/forums/forum-categories'
@@ -18,19 +15,10 @@ import {
   Search,
   Filter,
   Plus,
-  ThumbsUp,
   MessageCircle,
   Eye,
-  Clock,
-  User,
-  Pin,
-  Lock,
-  ChevronRight,
-  BookOpen,
   Users,
-  TrendingUp,
 } from 'lucide-react'
-import { formatRelativeTime } from '@/lib/utils'
 import { ForumPost, ForumCategory } from '@/types'
 
 export function ForumsPage() {

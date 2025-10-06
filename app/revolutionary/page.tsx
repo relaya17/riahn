@@ -27,8 +27,7 @@ import {
   DollarSign,
   BarChart3,
   Rocket,
-  Search,
-  TrendingUp
+  Search
 } from 'lucide-react'
 
 export default function RevolutionaryPage() {

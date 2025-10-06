@@ -6,7 +6,6 @@ import {
   Target, 
   Globe, 
   Star,
-  Award,
   BarChart3,
   Activity,
   Eye,

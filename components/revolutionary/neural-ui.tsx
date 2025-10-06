@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Brain, Zap, Users, Trophy, Star, Sparkles } from 'lucide-react'
+import { Brain, Users, Trophy, Sparkles } from 'lucide-react'
 
 interface NeuralNode {
   id: string

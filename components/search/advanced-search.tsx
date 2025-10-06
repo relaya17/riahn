@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { Card, CardContent } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { Input } from '@/components/core/input'
 import { Select } from '@/components/core/select'
@@ -15,7 +15,6 @@ import {
   Star,
   Clock,
   TrendingUp,
-  Award,
   X,
   ChevronDown,
   ChevronUp

@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card
 import { Button } from '@/components/core/button'
 import { Input } from '@/components/core/input'
 import { Select } from '@/components/core/select'
-import { LoadingSpinner } from '@/components/core/loading'
 import {
   BookOpen,
   Play,
@@ -14,7 +13,6 @@ import {
   Star,
   Filter,
   Search,
-  ChevronRight,
   CheckCircle,
   Lock,
 } from 'lucide-react'

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
-import { Button } from '@/components/core/button'
 import { AITranslator } from '@/components/ai/ai-translator'
 import { LanguageDetector } from '@/components/ai/language-detector'
 import { TextEnhancer } from '@/components/ai/text-enhancer'

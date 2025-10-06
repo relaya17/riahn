@@ -6,20 +6,16 @@ import { Button } from '@/components/core/button'
 import { 
   Mic, 
   MicOff, 
-  Volume2, 
-  VolumeX,
+  Volume2,
   Brain,
   MessageCircle,
   BookOpen,
   Target,
   TrendingUp,
   Award,
-  Zap,
-  User,
   Settings,
   Play,
-  Pause,
-  RotateCcw
+  Pause
 } from 'lucide-react'
 
 interface AITutor {

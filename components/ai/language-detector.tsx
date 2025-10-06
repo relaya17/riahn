@@ -2,12 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
-import { Button } from '@/components/core/button'
 import { 
-  Languages, 
   Zap, 
   Target,
-  TrendingUp,
   Globe
 } from 'lucide-react'
 

@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 
 // Helper function for progress bar width
 const getProgressWidth = (percentage: number) => ({ width: `${percentage}%` })
@@ -10,22 +10,9 @@ import {
   TrendingUp, 
   Users, 
   Eye, 
-  MousePointer, 
-  Clock, 
   Target,
-  Zap,
   Brain,
-  Heart,
-  Trophy,
-  Star,
-  Download,
-  Filter,
-  Calendar,
-  RefreshCw,
-  Settings,
-  AlertCircle,
-  CheckCircle,
-  X
+  RefreshCw
 } from 'lucide-react'
 
 interface AnalyticsData {

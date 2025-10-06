@@ -12,30 +12,19 @@ import {
   MessageCircle,
   Hand,
   Settings,
-  Volume2,
-  VolumeX,
   Camera,
   Globe,
-  Star,
-  Award,
   BookOpen,
-  Zap,
   Headphones,
   Monitor,
   Smartphone,
-  Tablet,
   Wifi,
   WifiOff,
-  Clock,
-  MapPin,
   Share,
   Download,
-  Upload,
   FileText,
   Image,
-  Play,
-  Pause,
-  RotateCcw
+  Play
 } from 'lucide-react'
 
 interface VirtualUser {

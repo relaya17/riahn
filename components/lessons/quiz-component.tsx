@@ -10,7 +10,7 @@ import {
   ArrowRight,
   RotateCcw
 } from 'lucide-react'
-import { LessonContent, QuizOption } from '@/types'
+import { LessonContent } from '@/types'
 
 interface QuizComponentProps {
   content: LessonContent

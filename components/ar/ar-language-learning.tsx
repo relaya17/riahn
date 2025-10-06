@@ -3,15 +3,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { AdvancedCard } from '@/components/core/advanced-card'
-import { ProgressRing } from '@/components/core/progress-ring'
-import { AnimatedCounter } from '@/components/core/animated-counter'
 import { Button } from '@/components/core/button'
 import { 
-  Camera, 
-  Eye, 
-  EyeOff,
+  Camera,
   Target,
-  Globe,
   BookOpen,
   Zap,
   Award,

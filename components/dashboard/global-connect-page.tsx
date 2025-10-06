@@ -7,21 +7,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card
 import { Button } from '@/components/core/button'
 import { Input } from '@/components/core/input'
 import { Select } from '@/components/core/select'
-import { LoadingSpinner } from '@/components/core/loading'
 import {
   Users,
   MessageCircle,
   Video,
-  Phone,
   Search,
   Filter,
   Globe,
   Star,
-  Clock,
   MapPin,
-  ChevronRight,
   Wifi,
-  WifiOff,
 } from 'lucide-react'
 import { getLanguageInfo, getLevelInfo } from '@/lib/utils'
 

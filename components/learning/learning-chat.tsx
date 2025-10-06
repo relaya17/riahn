@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/core/button'
 import { Input } from '@/components/core/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
+import { CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { 
   Send, 
   Volume2, 

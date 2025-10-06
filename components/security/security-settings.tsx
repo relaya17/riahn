@@ -9,13 +9,10 @@ import {
   Lock, 
   Eye, 
   EyeOff, 
-  Key, 
   Smartphone,
-  Mail,
   AlertTriangle,
   CheckCircle,
   Clock,
-  Globe,
   User
 } from 'lucide-react'
 import { useToast } from '@/components/core/toast'

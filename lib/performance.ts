@@ -116,8 +116,8 @@ export class PerformanceOptimizer {
     // Bundle splitting for code
     static async loadComponent(componentPath: string): Promise<React.ComponentType<unknown> | null> {
         try {
-            const module = await import(/* webpackChunkName: "[request]" */ `@/components/${componentPath}`)
-            return module.default
+            const loadedModule = await import(/* webpackChunkName: "[request]" */ `@/components/${componentPath}`)
+            return loadedModule.default
         } catch (error) {
             console.error(`Failed to load component: ${componentPath}`, error)
             return null
@@ -206,7 +206,7 @@ export class PerformanceOptimizer {
             const entries = list.getEntries()
             const lastEntry = entries[entries.length - 1]
             console.log('LCP:', lastEntry.startTime)
-        }).observe({ entryTypes: ['largest-contentful-paint'] })
+        }).observe({ type: 'largest-contentful-paint', buffered: true } as PerformanceObserverInit & { type: string; buffered: boolean })
 
         // First Input Delay
         new PerformanceObserver((list) => {
@@ -215,7 +215,7 @@ export class PerformanceOptimizer {
                 const fidEntry = entry as PerformanceEventTiming
                 console.log('FID:', fidEntry.processingStart - fidEntry.startTime)
             })
-        }).observe({ entryTypes: ['first-input'] })
+        }).observe({ type: 'first-input', buffered: true } as PerformanceObserverInit & { type: string; buffered: boolean })
 
         // Cumulative Layout Shift
         let clsValue = 0
@@ -228,7 +228,7 @@ export class PerformanceOptimizer {
                 }
             })
             console.log('CLS:', clsValue)
-        }).observe({ entryTypes: ['layout-shift'] })
+        }).observe({ type: 'layout-shift', buffered: true } as PerformanceObserverInit & { type: string; buffered: boolean })
     }
 }
 

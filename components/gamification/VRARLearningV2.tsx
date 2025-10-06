@@ -3,20 +3,12 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
-import { Badge } from '@/components/core/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/core/tabs'
 import {
   Eye,
   Camera,
   Trophy,
-  Target,
   Mic,
-  CheckCircle,
-  AlertCircle,
-  Pause,
-  Play,
-  MicOff,
-  X,
   Settings,
   Volume2,
   VolumeX

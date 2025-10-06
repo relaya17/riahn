@@ -7,9 +7,7 @@ import {
   Target, 
   TrendingUp,
   Calendar,
-  Play,
-  CheckCircle,
-  Clock
+  Play
 } from 'lucide-react'
 
 interface LanguageProgressProps {

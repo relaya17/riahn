@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { 
   Brain, 
   Heart, 
@@ -9,10 +9,8 @@ import {
   Frown, 
   Meh, 
   Eye, 
-  Mic, 
-  MicOff,
+  Mic,
   Volume2,
-  VolumeX,
   Camera,
   Zap
 } from 'lucide-react'

@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { Badge } from '@/components/core/badge'
-import { Trophy, RotateCcw, Clock, Target, TrendingUp } from 'lucide-react'
+import { Trophy, RotateCcw } from 'lucide-react'
 import { PracticeResult } from './types'
 
 interface ResultsSummaryProps {

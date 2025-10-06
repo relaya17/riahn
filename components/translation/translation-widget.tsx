@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { Card } from '@/components/core/card'
 import { Button } from '@/components/core/button'
-import { Select } from '@/components/core/select'
 import { LoadingSpinner } from '@/components/core/loading'
 import { 
   ArrowRightLeft, 

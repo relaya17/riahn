@@ -4,16 +4,13 @@ import { useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { Badge } from '@/components/core/badge'
-import { Progress } from '@/components/core/progress'
 import { Input } from '@/components/core/input'
 import { Label } from '@/components/core/label'
 import {
   Image as ImageIcon,
-  Upload,
   Download,
   Zap,
   CheckCircle,
-  AlertCircle,
   Settings
 } from 'lucide-react'
 

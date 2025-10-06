@@ -9,7 +9,6 @@ import {
   BarChart3, 
   AlertCircle,
   FileText,
-  Tag,
   Hash,
   Settings,
   RefreshCw,

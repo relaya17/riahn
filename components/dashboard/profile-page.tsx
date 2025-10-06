@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card
 import { Button } from '@/components/core/button'
 import { Input } from '@/components/core/input'
 import { Select } from '@/components/core/select'
-import { LoadingSpinner } from '@/components/core/loading'
 import { OptimizedAvatar } from '@/components/core/optimized-image'
 import { ProfileStats } from '@/components/profile/profile-stats'
 import { AchievementBadge } from '@/components/profile/achievement-badge'
@@ -19,16 +18,10 @@ import {
   X,
   Camera,
   Award,
-  TrendingUp,
   Clock,
   BookOpen,
   MessageCircle,
   Globe,
-  Settings,
-  Shield,
-  Bell,
-  Eye,
-  EyeOff,
 } from 'lucide-react'
 import { getInitials, getLanguageInfo, getLevelInfo } from '@/lib/utils'
 

@@ -7,7 +7,6 @@ import { CrosswordGame } from '@/components/learning/crossword-game'
 import { LetterQuiz } from '@/components/learning/letter-quiz'
 import { LetterPractice } from '@/components/learning/letter-practice'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
-import { Button } from '@/components/core/button'
 import { useState } from 'react'
 import { useLanguage } from '@/components/providers'
 import { 
