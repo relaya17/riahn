@@ -19,7 +19,14 @@ export default function AuthNav({ onSelect }: AuthNavProps) {
       </Button>
 
       {open && (
-        <div className="absolute top-full left-0 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 z-50">
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 z-40" 
+            onClick={() => setOpen(false)}
+          />
+          {/* Menu */}
+        <div className="absolute top-full right-0 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 z-50">
           <nav className="py-2 text-right">
             <button className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => { onSelect?.('login'); setOpen(false) }}>כניסה</button>
             <button className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => { onSelect?.('register'); setOpen(false) }}>הרשמה</button>
@@ -33,6 +40,7 @@ export default function AuthNav({ onSelect }: AuthNavProps) {
             <Link href="/privacy" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setOpen(false)}>פרטיות</Link>
           </nav>
         </div>
+        </>
       )}
     </div>
   )
