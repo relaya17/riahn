@@ -1,22 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import React, { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function QuickPerformance() {
-  const [status, setStatus] = useState<string>("Loading...");
+  const [loadTime, setLoadTime] = useState<number>(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => setStatus("All systems operational"), 2000);
-    return () => clearTimeout(timer);
+    const start = performance.now();
+    setLoadTime(performance.now() - start);
   }, []);
 
   return (
-    <div className={cn("flex flex-col gap-2")}>
-      <Badge>{status}</Badge>
-      <Button onClick={() => setStatus("Refreshing...")}>Refresh Status</Button>
+    <div className="p-4">
+      <h3>Quick Performance Monitor</h3>
+      <Badge>Load Time: {loadTime.toFixed(2)} ms</Badge>
+      <Button onClick={() => window.location.reload()}>Reload</Button>
     </div>
   );
 }

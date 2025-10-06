@@ -1,34 +1,36 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function AdvancedPerformanceMonitor() {
-  const [metrics, setMetrics] = useState<number[]>([]);
+  const [fps, setFps] = useState<number>(0);
 
-  const updateMetrics = useCallback(() => {
-    // עדכון מדדים לדוגמה
-    setMetrics([Math.random() * 100, Math.random() * 100]);
+  const measurePerformance = useCallback(() => {
+    let frame = 0;
+    const start = performance.now();
+    requestAnimationFrame(() => {
+      frame++;
+      const duration = performance.now() - start;
+      setFps(Math.round((frame / duration) * 1000));
+    });
   }, []);
 
   useEffect(() => {
-    updateMetrics();
-    const interval = setInterval(updateMetrics, 5000);
+    const interval = setInterval(measurePerformance, 1000);
     return () => clearInterval(interval);
-  }, [updateMetrics]);
+  }, [measurePerformance]);
 
   return (
-    <Card>
+    <Card className="m-4">
       <CardHeader>
-        <CardTitle>Advanced Performance Monitor</CardTitle>
+        <CardTitle>Advanced Performance</CardTitle>
       </CardHeader>
       <CardContent>
-        {metrics.map((m, i) => (
-          <p key={i}>Metric {i + 1}: {m.toFixed(2)}</p>
-        ))}
-        <Button onClick={updateMetrics}>Refresh Metrics</Button>
+        <p>FPS: {fps}</p>
+        <Button onClick={measurePerformance}>Measure Again</Button>
       </CardContent>
     </Card>
   );
