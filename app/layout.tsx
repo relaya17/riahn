@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Heebo, Cairo } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/providers'
+import Footer from '@/components/core/footer'
 import ClientWrapper from './client-wrapper'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ClientWrapper>
             {children}
           </ClientWrapper>
+          <Footer />
         </Providers>
       </body>
     </html>

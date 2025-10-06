@@ -6,6 +6,7 @@ import { LoginForm } from './login-form'
 import { RegisterForm } from './register-form'
 import { ForgotPasswordForm } from './forgot-password-form'
 import { LanguageSelector } from './language-selector'
+import AuthNav from './auth-nav'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Globe, Users, BookOpen, MessageCircle } from 'lucide-react'
 
@@ -36,7 +37,7 @@ export function AuthScreen() {
       title: t('auth.features.translate'),
       description: t('auth.features.translateDesc'),
     },
-  ]
+  ];
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -54,11 +55,11 @@ export function AuthScreen() {
       {/* Header */}
       <div className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3 space-x-reverse">
+          <div className="order-2 flex items-center space-x-3">
             <div className="h-10 w-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center">
               <Globe className="h-6 w-6 text-white" />
             </div>
-            <div>
+            <div className="text-center">
               <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {t('app.title')}
               </h1>
@@ -67,47 +68,50 @@ export function AuthScreen() {
               </p>
             </div>
           </div>
-          <LanguageSelector />
+          <div className="flex items-center gap-2 order-1">
+            <AuthNav onSelect={(action) => {
+              if (action === 'login') setMode('login')
+              if (action === 'register') setMode('register')
+              if (action === 'forgot') setMode('forgot-password')
+            }} />
+            <LanguageSelector />
+          </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-4 sm:py-8">
-        <div className="grid lg:grid-cols-2 gap-4 sm:gap-8 items-center">
-          {/* Left side - Features */}
+          <div className="container mx-auto px-4 py-6 sm:py-12">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start text-center lg:text-right">
+          {/* Left - welcome + features */}
           <div className="space-y-8">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            <div className="lg:text-right text-center mx-auto max-w-2xl mb-6 sm:mb-8 bg-white/60 dark:bg-gray-800/40 backdrop-blur-md rounded-xl shadow-lg ring-1 ring-black/5 dark:ring-white/10 p-4 sm:p-6">
+              <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">
                 {t('auth.welcomeTitle')}
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
+              <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                 {t('auth.welcomeDesc')}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8">
               {features.map((feature, index) => (
                 <div
                   key={index}
                   className="flex items-start space-x-4 space-x-reverse group hover:scale-105 transition-all duration-300 p-4 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50"
-                  style={{animationDelay: `${index * 0.1}s`}}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex-shrink-0 group-hover:animate-pulse-glow">
-                    {feature.icon}
-                  </div>
+                  <div className="flex-shrink-0 group-hover:animate-pulse-glow">{feature.icon}</div>
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-emerald-600 transition-colors">
                       {feature.title}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {feature.description}
-                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{feature.description}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right side - Auth Forms */}
+          {/* Right - Auth form */}
           <div className="flex justify-center">
             <div className="w-full max-w-md">
               <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 hover:shadow-2xl transition-all duration-300 hover:scale-105">
@@ -141,7 +145,7 @@ export function AuthScreen() {
           <p>{t('auth.footer')}</p>
         </div>
       </div>
-      </div>
+    </div>
     </div>
   )
 }

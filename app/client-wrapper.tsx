@@ -1,9 +1,7 @@
 'use client'
 
 import { ClientProviders } from '@/components/providers/client-providers'
-import AdvancedPerformanceMonitor from '@/components/performance/advanced-performance-monitor'
-import ErrorMonitor from '@/components/error/error-monitor'
-import QuickPerformance from '@/components/performance/quick-performance'
+import DevTools from '@/components/dev-tools'
 import { Toaster } from 'react-hot-toast'
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
@@ -12,9 +10,7 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
       <ClientProviders>
         {children}
       </ClientProviders>
-      <AdvancedPerformanceMonitor />
-      <ErrorMonitor />
-      <QuickPerformance />
+      <DevTools />
       <Toaster
         position="top-center"
         toastOptions={{

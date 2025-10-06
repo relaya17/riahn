@@ -83,7 +83,7 @@ const translations = {
     'terms.changes': 'שינויים בתנאים',
     'terms.contact': 'יצירת קשר',
     'app.title': 'LanguageConnect',
-    'app.subtitle': 'חיבור בין שפות ותרבויות',
+    'app.subtitle': 'Connecting Languages and Cultures',
     'auth.login': 'כניסה',
     'auth.register': 'הרשמה',
     'auth.email': 'אימייל',
@@ -94,6 +94,7 @@ const translations = {
     'auth.signInWithFacebook': 'התחבר עם Facebook',
     'auth.welcomeTitle': 'ברוכים הבאים ל-LanguageConnect',
     'auth.welcomeDesc': 'המקום המושלם ללימוד שפות וחיבור עם אנשים מכל העולם',
+    'auth.footer': 'LanguageConnect — Connecting Languages and Cultures',
     'auth.features.lessons': 'שיעורים אינטראקטיביים',
     'auth.features.lessonsDesc': 'למד שפות חדשות עם שיעורים מותאמים אישית ומעקב התקדמות',
     'auth.features.connect': 'חיבור גלובלי',
@@ -1062,6 +1063,7 @@ const translations = {
     'auth.name': 'Full Name',
     'auth.forgotPassword': 'Forgot Password',
     'auth.signInWithGoogle': 'Sign in with Google',
+    'auth.footer': 'LanguageConnect — Connecting Languages and Cultures',
     'auth.signInWithFacebook': 'Sign in with Facebook',
     'auth.welcomeTitle': 'Welcome to LanguageConnect',
     'auth.welcomeDesc': 'The perfect place to learn languages and connect with people from around the world',
@@ -1734,12 +1736,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
 // Language Provider
 function LanguageProvider({ children }: { children: ReactNode }) {
-  const [currentLanguage, setCurrentLanguage] = useState('he')
+  const [currentLanguage, setCurrentLanguage] = useState('en')
 
   useEffect(() => {
     // Load saved language from localStorage only on client side
     if (typeof window !== 'undefined') {
-      const savedLanguage = localStorage.getItem('language') || 'he'
+      const savedLanguage = localStorage.getItem('language') || 'en'
       setCurrentLanguage(savedLanguage)
     }
   }, [])
