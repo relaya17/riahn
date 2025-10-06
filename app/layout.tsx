@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Heebo, Cairo } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/providers'
-import { ClientProviders } from '@/components/providers/client-providers'
-import { Toaster } from 'react-hot-toast'
+import ClientWrapper from './client-wrapper'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
 const heebo = Heebo({ subsets: ['hebrew'], variable: '--font-heebo', display: 'swap' })
@@ -27,36 +26,6 @@ export const viewport = {
   themeColor: '#10b981',
 }
 
-'use client'
-
-function ClientLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <ClientProviders>
-        {children}
-      </ClientProviders>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-            borderRadius: '8px',
-            padding: '12px 16px',
-          },
-          success: {
-            iconTheme: { primary: '#22c55e', secondary: '#fff' },
-          },
-          error: {
-            iconTheme: { primary: '#ef4444', secondary: '#fff' },
-          },
-        }}
-      />
-    </>
-  )
-}
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="he" dir="rtl" suppressHydrationWarning>
@@ -68,9 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${inter.variable} ${heebo.variable} ${cairo.variable} min-h-screen bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-gray-900 dark:to-gray-800`}
       >
         <Providers>
-          <ClientLayout>
+          <ClientWrapper>
             {children}
-          </ClientLayout>
+          </ClientWrapper>
         </Providers>
       </body>
     </html>
