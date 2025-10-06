@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { IMessage, User } from '@/types'
 import { TranslationWidget } from '@/components/translation/translation-widget'
+import NextImage from 'next/image'
 
 interface ChatInterfaceProps {
   currentUser: User
@@ -163,10 +164,12 @@ export function ChatInterface({
       {/* Chat Header */}
       <div className="flex items-center justify-between p-4 border-b">
         <div className="flex items-center gap-3">
-          <img
+          <NextImage
             src={otherUser.profileImage || '/default-avatar.png'}
             alt={otherUser.name || 'משתמש'}
-            className="w-10 h-10 rounded-full"
+            width={40}
+            height={40}
+            className="rounded-full"
           />
           <div>
             <h3 className="font-semibold text-gray-900">{otherUser.name}</h3>
@@ -310,10 +313,12 @@ export function ChatInterface({
                 </div>
                 
                 {!isOwnMessage && (
-                  <img
+                  <NextImage
                     src={otherUser.profileImage || '/default-avatar.png'}
                     alt={otherUser.name || 'משתמש'}
-                    className="w-8 h-8 rounded-full ml-2 order-1"
+                    width={32}
+                    height={32}
+                    className="rounded-full ml-2 order-1"
                   />
                 )}
               </div>

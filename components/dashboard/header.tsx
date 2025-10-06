@@ -19,6 +19,7 @@ import { DashboardPage } from './dashboard-layout'
 import { getInitials } from '@/lib/utils'
 import { useTheme } from 'next-themes'
 import { NotificationCenter } from '@/components/notifications/notification-center'
+import NextImage from 'next/image'
 import { AdvancedSearch } from '@/components/search/advanced-search'
 
 interface HeaderProps {
@@ -207,12 +208,14 @@ export function Header({ onMenuClick, currentPage }: HeaderProps) {
                 onClick={() => setShowUserMenu(!showUserMenu)}
                 className="flex items-center space-x-2 space-x-reverse h-9 px-2"
               >
-                <div className="h-7 w-7 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                <div className="h-7 w-7 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-semibold overflow-hidden">
                   {user?.profileImage ? (
-                    <img
+                    <NextImage
                       src={user.profileImage}
                       alt={user?.name || 'משתמש'}
-                      className="h-7 w-7 rounded-full object-cover"
+                      width={28}
+                      height={28}
+                      className="rounded-full object-cover"
                     />
                   ) : (
                     getInitials(user?.name || 'U')
@@ -225,12 +228,14 @@ export function Header({ onMenuClick, currentPage }: HeaderProps) {
                 <div className="absolute top-full right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
                   <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center space-x-3 space-x-reverse">
-                      <div className="h-10 w-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                      <div className="h-10 w-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold overflow-hidden">
                         {user?.profileImage ? (
-                          <img
+                          <NextImage
                             src={user.profileImage}
                             alt={user?.name || 'משתמש'}
-                            className="h-10 w-10 rounded-full object-cover"
+                            width={40}
+                            height={40}
+                            className="rounded-full object-cover"
                           />
                         ) : (
                           getInitials(user?.name || 'U')

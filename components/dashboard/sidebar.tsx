@@ -23,6 +23,7 @@ import {
 } from 'lucide-react'
 import { DashboardPage } from './dashboard-layout'
 import { getInitials, getLanguageInfo } from '@/lib/utils'
+import NextImage from 'next/image'
 
 interface SidebarProps {
   isOpen: boolean
@@ -152,12 +153,14 @@ export function Sidebar({ isOpen, onClose, currentPage, onPageChange }: SidebarP
               <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-0">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-3 space-x-reverse">
-                    <div className="h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                    <div className="h-12 w-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold overflow-hidden">
                       {user.profileImage ? (
-                        <img
+                        <NextImage
                           src={user.profileImage}
                           alt={user.name || 'משתמש'}
-                          className="h-12 w-12 rounded-full object-cover"
+                          width={48}
+                          height={48}
+                          className="rounded-full object-cover"
                         />
                       ) : (
                         getInitials(user.name)
