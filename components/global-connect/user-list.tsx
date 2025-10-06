@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Card } from '@/components/core/card'
 import { Button } from '@/components/core/button'
 import { Select } from '@/components/core/select'
@@ -33,19 +33,9 @@ export function UserList({ currentUser, onStartChat, onStartCall }: UserListProp
   const [onlineOnly, setOnlineOnly] = useState(true)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchUsers()
-  }, [])
-
-  useEffect(() => {
-    filterUsers()
-  }, [users, searchQuery, selectedLanguage, selectedLevel, onlineOnly])
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true)
-      // Use centralized mock data
-      // Convert mock users to User type
       const convertedUsers = mockUsers.map(mockUser => ({
         id: mockUser.id,
         _id: mockUser._id,
@@ -60,17 +50,8 @@ export function UserList({ currentUser, onStartChat, onStartCall }: UserListProp
         lastSeen: mockUser.lastActive,
         preferences: {
           theme: 'light' as const,
-          notifications: {
-            lessons: true,
-            messages: true,
-            forums: true,
-            achievements: true
-          },
-          privacy: {
-            showOnlineStatus: true,
-            allowMessages: true,
-            showProgress: true
-          }
+          notifications: { lessons: true, messages: true, forums: true, achievements: true },
+          privacy: { showOnlineStatus: true, allowMessages: true, showProgress: true }
         },
         createdAt: mockUser.createdAt,
         updatedAt: mockUser.updatedAt
@@ -81,36 +62,37 @@ export function UserList({ currentUser, onStartChat, onStartCall }: UserListProp
     } finally {
       setLoading(false)
     }
-  }
+  }, [currentUser._id])
 
-  const filterUsers = () => {
+  useEffect(() => {
+    fetchUsers()
+  }, [fetchUsers])
+
+  const filterUsers = useCallback(() => {
     let filtered = users
-
-    // Filter by search query
     if (searchQuery) {
       filtered = filtered.filter(user =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.email.toLowerCase().includes(searchQuery.toLowerCase())
       )
     }
-
-    // Filter by language
     if (selectedLanguage !== 'all') {
       filtered = filtered.filter(user => user.nativeLanguage === selectedLanguage)
     }
-
-    // Filter by level
     if (selectedLevel !== 'all') {
       filtered = filtered.filter(user => user.currentLevel === selectedLevel)
     }
-
-    // Filter by online status
     if (onlineOnly) {
       filtered = filtered.filter(user => user.isOnline)
     }
-
     setFilteredUsers(filtered)
-  }
+  }, [users, searchQuery, selectedLanguage, selectedLevel, onlineOnly])
+
+  useEffect(() => {
+    filterUsers()
+  }, [filterUsers])
+
+  
 
   const getLanguageInfo = (language: Language) => {
     const languages = {
