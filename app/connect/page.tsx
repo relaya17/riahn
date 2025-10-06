@@ -145,7 +145,12 @@ export default function ConnectPage() {
                   <div className="flex gap-2">
                     <Button 
                       className="flex-1"
-                      onClick={() => setSelectedUser(user.id)}
+                      onClick={() => {
+                        setSelectedUser(user.id)
+                        setTimeout(() => {
+                          alert(`מתחבר עם ${user.name} מ${user.country}`)
+                        }, 100)
+                      }}
                     >
                       <MessageCircle className="h-4 w-4 mr-2" />
                       התחל שיחה

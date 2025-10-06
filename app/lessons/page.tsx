@@ -112,7 +112,13 @@ export default function LessonsPage() {
 
                 <Button 
                   className="w-full"
-                  onClick={() => setSelectedLesson(lesson.id)}
+                  onClick={() => {
+                    setSelectedLesson(lesson.id)
+                    // הוספת אנימציה
+                    setTimeout(() => {
+                      alert(`מתחיל שיעור: ${lesson.title}`)
+                    }, 100)
+                  }}
                 >
                   <Play className="h-4 w-4 mr-2" />
                   {lesson.completed ? 'חזור לשיעור' : 'התחל שיעור'}

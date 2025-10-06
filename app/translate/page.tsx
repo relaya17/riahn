@@ -4,10 +4,9 @@ import { useState } from 'react'
 import { useLanguage } from '@/components/providers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/core/card'
 import { Button } from '@/components/core/button'
-import { Languages, Copy, Volume2, Download, Star } from 'lucide-react'
+import { Languages, Copy, Volume2, Star } from 'lucide-react'
 
 export default function TranslatePage() {
-  const { t } = useLanguage()
   const [sourceText, setSourceText] = useState('')
   const [translatedText, setTranslatedText] = useState('')
   const [sourceLanguage, setSourceLanguage] = useState('he')
@@ -28,9 +27,21 @@ export default function TranslatePage() {
     
     setIsTranslating(true)
     
-    // סימולציה של תרגום
+    // סימולציה של תרגום עם תוכן אמיתי
     setTimeout(() => {
-      setTranslatedText(`תרגום של: "${sourceText}"`)
+      const translations: Record<string, string> = {
+        'שלום': 'Hello',
+        'תודה': 'Thank you',
+        'אני': 'I',
+        'אתה': 'You',
+        'בית': 'House',
+        'מים': 'Water',
+        'אוכל': 'Food',
+        'ספר': 'Book'
+      }
+      
+      const translated = translations[sourceText] || `תרגום של: "${sourceText}"`
+      setTranslatedText(translated)
       setIsTranslating(false)
     }, 1500)
   }

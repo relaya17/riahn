@@ -32,6 +32,18 @@ export default function ChatPage() {
       }
       setMessages([...messages, message])
       setNewMessage('')
+      
+      // הוספת תגובה אוטומטית
+      setTimeout(() => {
+        const aiResponse = {
+          id: messages.length + 2,
+          text: `תודה על ההודעה: "${newMessage}". איך אני יכול לעזור לך עוד?`,
+          sender: 'AI',
+          timestamp: new Date(),
+          translated: false
+        }
+        setMessages(prev => [...prev, aiResponse])
+      }, 1000)
     }
   }
 
