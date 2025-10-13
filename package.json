@@ -45,7 +45,7 @@
         "firebase": "^10.14.1",
         "framer-motion": "^10.18.0",
         "jsonwebtoken": "^9.0.2",
-        "lucide-react": "^0.294.0",
+        "lucide-react": "^0.545.0",
         "mongoose": "^8.18.1",
         "next": "^14.2.32",
         "next-auth": "^4.24.11",
